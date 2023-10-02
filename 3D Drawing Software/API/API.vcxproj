@@ -70,7 +70,7 @@
       <Command>XCOPY "$(OutDir)" "$(SolutionDir)bin\Tests-$(Platform)\$(Configuration)\" /S /Y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>XCOPY "$(ProjectDir)src/*.h" "$(SolutionDir)include" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)src\DrawApi.h" "$(SolutionDir)include\" /S /Y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -96,7 +96,7 @@
       <Command>XCOPY "$(OutDir)" "$(SolutionDir)bin\Tests-$(Platform)\$(Configuration)\" /S /Y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>XCOPY "$(ProjectDir)src/*.h" "$(SolutionDir)include" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)src\DrawApi.h" "$(SolutionDir)include\" /S /Y</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
