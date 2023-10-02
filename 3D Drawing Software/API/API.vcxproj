@@ -70,7 +70,7 @@
       <Command>XCOPY "$(OutDir)" "$(SolutionDir)bin\Tests-$(Platform)\$(Configuration)\" /S /Y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>XCOPY "$(ProjectDir)src\DrawApi.h" "$(SolutionDir)include\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -96,7 +96,7 @@
       <Command>XCOPY "$(OutDir)" "$(SolutionDir)bin\Tests-$(Platform)\$(Configuration)\" /S /Y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>XCOPY "$(ProjectDir)src\DrawApi.h" "$(SolutionDir)include\" /S /Y</Command>
+      <Command>XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -106,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sources\deneme.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="exclusions.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
