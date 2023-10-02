@@ -55,7 +55,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_PLATFORM_WINDOWS;_BUILD_DLL;GLEW_STATIC</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLATFORM_WINDOWS;_BUILD_DLL;GLEW_STATIC;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SDK\glew-sdk\include;$(SolutionDir)..\SDK\glm-0.9.9.8\glm\glm</AdditionalIncludeDirectories>
@@ -70,7 +70,8 @@
       <Command>XCOPY "$(OutDir)" "$(SolutionDir)bin\Tests-$(Platform)\$(Configuration)\" /S /Y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt</Command>
+      <Command>rd /s /q "$(SolutionDir)include\"
+XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -79,7 +80,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_PLATFORM_WINDOWS;_BUILD_DLL;GLEW_STATIC</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_PLATFORM_WINDOWS;_BUILD_DLL;GLEW_STATIC;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SDK\glew-sdk\include;$(SolutionDir)..\SDK\glm-0.9.9.8\glm\glm</AdditionalIncludeDirectories>
@@ -96,17 +97,20 @@
       <Command>XCOPY "$(OutDir)" "$(SolutionDir)bin\Tests-$(Platform)\$(Configuration)\" /S /Y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt</Command>
+      <Command>rd /s /q "$(SolutionDir)include\"
+XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\DLLBuild.h" Link="..\include\Core\DLLBuild.h" CopyToOutputDirectory="PreserveNewest" />
     <ClInclude Include="src\DrawApi.h" Link="..\include\DrawApi.h" CopyToOutputDirectory="PreserveNewest" />
     <ClInclude Include="src\Line\Line.h" />
+    <ClInclude Include="src\OpenGL\OpenGL.h" />
     <ClInclude Include="src\Shape\Shape.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Line\Line.cpp" />
+    <ClCompile Include="src\OpenGL\OpenGL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="exclusions.txt" />
