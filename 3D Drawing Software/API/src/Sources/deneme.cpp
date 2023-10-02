@@ -7,6 +7,7 @@ namespace deneme {
 		Deneme::Deneme() {
 			std::cout << "Deneme objesi olusturuldu." << std::endl;
 		}
+
 		Deneme::~Deneme() {
 			std::cout << "Deneme objesi yok edildi." << std::endl;
 		}
