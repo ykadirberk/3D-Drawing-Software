@@ -69,6 +69,9 @@
     <PostBuildEvent>
       <Command>XCOPY "$(OutDir)" "$(SolutionDir)bin\Tests-$(Platform)\$(Configuration)\" /S /Y</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(ProjectDir)src/*.h" "$(SolutionDir)include" /S /Y</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -92,11 +95,14 @@
     <PostBuildEvent>
       <Command>XCOPY "$(OutDir)" "$(SolutionDir)bin\Tests-$(Platform)\$(Configuration)\" /S /Y</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(ProjectDir)src/*.h" "$(SolutionDir)include" /S /Y</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\deneme.h" />
-    <ClInclude Include="src\Core\DLLBuild.h" />
-    <ClInclude Include="src\DrawApi.h" />
+    <ClInclude Include="src\Core\deneme.h" Link="..\include\Core\deneme.h" CopyToOutputDirectory="PreserveNewest" />
+    <ClInclude Include="src\Core\DLLBuild.h" Link="..\include\Core\DLLBuild.h" CopyToOutputDirectory="PreserveNewest" />
+    <ClInclude Include="src\DrawApi.h" Link="..\include\DrawApi.h" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sources\deneme.cpp" />

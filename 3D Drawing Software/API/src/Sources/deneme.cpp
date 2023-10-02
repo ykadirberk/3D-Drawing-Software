@@ -4,10 +4,14 @@
 
 namespace deneme {
 	
-		Deneme::Deneme() {}
-		Deneme::~Deneme() {}
+		Deneme::Deneme() {
+			std::cout << "Deneme objesi olusturuldu." << std::endl;
+		}
+		Deneme::~Deneme() {
+			std::cout << "Deneme objesi yok edildi." << std::endl;
+		}
 
 		void Deneme::Yazdir() {
-			std::cout << "Deneme yazisi!!!\n";
+			std::cout << "Deneme yazisi yazdirildi." << std::endl;
 		}
 }
