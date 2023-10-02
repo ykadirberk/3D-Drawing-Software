@@ -100,12 +100,13 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\deneme.h" Link="..\include\Core\deneme.h" CopyToOutputDirectory="PreserveNewest" />
     <ClInclude Include="src\Core\DLLBuild.h" Link="..\include\Core\DLLBuild.h" CopyToOutputDirectory="PreserveNewest" />
     <ClInclude Include="src\DrawApi.h" Link="..\include\DrawApi.h" CopyToOutputDirectory="PreserveNewest" />
+    <ClInclude Include="src\Line\Line.h" />
+    <ClInclude Include="src\Shape\Shape.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Sources\deneme.cpp" />
+    <ClCompile Include="src\Line\Line.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="exclusions.txt" />

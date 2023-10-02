@@ -21,12 +21,15 @@
     <ClInclude Include="src\Core\DLLBuild.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\deneme.h">
+    <ClInclude Include="src\Shape\Shape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Line\Line.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Sources\deneme.cpp">
+    <ClCompile Include="src\Line\Line.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

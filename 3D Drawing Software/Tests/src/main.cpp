@@ -3,8 +3,7 @@
 
 
 int main() {
-	std::cout << "Hello World!\n";
-	deneme::Deneme yeniDeneme;
-	yeniDeneme.Yazdir();
+	dra::Line nLine;
+	nLine.Draw();
 	return 0;
 }
