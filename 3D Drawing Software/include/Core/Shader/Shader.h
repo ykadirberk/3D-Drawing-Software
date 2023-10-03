@@ -8,7 +8,7 @@
 
 namespace dra {
 	
-	struct ShaderProgramSource {
+	struct _API ShaderProgramSource {
 		std::string VertexSource;
 		std::string FragmentSource;
 	};
