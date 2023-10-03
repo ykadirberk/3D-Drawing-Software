@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <stdexcept>
 
 #include "../CoreGL.h"
 #include "../DLLBuild.h"
