@@ -10,7 +10,6 @@ namespace dra {
     Shader::Shader(const std::string& filepath)
         : m_FilePath(filepath), m_RendererID(0)
     {
-        //auto source = ParseShader("shaders/Basic.shader");
         auto source = ParseShader(filepath);
 
         unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
@@ -18,9 +17,9 @@ namespace dra {
     }
 
     Shader::~Shader() {
+        Unbind();
         GLCall(glDeleteProgram(m_RendererID));
     }
-
 
     ShaderProgramSource Shader::ParseShader(const std::string& filepath) {
         std::ifstream stream(filepath);
