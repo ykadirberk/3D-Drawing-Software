@@ -13,10 +13,10 @@ namespace dra {
 	public:
 		[[nodiscard]] static ShaderArena& Instance();
 
-		void LoadShader(std::string& name, std::string& file_path);
-		void BindShader(std::string& shader_name);
+		void LoadShader(const std::string& name, const std::string& file_path);
+		void BindShader(const std::string& shader_name);
 
-		[[nodiscard]] std::optional<std::shared_ptr<Shader>> GetShader(std::string& shader_name) noexcept;
+		[[nodiscard]] std::optional<std::shared_ptr<Shader>> GetShader(const std::string& shader_name) noexcept;
 		private:
 			ShaderArena();
 			~ShaderArena();

@@ -16,6 +16,6 @@ namespace dra {
 	}
 
 	void Line::Draw() {
-		std::cout << "Line Draw() is called." << std::endl;
+		
 	}
 }

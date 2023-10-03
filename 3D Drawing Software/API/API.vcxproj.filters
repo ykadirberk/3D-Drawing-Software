@@ -57,6 +57,9 @@
     <ClInclude Include="src\Core\Transform\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Line\Line.cpp">
@@ -89,11 +92,11 @@
     <ClCompile Include="src\Core\Transform\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scene\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="exclusions.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="shaders\line.shader" />
   </ItemGroup>
 </Project>

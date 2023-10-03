@@ -18,7 +18,7 @@ namespace dra {
 			glm::vec3 GetRotation();
 			glm::vec3 GetScale();
 
-			glm::mat4 GetTransform();
+			glm::mat4 GetAsMat4f();
 
 		private:
 			glm::vec3 m_Position;

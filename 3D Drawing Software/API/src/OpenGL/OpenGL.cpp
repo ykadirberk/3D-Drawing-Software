@@ -3,7 +3,7 @@
 
 #include <GL/glew.h>
 #include <iostream>
-
+ 
 namespace dra {
 	bool OpenGL::Initialize() {
 		if (glewInit() != GLEW_OK) {

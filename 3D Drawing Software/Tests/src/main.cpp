@@ -26,19 +26,23 @@ int main() {
     dra::OpenGL::Initialize();
 
     std::cout << glGetString(GL_VERSION) << std::endl;
-    dra::Line line;
-    line.Draw();
-
-    glClearColor(0.8f, 0.3f, 0.2f, 1.0f);
-
-    while (!glfwWindowShouldClose(window))
     {
-        glClear(GL_COLOR_BUFFER_BIT);
+        dra::Scene scene;
 
-        glfwSwapBuffers(window);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        glfwPollEvents();
+        while (!glfwWindowShouldClose(window))
+        {
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            scene.Render();
+
+            glfwSwapBuffers(window);
+
+            glfwPollEvents();
+        }
     }
+    
     
     glfwTerminate();
 	return 0;

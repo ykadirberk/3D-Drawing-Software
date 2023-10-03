@@ -14,11 +14,11 @@ namespace dra {
 			void SetRotation(float x, float y, float z);
 			void SetScale(float x, float y, float z);
 
-			glm::vec3 GetPosition();
-			glm::vec3 GetRotation();
-			glm::vec3 GetScale();
+			[[nodiscard]] glm::vec3 GetPosition() const noexcept;
+			[[nodiscard]] glm::vec3 GetRotation() const noexcept;
+			[[nodiscard]] glm::vec3 GetScale() const noexcept;
 
-			glm::mat4 GetTransform();
+			[[nodiscard]] glm::mat4 GetAsMat4f() const noexcept;
 
 		private:
 			glm::vec3 m_Position;
