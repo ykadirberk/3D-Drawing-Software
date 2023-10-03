@@ -27,6 +27,18 @@ namespace dra {
 		m_Scale = glm::vec3(x, y, z);
 	}
 
+	void Transform::Translate(float x, float y, float z) {
+		m_Position.x += x;
+		m_Position.y += y;
+		m_Position.z += z;
+	}
+
+	void Transform::Rotate(float x, float y, float z) {
+		m_Rotation.x = Interval(m_Rotation.x + x, 360.0f);
+		m_Rotation.y = Interval(m_Rotation.y + y, 360.0f);
+		m_Rotation.z = Interval(m_Rotation.z + z, 360.0f);
+	}
+
 	[[nodiscard]] glm::vec3 Transform::GetPosition() const noexcept {
 		return m_Position;
 	}
@@ -45,6 +57,13 @@ namespace dra {
 		glm::mat4 t_scale_matrix	= glm::scale(glm::mat4(1.0f), m_Scale);
 
 		return t_position_matrix * t_rotation_matrix * t_scale_matrix;
+	}
+	float Transform::Interval(float current, float max)
+	{
+		if (current < max) {
+			return max;
+		}
+		return Interval(current - max, max);
 	}
 }
 

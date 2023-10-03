@@ -14,6 +14,9 @@ namespace dra {
 			void SetRotation(float x, float y, float z);
 			void SetScale(float x, float y, float z);
 
+			void Translate(float x, float y, float z);
+			void Rotate(float x, float y, float z);
+
 			[[nodiscard]] glm::vec3 GetPosition() const noexcept;
 			[[nodiscard]] glm::vec3 GetRotation() const noexcept;
 			[[nodiscard]] glm::vec3 GetScale() const noexcept;
@@ -24,5 +27,7 @@ namespace dra {
 			glm::vec3 m_Position;
 			glm::vec3 m_Rotation;
 			glm::vec3 m_Scale;
+
+			float Interval(float current, float max);
 	};
 }
