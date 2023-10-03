@@ -102,13 +102,17 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\CoreGL.h" />
     <ClInclude Include="src\Core\DLLBuild.h" Link="..\include\Core\DLLBuild.h" CopyToOutputDirectory="PreserveNewest" />
+    <ClInclude Include="src\Core\Shader\Shader.h" />
     <ClInclude Include="src\DrawApi.h" Link="..\include\DrawApi.h" CopyToOutputDirectory="PreserveNewest" />
     <ClInclude Include="src\Line\Line.h" />
     <ClInclude Include="src\OpenGL\OpenGL.h" />
     <ClInclude Include="src\Shape\Shape.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\CoreGL.cpp" />
+    <ClCompile Include="src\Core\Shader\Shader.cpp" />
     <ClCompile Include="src\Line\Line.cpp" />
     <ClCompile Include="src\OpenGL\OpenGL.cpp" />
   </ItemGroup>
