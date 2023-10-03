@@ -16,6 +16,8 @@ namespace dra {
 
 		GLCall(glEnable(GL_DEPTH_TEST));
 		GLCall(glDepthFunc(GL_LESS));
+
+		GLCall(glEnable(GL_CULL_FACE));
 		
 		return true;
 	}
