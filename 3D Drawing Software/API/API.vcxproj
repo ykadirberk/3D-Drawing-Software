@@ -102,6 +102,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Core\Transform\Transform.h" />
     <ClInclude Include="src\PerspectiveCamera\PerspectiveCamera.h" />
     <ClInclude Include="src\Core\CoreGL.h" />

@@ -3,17 +3,21 @@
 #include "../ext/glm/glm.hpp"
 #include "../ext/glm/gtc/matrix_transform.hpp"
 
+#include "../Camera/Camera.h"
+
 namespace dra {
-	class _API PerspectiveCamera {
+	class _API PerspectiveCamera : public Camera {
 		public:
 			PerspectiveCamera(float field_of_view, float width, float height);
-			~PerspectiveCamera();
+			~PerspectiveCamera() override;
 
 			void SetFieldOfView(float fov) noexcept;
 			void SetResolution(float width, float height) noexcept;
 
-			[[nodiscard]] glm::mat4 GetPxV() const noexcept;
-			[[nodiscard]] glm::mat4 GetVxP() const noexcept;
+			[[nodiscard]] glm::mat4 GetProjection() const noexcept override;
+			[[nodiscard]] glm::mat4 GetView() const noexcept override;
+
+			[[nodiscard]] glm::mat4 GetProjectionXView() const noexcept;
 
 		private:
 			glm::mat4 m_Projection;

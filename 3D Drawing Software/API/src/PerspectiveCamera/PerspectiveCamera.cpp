@@ -24,14 +24,18 @@ namespace dra {
 		UpdateProjection();
 	}
 
-	[[nodiscard]] glm::mat4 PerspectiveCamera::GetPxV() const noexcept
+	[[nodiscard]] glm::mat4 PerspectiveCamera::GetProjection() const noexcept
 	{
-		return m_Projection * m_View;
+		return m_Projection;
 	}
 
-	[[nodiscard]] glm::mat4 PerspectiveCamera::GetVxP() const noexcept
+	[[nodiscard]] glm::mat4 PerspectiveCamera::GetView() const noexcept
 	{
-		return m_View * m_Projection;
+		return m_View;
+	}
+
+	[[nodiscard]] glm::mat4 PerspectiveCamera::GetProjectionXView() const noexcept {
+		return m_Projection * m_View;
 	}
 	
 	void PerspectiveCamera::UpdateProjection() noexcept {
