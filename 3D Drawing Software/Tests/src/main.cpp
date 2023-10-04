@@ -28,7 +28,6 @@ int main() {
 
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
-        dra::ShaderArena::Instance().LoadShader("LineShader", "shaders/line.shader");
 
         dra::PerspectiveCamera camera(60, 960.0f, 540.0f);
         dra::Line line(&camera);

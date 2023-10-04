@@ -12,6 +12,11 @@ namespace dra {
 			m_Indices({ 0, 1 }),
 			m_Transform()
 	{
+		auto t = ShaderArena::Instance().GetShader("LineShader");
+		if (!t.has_value()) {
+			ShaderArena::Instance().LoadShader("LineShader", "shaders/line.shader");
+		}
+
 		m_VAO = std::make_unique<VertexArray>();
 
 		m_VertexBuffer = std::make_unique<VertexBuffer>(m_Positions.data(), m_Positions.size() * sizeof(float));

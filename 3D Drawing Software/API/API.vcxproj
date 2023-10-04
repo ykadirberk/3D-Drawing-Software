@@ -116,7 +116,6 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClInclude Include="src\DrawApi.h" Link="..\include\DrawApi.h" CopyToOutputDirectory="PreserveNewest" />
     <ClInclude Include="src\Line\Line.h" />
     <ClInclude Include="src\OpenGL\OpenGL.h" />
-    <ClInclude Include="src\Scene\Scene.h" />
     <ClInclude Include="src\Shape\Shape.h" />
   </ItemGroup>
   <ItemGroup>
@@ -130,7 +129,6 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClCompile Include="src\Core\VertexBuffer\VertexBuffer.cpp" />
     <ClCompile Include="src\Line\Line.cpp" />
     <ClCompile Include="src\OpenGL\OpenGL.cpp" />
-    <ClCompile Include="src\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="exclusions.txt" />
