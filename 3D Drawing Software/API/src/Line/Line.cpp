@@ -32,6 +32,11 @@ namespace dra {
 		return m_Transform;
 	}
 
+	void Line::Update()
+	{
+		m_Transform.Rotate(0.0f, 0.0f, 3.0f);
+	}
+
 	void Line::Draw() {
 
 		auto t = ShaderArena::Instance().GetShader("LineShader");

@@ -34,9 +34,11 @@ namespace dra {
 	}
 
 	void Transform::Rotate(float x, float y, float z) {
-		m_Rotation.x = Interval(m_Rotation.x + x, 360.0f);
-		m_Rotation.y = Interval(m_Rotation.y + y, 360.0f);
-		m_Rotation.z = Interval(m_Rotation.z + z, 360.0f);
+		const float pi = std::acos(-1);
+		const float degree = pi / 180.0f;
+		m_Rotation.x = Interval(m_Rotation.x + (degree * x), 360.0f);
+		m_Rotation.y = Interval(m_Rotation.y + (degree * y), 360.0f);
+		m_Rotation.z = Interval(m_Rotation.z + (degree * z), 360.0f);
 	}
 
 	[[nodiscard]] glm::vec3 Transform::GetPosition() const noexcept {
@@ -61,7 +63,7 @@ namespace dra {
 	float Transform::Interval(float current, float max)
 	{
 		if (current < max) {
-			return max;
+			return current;
 		}
 		return Interval(current - max, max);
 	}

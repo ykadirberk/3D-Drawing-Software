@@ -22,6 +22,7 @@ namespace dra {
 
 			[[nodiscard]] Transform& GetTransform();
 
+			void Update() override;
 			void Draw() override;
 		private:
 			Transform m_Transform;

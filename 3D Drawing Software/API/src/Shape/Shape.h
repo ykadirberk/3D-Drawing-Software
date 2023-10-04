@@ -8,6 +8,7 @@ namespace dra {
 			Shape() {}
 			virtual ~Shape() { std::cout << "Shape destroyed." << std::endl; }
 
+			virtual void Update() = 0;
 			virtual void Draw() = 0;
 	};
 }
