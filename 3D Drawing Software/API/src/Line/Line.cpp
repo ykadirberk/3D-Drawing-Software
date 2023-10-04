@@ -34,7 +34,7 @@ namespace dra {
 
 	void Line::Update()
 	{
-		m_Transform.Rotate(0.0f, 0.0f, 3.0f);
+		m_Transform.Rotate(0.0f, 0.0f, 1.0f);
 	}
 
 	void Line::Draw() {

@@ -35,9 +35,9 @@ int main() {
 
         auto currentTime = std::chrono::high_resolution_clock::now();
         auto oldTime = std::chrono::high_resolution_clock::now();
-        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - oldTime).count();
+        auto deltaTime = std::chrono::duration<long double, std::milli>(currentTime - oldTime).count();
 
-        long long accumulator = 0;
+        long double accumulator = 0;
 
         GLCall(glClearColor(0.0f, 0.0f, 0.15f, 1.0f));
         while (!glfwWindowShouldClose(window)) {
@@ -45,15 +45,16 @@ int main() {
 
             oldTime = currentTime;
             currentTime = std::chrono::high_resolution_clock::now();
-            deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - oldTime).count();
+            deltaTime = std::chrono::duration<long double, std::milli>(currentTime - oldTime).count();
+            std::cout << deltaTime << std::endl;
 
             accumulator += deltaTime;
-            while (accumulator > 1000/121) {
-                accumulator -= 1000/119;
+            while (accumulator > 1000.0 / 61.0) {
+                accumulator -= 1000.0 / 60.0;
                 line.Update();
-                if (accumulator < 0) accumulator = 0;
+                if (accumulator < (1000.0 / 59.0) - (1000.0 / 60.0)) accumulator = 0;
             }
-
+            
             line.Draw();
 
             glfwSwapBuffers(window);
