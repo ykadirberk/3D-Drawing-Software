@@ -17,6 +17,8 @@ namespace dra {
 		void BindShader(const std::string& shader_name);
 
 		[[nodiscard]] std::optional<std::shared_ptr<Shader>> GetShader(const std::string& shader_name) noexcept;
+
+		void TerminateArena();
 		private:
 			ShaderArena();
 			~ShaderArena();

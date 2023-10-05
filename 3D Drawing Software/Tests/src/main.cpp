@@ -28,9 +28,24 @@ int main() {
 
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
+        dra::PerspectiveCamera camera(60, 960.0f, 540.0f, nullptr);
+        dra::Object center( nullptr);
+        center.GetTransform().SetLocalPosition(0.0f, 0.5f, -3.0f);
+        camera.SetParent(&center);
+        dra::Line line(&camera, nullptr);
+        line.GetTransform().SetLocalPosition(0.0f, 0.0f, -3.0f);
+        dra::Line line1(&camera, nullptr);
+        line1.GetTransform().Rotate(0.0f, 0.0f, 90.0f);
+        line1.GetTransform().SetLocalPosition(0.5f, 0.5f, -3.0f);
+        dra::Line line2(&camera, nullptr);
+        line2.GetTransform().SetLocalPosition(0.0f, 1.0f, -3.0f);
+        dra::Line line3(&camera, nullptr);
+        line3.GetTransform().Rotate(0.0f, 0.0f, 90.0f);
+        line3.GetTransform().SetLocalPosition(-0.5f, 0.5f, -3.0f);
+        dra::Line line4(&camera, nullptr);
+        line4.GetTransform().Rotate(0.0f, 90.0f, 90.0f);
+        line4.GetTransform().SetLocalPosition(-0.0f, 0.5f, -2.5f);
 
-        dra::PerspectiveCamera camera(60, 960.0f, 540.0f);
-        dra::Line line(&camera);
 
         auto currentTime = std::chrono::high_resolution_clock::now();
         auto oldTime = std::chrono::high_resolution_clock::now();
@@ -40,21 +55,31 @@ int main() {
 
         GLCall(glClearColor(0.0f, 0.0f, 0.15f, 1.0f));
         while (!glfwWindowShouldClose(window)) {
-            GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 
             oldTime = currentTime;
             currentTime = std::chrono::high_resolution_clock::now();
             deltaTime = std::chrono::duration<long double, std::milli>(currentTime - oldTime).count();
-            std::cout << deltaTime << std::endl;
 
             accumulator += deltaTime;
             while (accumulator > 1000.0 / 61.0) {
                 accumulator -= 1000.0 / 60.0;
-                line.Update();
+                //line.Update();
+                center.GetTransform().Rotate(0.0f, 1.0f, 0.0f);
+                auto pos = camera.GetTransform().GetWorldPosition();
+                std::cout << "Camera Pos x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << std::endl;
+                auto rot = camera.GetTransform().GetWorldRotation();
+                std::cout << "Camera Rot x=" << rot.x << ", y=" << rot.y << ", z=" << rot.z << std::endl;
+                //camera.GetTransform().Rotate(0.0f, 1.0f, 0.0f);
                 if (accumulator < (1000.0 / 59.0) - (1000.0 / 60.0)) accumulator = 0;
             }
+
+            GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
             
             line.Draw();
+            line1.Draw();
+            line2.Draw();
+            line3.Draw();
+            line4.Draw();
 
             glfwSwapBuffers(window);
 
@@ -62,7 +87,7 @@ int main() {
         }
     }
     
-    
+    dra::ShaderArena::Instance().TerminateArena();
     glfwTerminate();
 	return 0;
 }

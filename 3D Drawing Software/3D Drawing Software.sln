@@ -15,12 +15,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1B7B77C6-A6A8-4DCB-A04B-15A775383E84}.Debug|x64.ActiveCfg = Release|x64
 		{1B7B77C6-A6A8-4DCB-A04B-15A775383E84}.Debug|x64.Build.0 = Release|x64
-		{1B7B77C6-A6A8-4DCB-A04B-15A775383E84}.Release|x64.ActiveCfg = Release|x64
-		{1B7B77C6-A6A8-4DCB-A04B-15A775383E84}.Release|x64.Build.0 = Release|x64
+		{1B7B77C6-A6A8-4DCB-A04B-15A775383E84}.Release|x64.ActiveCfg = Debug|x64
+		{1B7B77C6-A6A8-4DCB-A04B-15A775383E84}.Release|x64.Build.0 = Debug|x64
 		{8C69F161-F25A-4208-A8FF-67ABB8AB8789}.Debug|x64.ActiveCfg = Release|x64
 		{8C69F161-F25A-4208-A8FF-67ABB8AB8789}.Debug|x64.Build.0 = Release|x64
-		{8C69F161-F25A-4208-A8FF-67ABB8AB8789}.Release|x64.ActiveCfg = Release|x64
-		{8C69F161-F25A-4208-A8FF-67ABB8AB8789}.Release|x64.Build.0 = Release|x64
+		{8C69F161-F25A-4208-A8FF-67ABB8AB8789}.Release|x64.ActiveCfg = Debug|x64
+		{8C69F161-F25A-4208-A8FF-67ABB8AB8789}.Release|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

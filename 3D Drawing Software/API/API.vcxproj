@@ -103,6 +103,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
+    <ClInclude Include="src\Core\Object\Object.h" />
     <ClInclude Include="src\Core\Transform\Transform.h" />
     <ClInclude Include="src\PerspectiveCamera\PerspectiveCamera.h" />
     <ClInclude Include="src\Core\CoreGL.h" />
@@ -119,6 +120,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClInclude Include="src\Shape\Shape.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Object\Object.cpp" />
     <ClCompile Include="src\Core\Transform\Transform.cpp" />
     <ClCompile Include="src\PerspectiveCamera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\Core\CoreGL.cpp" />
