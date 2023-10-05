@@ -3,15 +3,15 @@
 
 
 namespace dra {
-	Line::Line(Camera* camera)
-		:	m_Camera(camera),
-			m_Positions({
-				-0.50f, 0.0f, 0.0f,
-				 0.50f, 0.0f, 0.0f
+	Line::Line(Camera* camera, Object* parent)
+		: m_Camera(camera),
+		m_Positions({
+			-0.50f, 0.0f, 0.0f,
+			 0.50f, 0.0f, 0.0f
 			}),
-			m_Indices({ 0, 1 }),
-			m_Transform()
+		m_Indices({ 0, 1 }), Object(parent)
 	{
+		m_Transform = Transform(this);
 		auto t = ShaderArena::Instance().GetShader("LineShader");
 		if (!t.has_value()) {
 			ShaderArena::Instance().LoadShader("LineShader", "shaders/line.shader");
@@ -25,16 +25,11 @@ namespace dra {
 		m_VAO->AddBuffer(*m_VertexBuffer, layout);
 
 		m_IndexBuffer = std::make_unique<IndexBuffer>(m_Indices.data(), m_Indices.size());
-		m_Transform.SetPosition(0.0f, 0.0f, -3.0f);
 		std::cout << "Line is created." << std::endl;
 	}
 
 	Line::~Line() {
 		std::cout << "Line is destroyed." << std::endl;
-	}
-
-	[[nodiscard]] Transform& Line::GetTransform() {
-		return m_Transform;
 	}
 
 	void Line::Update()
@@ -50,7 +45,7 @@ namespace dra {
 			shader->Bind();
 			shader->SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 
-			shader->SetUniformMat4f("u_MVP", m_Camera->GetProjection() * m_Camera->GetView() * m_Transform.GetAsMat4f());
+			shader->SetUniformMat4f("u_MVP", m_Camera->GetProjection() * m_Camera->GetView() * m_Transform.GetWorldAsMat4f());
 			m_VAO->Bind();
 			m_IndexBuffer->Bind();
 

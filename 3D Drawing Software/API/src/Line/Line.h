@@ -15,18 +15,14 @@
 #include "../Core/VertexBufferLayout/VertexBufferLayout.h"
 
 namespace dra {
-	class _API Line : public Shape {
+	class _API Line : public Shape, public Object{
 		public:
-			Line(Camera* camera);
+			Line(Camera* camera, Object* parent);
 			~Line() override;
-
-			[[nodiscard]] Transform& GetTransform();
 
 			void Update() override;
 			void Draw() override;
-		private:
-			Transform m_Transform;
-			
+		private:			
 			Camera* m_Camera;
 
 			std::vector<float> m_Positions;
