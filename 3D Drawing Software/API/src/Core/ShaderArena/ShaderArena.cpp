@@ -23,6 +23,10 @@ namespace dra {
 		return std::nullopt;
 	}
 
+	void ShaderArena::TerminateArena() {
+		m_ShaderList.clear();
+	}
+
 	ShaderArena::ShaderArena() {
 
 	}
