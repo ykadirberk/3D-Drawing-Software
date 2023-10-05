@@ -30,7 +30,7 @@ int main() {
     {
         dra::PerspectiveCamera camera(60, 960.0f, 540.0f, nullptr);
         dra::Object center( nullptr);
-        center.GetTransform().SetLocalPosition(0.0f, -0.5f, -3.0f);
+        center.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
         camera.SetParent(&center);
         camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
         dra::Line line(&camera, nullptr);
@@ -54,6 +54,10 @@ int main() {
 
         long double accumulator = 0;
 
+        int mouse_click = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
+        double mouse_x, mouse_y, prev_mouse_x, prev_mouse_y;
+        glfwGetCursorPos(window, &mouse_x, &mouse_y);
+
         GLCall(glClearColor(0.0f, 0.0f, 0.15f, 1.0f));
         while (!glfwWindowShouldClose(window)) {
 
@@ -61,14 +65,26 @@ int main() {
             currentTime = std::chrono::high_resolution_clock::now();
             deltaTime = std::chrono::duration<long double, std::milli>(currentTime - oldTime).count();
 
+            mouse_click = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
+
             accumulator += deltaTime;
             while (accumulator > 1000.0 / 61.0) {
                 accumulator -= 1000.0 / 60.0;
                 //line.Update();
-                center.GetTransform().Rotate(0.0f, 1.0f, 0.0f);
-                auto pos = camera.GetTransform().GetWorldPosition();
+
+                prev_mouse_x = mouse_x;
+                prev_mouse_y = mouse_y;
+                glfwGetCursorPos(window, &mouse_x, &mouse_y);
+                if (mouse_click == GLFW_PRESS)
+                {
+                    center.GetTransform().Rotate((mouse_y - prev_mouse_y)/5, (mouse_x - prev_mouse_x)/5, 0.0f);
+                }
+
+                
+              /*  auto pos = camera.GetTransform().GetWorldPosition();
                 auto cent_pos = center.GetTransform().GetWorldPosition();
-                std::cout << "Camera:(\t" << pos.x << ",\t" << pos.y << ",\t" << pos.z << ")\tCenter:(" << cent_pos.x << ",\t" << cent_pos.y << ",\t" << cent_pos.z << ")" << std::endl;
+                std::cout << "Camera:(\t" << pos.x << ",\t" << pos.y << ",\t" << pos.z 
+                    << ")\tCenter:(" << cent_pos.x << ",\t" << cent_pos.y << ",\t" << cent_pos.z << ")" << std::endl;*/
                 /*auto rot = camera.GetTransform().GetWorldRotation();
                 std::cout << "Camera Rot x=" << rot.x << ", y=" << rot.y << ", z=" << rot.z << std::endl;*/
                 //camera.GetTransform().Rotate(0.0f, 1.0f, 0.0f);
