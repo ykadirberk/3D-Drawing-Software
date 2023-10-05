@@ -2,11 +2,10 @@
 
 
 namespace dra {
-	PerspectiveCamera::PerspectiveCamera(float field_of_view, float width, float height)
-	: m_Fov(field_of_view), m_Width(width), m_Height(height)
+	PerspectiveCamera::PerspectiveCamera(float field_of_view, float width, float height, Object* parent)
+	: m_Fov(field_of_view), m_Width(width), m_Height(height), Camera(parent)
 	{
 		m_Projection = glm::perspective(glm::radians(m_Fov), m_Width / m_Height, 0.1f, 100.0f);
-		m_View = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 	}
 
 	PerspectiveCamera::~PerspectiveCamera() {
@@ -31,12 +30,17 @@ namespace dra {
 
 	[[nodiscard]] glm::mat4 PerspectiveCamera::GetView() const noexcept
 	{
-		return m_View;
+		return m_Transform.GetWorldAsMat4f();
 	}
 
 	[[nodiscard]] glm::mat4 PerspectiveCamera::GetProjectionXView() const noexcept {
-		return m_Projection * m_View;
+		return m_Projection * m_Transform.GetWorldAsMat4f();
 	}
+
+	[[nodiscard]] Transform& PerspectiveCamera::GetTransform() noexcept {
+		return m_Transform;
+	}
+
 	
 	void PerspectiveCamera::UpdateProjection() noexcept {
 		m_Projection = glm::perspective(glm::radians(m_Fov), m_Width / m_Height, 0.1f, 100.0f);
