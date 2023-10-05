@@ -30,8 +30,9 @@ int main() {
     {
         dra::PerspectiveCamera camera(60, 960.0f, 540.0f, nullptr);
         dra::Object center( nullptr);
-        center.GetTransform().SetLocalPosition(0.0f, 0.5f, -3.0f);
+        center.GetTransform().SetLocalPosition(0.0f, -0.5f, -3.0f);
         camera.SetParent(&center);
+        camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
         dra::Line line(&camera, nullptr);
         line.GetTransform().SetLocalPosition(0.0f, 0.0f, -3.0f);
         dra::Line line1(&camera, nullptr);
@@ -66,9 +67,10 @@ int main() {
                 //line.Update();
                 center.GetTransform().Rotate(0.0f, 1.0f, 0.0f);
                 auto pos = camera.GetTransform().GetWorldPosition();
-                std::cout << "Camera Pos x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << std::endl;
-                auto rot = camera.GetTransform().GetWorldRotation();
-                std::cout << "Camera Rot x=" << rot.x << ", y=" << rot.y << ", z=" << rot.z << std::endl;
+                auto cent_pos = center.GetTransform().GetWorldPosition();
+                std::cout << "Camera:(\t" << pos.x << ",\t" << pos.y << ",\t" << pos.z << ")\tCenter:(" << cent_pos.x << ",\t" << cent_pos.y << ",\t" << cent_pos.z << ")" << std::endl;
+                /*auto rot = camera.GetTransform().GetWorldRotation();
+                std::cout << "Camera Rot x=" << rot.x << ", y=" << rot.y << ", z=" << rot.z << std::endl;*/
                 //camera.GetTransform().Rotate(0.0f, 1.0f, 0.0f);
                 if (accumulator < (1000.0 / 59.0) - (1000.0 / 60.0)) accumulator = 0;
             }
