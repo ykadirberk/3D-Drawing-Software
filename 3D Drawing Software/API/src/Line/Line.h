@@ -15,7 +15,7 @@
 #include "../Core/VertexBufferLayout/VertexBufferLayout.h"
 
 namespace dra {
-	class _API Line : public Shape, public Object{
+	class _API Line : public Shape{
 		public:
 			Line(Camera* camera, Object* parent);
 			~Line() override;

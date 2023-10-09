@@ -9,7 +9,7 @@ namespace dra {
 			-0.50f, 0.0f, 0.0f,
 			 0.50f, 0.0f, 0.0f
 			}),
-		m_Indices({ 0, 1 }), Object(parent)
+		m_Indices({ 0, 1 }), Shape(parent)
 	{
 		m_Transform = Transform(this);
 		auto t = ShaderArena::Instance().GetShader("LineShader");
@@ -34,13 +34,12 @@ namespace dra {
 
 	void Line::Update()
 	{
-		m_Transform.Rotate(0.0f, 0.0f, 1.0f);
+		// TODO
 	}
 
 	void Line::Draw() {
 
-		auto t = ShaderArena::Instance().GetShader("LineShader");
-		if (t.has_value()) {
+		if (auto t = ShaderArena::Instance().GetShader("LineShader"); t.has_value()) {
 			auto& shader = t.value();
 			shader->Bind();
 			shader->SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
