@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <iostream>
 
 #include "../DLLBuild.h"
 #include "../Transform/Transform.h"
@@ -10,8 +11,9 @@ namespace dra {
 
 	class _API Object {
 		public:
+			Object() : m_Parent(nullptr) {}
 			Object(Object* parent);
-			virtual ~Object() {}
+			virtual ~Object() { std::cout << "Object destroyed." << std::endl; }
 
 			[[nodiscard]] virtual Object* GetParent() noexcept;
 			[[nodiscard]] virtual Transform& GetTransform() noexcept;
@@ -20,6 +22,6 @@ namespace dra {
 		protected:
 			Transform m_Transform;
 			Object* m_Parent;
-			std::vector<std::weak_ptr<Object>> m_Children;
+			std::vector<Object*> m_Children;
 	};
 }

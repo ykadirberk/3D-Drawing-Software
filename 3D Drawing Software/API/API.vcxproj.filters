@@ -63,6 +63,9 @@
     <ClInclude Include="src\Core\Object\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\OrthogonalCamera\OrthogonalCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Line\Line.cpp">
@@ -96,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Object\Object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OrthogonalCamera\OrthogonalCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
