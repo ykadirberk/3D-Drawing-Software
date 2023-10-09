@@ -6,3 +6,5 @@
 #include "Shape/Shape.h"
 
 #include "Line/Line.h"
+
+#include "OrthogonalCamera/OrthogonalCamera.h"

@@ -28,25 +28,30 @@ int main() {
 
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
-        dra::PerspectiveCamera camera(60, 960.0f, 540.0f, nullptr);
+        dra::OrthogonalCamera camera(960.0f, 540.0f, nullptr);
         dra::Object center( nullptr);
         center.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
+
         camera.SetParent(&center);
         camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
+
         dra::Line line(&camera, nullptr);
         line.GetTransform().SetLocalPosition(0.0f, 0.0f, -3.0f);
+
         dra::Line line1(&camera, nullptr);
         line1.GetTransform().Rotate(0.0f, 0.0f, 90.0f);
         line1.GetTransform().SetLocalPosition(0.5f, 0.5f, -3.0f);
+
         dra::Line line2(&camera, nullptr);
         line2.GetTransform().SetLocalPosition(0.0f, 1.0f, -3.0f);
+
         dra::Line line3(&camera, nullptr);
         line3.GetTransform().Rotate(0.0f, 0.0f, 90.0f);
         line3.GetTransform().SetLocalPosition(-0.5f, 0.5f, -3.0f);
+
         dra::Line line4(&camera, nullptr);
         line4.GetTransform().Rotate(0.0f, 90.0f, 90.0f);
         line4.GetTransform().SetLocalPosition(-0.0f, 0.5f, -2.5f);
-
 
         auto currentTime = std::chrono::high_resolution_clock::now();
         auto oldTime = std::chrono::high_resolution_clock::now();
@@ -75,19 +80,14 @@ int main() {
                 prev_mouse_x = mouse_x;
                 prev_mouse_y = mouse_y;
                 glfwGetCursorPos(window, &mouse_x, &mouse_y);
-                if (mouse_click == GLFW_PRESS)
-                {
-                    center.GetTransform().Rotate((mouse_y - prev_mouse_y)/5, (mouse_x - prev_mouse_x)/5, 0.0f);
+                if (mouse_click == GLFW_PRESS) {
+                    center.GetTransform().Rotate((mouse_y - prev_mouse_y) / 5, (mouse_x - prev_mouse_x) / 5, 0.0f);
                 }
 
-                
-              /*  auto pos = camera.GetTransform().GetWorldPosition();
-                auto cent_pos = center.GetTransform().GetWorldPosition();
-                std::cout << "Camera:(\t" << pos.x << ",\t" << pos.y << ",\t" << pos.z 
-                    << ")\tCenter:(" << cent_pos.x << ",\t" << cent_pos.y << ",\t" << cent_pos.z << ")" << std::endl;*/
-                /*auto rot = camera.GetTransform().GetWorldRotation();
-                std::cout << "Camera Rot x=" << rot.x << ", y=" << rot.y << ", z=" << rot.z << std::endl;*/
-                //camera.GetTransform().Rotate(0.0f, 1.0f, 0.0f);
+                //auto campos = camera.GetTransform().GetWorldPosition();
+                //auto linepos = line.GetTransform().GetWorldPosition();
+                //std::cout << "CamPos:(" << campos.x << ", " << campos.y << ", " << campos.z << ")\n";
+                //std::cout << "linepos:(" << linepos.x << ", " << linepos.y << ", " << linepos.z << ")\n";
                 if (accumulator < (1000.0 / 59.0) - (1000.0 / 60.0)) accumulator = 0;
             }
 
