@@ -36,11 +36,6 @@ namespace dra {
 	[[nodiscard]] glm::mat4 PerspectiveCamera::GetProjectionXView() const noexcept {
 		return m_Projection * m_Transform.GetWorldAsMat4f();
 	}
-
-	[[nodiscard]] Transform& PerspectiveCamera::GetTransform() noexcept {
-		return m_Transform;
-	}
-
 	
 	void PerspectiveCamera::UpdateProjection() noexcept {
 		m_Projection = glm::perspective(glm::radians(m_Fov), m_Width / m_Height, 0.1f, 100.0f);

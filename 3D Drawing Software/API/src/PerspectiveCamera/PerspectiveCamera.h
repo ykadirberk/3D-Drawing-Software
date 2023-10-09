@@ -19,8 +19,6 @@ namespace dra {
 			[[nodiscard]] glm::mat4 GetView() const noexcept override;
 
 			[[nodiscard]] glm::mat4 GetProjectionXView() const noexcept;
-			
-			[[nodiscard]] Transform& GetTransform() noexcept;
 
 		private:
 			glm::mat4 m_Projection;
