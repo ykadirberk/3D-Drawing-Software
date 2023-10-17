@@ -28,13 +28,13 @@ int main() {
 
     std::cout << glGetString(GL_VERSION) << std::endl;
     {
-        dra::OrthogonalCamera camera(960.0f, 540.0f, nullptr);
+        //dra::OrthogonalCamera camera(960.0f, 540.0f, nullptr);
+        dra::PerspectiveCamera camera(50.0, 960.0f, 540.0f, nullptr);
         dra::Object center( nullptr);
         center.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
-
+ 
         camera.SetParent(&center);
         camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
-
         dra::Line line(&camera, nullptr);
         line.GetTransform().SetLocalPosition(0.0f, 0.0f, -3.0f);
 
@@ -62,7 +62,8 @@ int main() {
         int mouse_click = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
         double mouse_x, mouse_y, prev_mouse_x, prev_mouse_y;
         glfwGetCursorPos(window, &mouse_x, &mouse_y);
-
+        auto world_scale = camera.GetTransform().GetWorldScale();
+        std::cout << "WorldScale: (" << world_scale.x << ", " << world_scale.y << ", " << world_scale.z << ")" << std::endl;
         GLCall(glClearColor(0.0f, 0.0f, 0.15f, 1.0f));
         while (!glfwWindowShouldClose(window)) {
 
@@ -88,6 +89,10 @@ int main() {
                 //auto linepos = line.GetTransform().GetWorldPosition();
                 //std::cout << "CamPos:(" << campos.x << ", " << campos.y << ", " << campos.z << ")\n";
                 //std::cout << "linepos:(" << linepos.x << ", " << linepos.y << ", " << linepos.z << ")\n";
+
+                auto camrot = camera.GetTransform().GetWorldRotation();
+                std::cout << "CamPos:(" << camrot.x << ", " << camrot.y << ", " << camrot.z << ")\n";
+
                 if (accumulator < (1000.0 / 59.0) - (1000.0 / 60.0)) accumulator = 0;
             }
 

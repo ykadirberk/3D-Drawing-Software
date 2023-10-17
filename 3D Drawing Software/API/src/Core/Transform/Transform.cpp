@@ -53,7 +53,8 @@ namespace dra {
 	}
 
 	[[nodiscard]] glm::vec3 Transform::GetLocalRotation() const noexcept {
-		return m_Rotation;
+		const float pi = std::acos(-1);
+		return (180 / pi) * m_Rotation;
 	}
 
 	[[nodiscard]] glm::vec3 Transform::GetLocalScale() const noexcept {
@@ -67,13 +68,34 @@ namespace dra {
 	}
 
 	[[nodiscard]] glm::vec3 Transform::GetWorldRotation() const noexcept {
-		//glm::vec
-		return ParentsRotationRecursiveVec3f(m_Owner);
+		float x, y, z;
+		glm::vec3 scale = GetWorldScale();
+		glm::mat4 t = ParentOrientationMat4f(m_Owner);
+		float t23 = t[1][2] / scale.y;
+		float t33 = t[2][2] / scale.z;
+		float t13 = t[0][2] / scale.x;
+		float t12 = t[0][1] / scale.x;
+		float t11 = t[0][0] / scale.x;
+		x = std::atan2f(t23, t33);
+		auto sy = std::sqrtf(t23 * t23 + t33 * t33);
+		y = std::atan2f(-t13, sy);
+		z = std::atan2f(t12, t11);
+
+		const float pi = std::acos(-1);
+
+		return glm::vec3(x * 180.0f / pi, y * 180.0f / pi, z * 180.0f / pi);
 	}
 
-	[[nodiscard]] glm::vec3 Transform::GetWorldScale() const noexcept
-	{
-		return ParentsScaleRecursiveVec3f(m_Owner);
+	[[nodiscard]] glm::vec3 Transform::GetWorldScale() const noexcept {
+		glm::mat4 temp = ParentOrientationMat4f(m_Owner);
+		glm::vec3 first = glm::vec3(temp[0][0], temp[0][1], temp[0][2]);
+		glm::vec3 second = glm::vec3(temp[1][0], temp[1][1], temp[1][2]);
+		glm::vec3 third = glm::vec3(temp[2][0], temp[2][1], temp[2][2]);
+		glm::vec3 sizes;
+		sizes.x = std::sqrtf(first.x * first.x + first.y * first.y + first.z * first.z);
+		sizes.y = std::sqrtf(second.x * second.x + second.y * second.y + second.z * second.z);
+		sizes.z = std::sqrtf(third.x * third.x + third.y * third.y + third.z * third.z);
+		return sizes;
 	}
 
 	[[nodiscard]] glm::mat4 Transform::GetLocalAsMat4f() const noexcept {
@@ -108,34 +130,34 @@ namespace dra {
 		return ParentOrientationMat4f(parent) * transform.GetLocalAsMat4f();
 	}
 
-	[[nodiscard]] glm::vec3 Transform::ParentsPositionRecursiveVec3f(Object* obj) const noexcept {
-		if (!obj) {
-			return glm::vec3(1.0f);
-		}
-		auto parent = obj->GetParent();
-		auto transform = obj->GetTransform();
-		return ParentsPositionRecursiveVec3f(parent) + transform.GetLocalPosition();
-	}
+	//[[nodiscard]] glm::vec3 Transform::ParentsPositionRecursiveVec3f(Object* obj) const noexcept {
+	//	if (!obj) {
+	//		return glm::vec3(1.0f);
+	//	}
+	//	auto parent = obj->GetParent();
+	//	auto transform = obj->GetTransform();
+	//	return ParentsPositionRecursiveVec3f(parent) + transform.GetLocalPosition();
+	//}
 
-	glm::vec3 Transform::ParentsRotationRecursiveVec3f(Object* obj) const noexcept
-	{
-		if (!obj) {
-			return glm::vec3(1.0f);
-		}
-		auto parent = obj->GetParent();
-		auto transform = obj->GetTransform();
-		return ParentsRotationRecursiveVec3f(parent) + transform.GetLocalRotation();
-	}
+	//glm::vec3 Transform::ParentsRotationRecursiveVec3f(Object* obj) const noexcept
+	//{
+	//	if (!obj) {
+	//		return glm::vec3(1.0f);
+	//	}
+	//	auto parent = obj->GetParent();
+	//	auto transform = obj->GetTransform();
+	//	return ParentsRotationRecursiveVec3f(parent) + transform.GetLocalRotation();
+	//}
 
-	glm::vec3 Transform::ParentsScaleRecursiveVec3f(Object* obj) const noexcept
-	{
-		if (!obj) {
-			return glm::vec3(1.0f);
-		}
-		auto parent = obj->GetParent();
-		auto transform = obj->GetTransform();
-		return ParentsScaleRecursiveVec3f(parent) * transform.GetLocalScale();
-	}
+	//glm::vec3 Transform::ParentsScaleRecursiveVec3f(Object* obj) const noexcept
+	//{
+	//	if (!obj) {
+	//		return glm::vec3(1.0f);
+	//	}
+	//	auto parent = obj->GetParent();
+	//	auto transform = obj->GetTransform();
+	//	return ParentsScaleRecursiveVec3f(parent) * transform.GetLocalScale();
+	//}
 }
 
 

@@ -34,9 +34,9 @@ namespace dra {
 			[[nodiscard]] glm::mat4 GetWorldAsMat4f() const noexcept;
 
 
-			[[nodiscard]] glm::vec3 ParentsPositionRecursiveVec3f(Object* obj) const noexcept;
+			/*[[nodiscard]] glm::vec3 ParentsPositionRecursiveVec3f(Object* obj) const noexcept;
 			[[nodiscard]] glm::vec3 ParentsRotationRecursiveVec3f(Object* obj) const noexcept;
-			[[nodiscard]] glm::vec3 ParentsScaleRecursiveVec3f(Object* obj) const noexcept;
+			[[nodiscard]] glm::vec3 ParentsScaleRecursiveVec3f(Object* obj) const noexcept;*/
 		private:
 			Object* m_Owner;
 
