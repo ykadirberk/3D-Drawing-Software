@@ -62,8 +62,6 @@ int main() {
         int mouse_click = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
         double mouse_x, mouse_y, prev_mouse_x, prev_mouse_y;
         glfwGetCursorPos(window, &mouse_x, &mouse_y);
-        auto world_scale = camera.GetTransform().GetWorldScale();
-        std::cout << "WorldScale: (" << world_scale.x << ", " << world_scale.y << ", " << world_scale.z << ")" << std::endl;
         GLCall(glClearColor(0.0f, 0.0f, 0.15f, 1.0f));
         while (!glfwWindowShouldClose(window)) {
 
@@ -76,7 +74,6 @@ int main() {
             accumulator += deltaTime;
             while (accumulator > 1000.0 / 61.0) {
                 accumulator -= 1000.0 / 60.0;
-                //line.Update();
 
                 prev_mouse_x = mouse_x;
                 prev_mouse_y = mouse_y;
@@ -90,8 +87,10 @@ int main() {
                 //std::cout << "CamPos:(" << campos.x << ", " << campos.y << ", " << campos.z << ")\n";
                 //std::cout << "linepos:(" << linepos.x << ", " << linepos.y << ", " << linepos.z << ")\n";
 
-                auto camrot = camera.GetTransform().GetWorldRotation();
-                std::cout << "CamPos:(" << camrot.x << ", " << camrot.y << ", " << camrot.z << ")\n";
+                /*auto camrot = center.GetTransform().GetWorldRotation();
+                auto centlocrot = center.GetTransform().GetLocalRotation();
+                std::cout << "CenterPosWorld:(" << camrot.x << ", " << camrot.y << ", " << camrot.z << ")\n";
+                std::cout << "CenterPosLocal:(" << centlocrot.x << ", " << centlocrot.y << ", " << centlocrot.z << ")\n";*/
 
                 if (accumulator < (1000.0 / 59.0) - (1000.0 / 60.0)) accumulator = 0;
             }

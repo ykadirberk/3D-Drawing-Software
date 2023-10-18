@@ -34,9 +34,7 @@ namespace dra {
 			[[nodiscard]] glm::mat4 GetWorldAsMat4f() const noexcept;
 
 
-			/*[[nodiscard]] glm::vec3 ParentsPositionRecursiveVec3f(Object* obj) const noexcept;
-			[[nodiscard]] glm::vec3 ParentsRotationRecursiveVec3f(Object* obj) const noexcept;
-			[[nodiscard]] glm::vec3 ParentsScaleRecursiveVec3f(Object* obj) const noexcept;*/
+			
 		private:
 			Object* m_Owner;
 
@@ -44,9 +42,10 @@ namespace dra {
 			glm::vec3 m_Rotation;
 			glm::vec3 m_Scale;
 
-			[[nodiscard]] float Interval(float current, float max) const noexcept;
+			[[nodiscard]] float Interval(float current, float min, float max) const noexcept;
 			[[nodiscard]] glm::mat4 AsMat4f() const noexcept;
 			[[nodiscard]] glm::mat4 ParentOrientationMat4f(Object* obj) const noexcept;
+			[[nodiscard]] glm::vec3 ParentOrientedRotationVec3f(Object* obj, glm::vec3 current) const noexcept;
 			
 	};
 }

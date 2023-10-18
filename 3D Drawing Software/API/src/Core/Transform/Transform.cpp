@@ -43,9 +43,12 @@ namespace dra {
 	void Transform::Rotate(float x, float y, float z) noexcept {
 		const float pi = std::acos(-1);
 		const float degree = pi / 180.0f;
-		m_Rotation.x = Interval(m_Rotation.x + (degree * x), 360.0f);
-		m_Rotation.y = Interval(m_Rotation.y + (degree * y), 360.0f);
-		m_Rotation.z = Interval(m_Rotation.z + (degree * z), 360.0f);
+		/*m_Rotation.x = Interval(m_Rotation.x + (degree * x), 0.0f, 2 * pi);
+		m_Rotation.y = Interval(m_Rotation.y + (degree * y), 0.0f, 2 * pi);
+		m_Rotation.z = Interval(m_Rotation.z + (degree * z), 0.0f, 2 * pi);*/
+		m_Rotation.x = Interval(m_Rotation.x + (degree * x), -pi, pi);
+		m_Rotation.y = Interval(m_Rotation.y + (degree * y), -pi, pi);
+		m_Rotation.z = Interval(m_Rotation.z + (degree * z), -pi, pi);
 	}
 
 	[[nodiscard]] glm::vec3 Transform::GetLocalPosition() const noexcept {
@@ -68,22 +71,12 @@ namespace dra {
 	}
 
 	[[nodiscard]] glm::vec3 Transform::GetWorldRotation() const noexcept {
-		float x, y, z;
-		glm::vec3 scale = GetWorldScale();
-		glm::mat4 t = ParentOrientationMat4f(m_Owner);
-		float t23 = t[1][2] / scale.y;
-		float t33 = t[2][2] / scale.z;
-		float t13 = t[0][2] / scale.x;
-		float t12 = t[0][1] / scale.x;
-		float t11 = t[0][0] / scale.x;
-		x = std::atan2f(t23, t33);
-		auto sy = std::sqrtf(t23 * t23 + t33 * t33);
-		y = std::atan2f(-t13, sy);
-		z = std::atan2f(t12, t11);
-
-		const float pi = std::acos(-1);
-
-		return glm::vec3(x * 180.0f / pi, y * 180.0f / pi, z * 180.0f / pi);
+		auto t = ParentOrientedRotationVec3f(this->m_Owner, glm::vec3(0.0f));
+		glm::vec3 rot = glm::vec3();
+		rot.x = Interval(t.x, -180.0f, 180.0f);
+		rot.y = Interval(t.y, -180.0f, 180.0f);
+		rot.z = Interval(t.z, -180.0f, 180.0f);
+		return rot;
 	}
 
 	[[nodiscard]] glm::vec3 Transform::GetWorldScale() const noexcept {
@@ -106,11 +99,15 @@ namespace dra {
 		return ParentOrientationMat4f(m_Owner);
 	}
 
-	[[nodiscard]] float Transform::Interval(float current, float max) const noexcept {
-		if (current < max) {
+	[[nodiscard]] float Transform::Interval(float current, float min, float max) const noexcept {
+		if (current <= max && current >= min) {
 			return current;
 		}
-		return Interval(current - max, max);
+
+		if (current < min) {
+			return Interval(current + (max - min), min, max);
+		}
+		return Interval(current - (max - min), min, max);
 	}
 
 	[[nodiscard]] glm::mat4 Transform::AsMat4f() const noexcept {
@@ -130,34 +127,19 @@ namespace dra {
 		return ParentOrientationMat4f(parent) * transform.GetLocalAsMat4f();
 	}
 
-	//[[nodiscard]] glm::vec3 Transform::ParentsPositionRecursiveVec3f(Object* obj) const noexcept {
-	//	if (!obj) {
-	//		return glm::vec3(1.0f);
-	//	}
-	//	auto parent = obj->GetParent();
-	//	auto transform = obj->GetTransform();
-	//	return ParentsPositionRecursiveVec3f(parent) + transform.GetLocalPosition();
-	//}
+	[[nodiscard]] glm::vec3 Transform::ParentOrientedRotationVec3f(Object* obj, glm::vec3 current) const noexcept
+	{
+		if (!obj) {
+			return current;
+		}
+		auto rotation = obj->GetTransform().GetLocalRotation();
+		float x, y, z;
+		x = current.x + rotation.x;
+		y = current.y + rotation.y;
+		z = current.z + rotation.z;
+		return ParentOrientedRotationVec3f(obj->GetParent(), glm::vec3(x, y, z));
+	}
 
-	//glm::vec3 Transform::ParentsRotationRecursiveVec3f(Object* obj) const noexcept
-	//{
-	//	if (!obj) {
-	//		return glm::vec3(1.0f);
-	//	}
-	//	auto parent = obj->GetParent();
-	//	auto transform = obj->GetTransform();
-	//	return ParentsRotationRecursiveVec3f(parent) + transform.GetLocalRotation();
-	//}
-
-	//glm::vec3 Transform::ParentsScaleRecursiveVec3f(Object* obj) const noexcept
-	//{
-	//	if (!obj) {
-	//		return glm::vec3(1.0f);
-	//	}
-	//	auto parent = obj->GetParent();
-	//	auto transform = obj->GetTransform();
-	//	return ParentsScaleRecursiveVec3f(parent) * transform.GetLocalScale();
-	//}
 }
 
 
