@@ -14,7 +14,7 @@ namespace dra {
 			Transform();
 			Transform(Object* owner);
 			~Transform();
-
+			
 			void SetLocalPosition(float x, float y, float z) noexcept;
 			void SetLocalRotation(float x, float y, float z) noexcept;
 			void SetLocalScale(float x, float y, float z) noexcept;

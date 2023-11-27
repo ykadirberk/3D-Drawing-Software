@@ -42,7 +42,7 @@ namespace dra {
 		if (auto t = ShaderArena::Instance().GetShader("LineShader"); t.has_value()) {
 			auto& shader = t.value();
 			shader->Bind();
-			shader->SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
+			shader->SetUniform4f("u_Color", 0.7f, 0.3f, 0.8f, 1.0f);
 
 			shader->SetUniformMat4f("u_MVP", m_Camera->GetProjection() * m_Camera->GetView() * m_Transform.GetWorldAsMat4f());
 			m_VAO->Bind();
