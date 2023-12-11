@@ -82,6 +82,8 @@ int main() {
                     center.GetTransform().Rotate((mouse_y - prev_mouse_y) / 5, (mouse_x - prev_mouse_x) / 5, 0.0f);
                 }
 
+                //UPDATE
+
                 //auto campos = camera.GetTransform().GetWorldPosition();
                 //auto linepos = line.GetTransform().GetWorldPosition();
                 //std::cout << "CamPos:(" << campos.x << ", " << campos.y << ", " << campos.z << ")\n";

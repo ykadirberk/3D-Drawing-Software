@@ -12,6 +12,7 @@ namespace dra {
 		m_Indices({ 0, 1 }), Shape(parent)
 	{
 		m_Transform = Transform(this);
+
 		auto t = ShaderArena::Instance().GetShader("LineShader");
 		if (!t.has_value()) {
 			ShaderArena::Instance().LoadShader("LineShader", "shaders/line.shader");
