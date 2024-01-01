@@ -22,5 +22,6 @@
   <ItemGroup>
     <None Include="shaders\line.shader" />
     <None Include="shaders\vertexsphere.shader" />
+    <None Include="shaders\triangle.shader" />
   </ItemGroup>
 </Project>

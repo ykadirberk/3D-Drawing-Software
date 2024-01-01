@@ -120,6 +120,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClInclude Include="src\Line\Line.h" />
     <ClInclude Include="src\OpenGL\OpenGL.h" />
     <ClInclude Include="src\Shape\Shape.h" />
+    <ClInclude Include="src\Triangle\Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Object\Object.cpp" />
@@ -135,6 +136,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClCompile Include="src\Core\VertexBuffer\VertexBuffer.cpp" />
     <ClCompile Include="src\Line\Line.cpp" />
     <ClCompile Include="src\OpenGL\OpenGL.cpp" />
+    <ClCompile Include="src\Triangle\Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="exclusions.txt" />

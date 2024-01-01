@@ -7,4 +7,6 @@
 
 #include "Line/Line.h"
 
+#include "Triangle/Triangle.h"
+
 #include "OrthogonalCamera/OrthogonalCamera.h"

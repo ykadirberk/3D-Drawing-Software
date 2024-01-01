@@ -38,12 +38,17 @@ int main() {
         dra::Line line(&camera, nullptr);
         line.GetTransform().SetLocalPosition(0.0f, 0.0f, -3.0f);
 
+        dra::Triangle triangle(&camera, nullptr);
+        triangle.GetTransform().SetLocalPosition(0.0f, 0.0f, -3.0f);
+
         dra::Line line1(&camera, nullptr);
         line1.GetTransform().Rotate(0.0f, 0.0f, 90.0f);
         line1.GetTransform().SetLocalPosition(0.5f, 0.5f, -3.0f);
 
         dra::Line line2(&camera, nullptr);
         line2.GetTransform().SetLocalPosition(0.0f, 1.0f, -3.0f);
+
+        
 
         dra::Line line3(&camera, nullptr);
         line3.GetTransform().Rotate(0.0f, 0.0f, 90.0f);
@@ -104,6 +109,7 @@ int main() {
             line2.Draw();
             line3.Draw();
             line4.Draw();
+            triangle.Draw();
 
             glfwSwapBuffers(window);
 

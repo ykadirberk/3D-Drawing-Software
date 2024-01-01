@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\line.shader" />
+    <None Include="shaders\triangle.shader" />
     <None Include="shaders\vertexsphere.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
