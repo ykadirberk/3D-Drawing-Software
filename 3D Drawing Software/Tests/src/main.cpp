@@ -39,10 +39,19 @@ int main() {
         line.GetTransform().SetLocalPosition(0.0f, 0.0f, -3.0f);
 
         dra::Triangle triangle(&camera, nullptr);
-        triangle.GetTransform().SetLocalPosition(0.0f, 0.0f, -3.0f);
+        triangle.GetTransform().SetLocalPosition(-0.5f, -0.5f, -4.0f);
+        triangle.GetTransform().Rotate(0.0f, 60.0f, -30.0f);
+
+        dra::Triangle triangle1(&camera, nullptr);
+        triangle1.GetTransform().SetLocalPosition(-0.5f, 1.0f, -2.0f);
+        triangle1.GetTransform().Rotate(5.0f, 60.0f, -30.0f);
+
+        dra::Triangle triangle2(&camera, nullptr);
+        triangle2.GetTransform().SetLocalPosition(0.0f, 0.0f, -2.0f);
+        triangle2.GetTransform().Rotate(26.0f, 33.0f, -30.0f);
 
         dra::Line line1(&camera, nullptr);
-        line1.GetTransform().Rotate(0.0f, 0.0f, 90.0f);
+        line1.GetTransform().Rotate(0.0f, 0.0f, 45.0f);
         line1.GetTransform().SetLocalPosition(0.5f, 0.5f, -3.0f);
 
         dra::Line line2(&camera, nullptr);
@@ -51,7 +60,7 @@ int main() {
         
 
         dra::Line line3(&camera, nullptr);
-        line3.GetTransform().Rotate(0.0f, 0.0f, 90.0f);
+        line3.GetTransform().Rotate(0.0f, 0.0f, 45.0f);
         line3.GetTransform().SetLocalPosition(-0.5f, 0.5f, -3.0f);
 
         dra::Line line4(&camera, nullptr);
@@ -110,6 +119,8 @@ int main() {
             line3.Draw();
             line4.Draw();
             triangle.Draw();
+            triangle1.Draw();
+            triangle2.Draw();
 
             glfwSwapBuffers(window);
 
