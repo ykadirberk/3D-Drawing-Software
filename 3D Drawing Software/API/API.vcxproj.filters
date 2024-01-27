@@ -120,4 +120,7 @@
   <ItemGroup>
     <Text Include="exclusions.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
 </Project>
