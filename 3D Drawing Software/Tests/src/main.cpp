@@ -5,7 +5,6 @@
 
 int main() {
 
-
     dra::Window window(960, 540, 120.0, dra::MultiSampling::x8);
     dra::Scene scene;
      
