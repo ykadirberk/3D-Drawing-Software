@@ -17,14 +17,12 @@
 namespace dra {
 	class _API Line : public Shape{
 		public:
-			Line(Camera* camera, Object* parent);
+			Line(Object* parent);
 			~Line() override;
 
 			void Update() override;
-			void Draw() override;
+			void Draw(Camera* camera) override;
 		private:			
-			Camera* m_Camera;
-
 			std::vector<float> m_Positions;
 			std::vector<unsigned int> m_Indices;
 

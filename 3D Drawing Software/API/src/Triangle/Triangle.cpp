@@ -2,9 +2,8 @@
 #include <iostream>
 
 namespace dra {
-	Triangle::Triangle(Camera* camera, Object* parent)
-		: m_Camera(camera),
-		m_Positions({
+	Triangle::Triangle( Object* parent)
+		: m_Positions({
 			-0.50f, -0.50f, 0.0f,
 			 0.50f, -0.50f, 0.0f,
 			 0.0f,  0.50f, 0.0f
@@ -38,13 +37,13 @@ namespace dra {
 		// TODO: Implement update logic if needed
 	}
 
-	void Triangle::Draw() {
+	void Triangle::Draw(Camera* camera) {
 		if (auto t = ShaderArena::Instance().GetShader("TriangleShader"); t.has_value()) {
 			auto& shader = t.value();
 			shader->Bind();
 			shader->SetUniform4f("u_Color", 0.2f, 0.8f, 0.4f, 1.0f);
 
-			shader->SetUniformMat4f("u_MVP", m_Camera->GetProjection() * m_Camera->GetView() * m_Transform.GetWorldAsMat4f());
+			shader->SetUniformMat4f("u_MVP", camera->GetProjection() * camera->GetView() * m_Transform.GetWorldAsMat4f());
 			m_VAO->Bind();
 			m_IndexBuffer->Bind();
 

@@ -1,9 +1,10 @@
 #include "Window.h"
 #include "../OpenGL/OpenGL.h"
+#include "../PerspectiveCamera/PerspectiveCamera.h"
 #include <iostream>
 #include <chrono>
 
-dra::Window::Window() : m_FpsLimit(120.0), m_Window(nullptr)
+dra::Window::Window(int width, int height, double fps_limit, MultiSampling msaa) : m_Width(width), m_Height(height), m_FpsLimit(fps_limit), m_MSAA(msaa), m_Window(nullptr)
 {
     if (!glfwInit()) {
         std::cerr << "Could not initialize glfw!" << std::endl;
@@ -12,15 +13,21 @@ dra::Window::Window() : m_FpsLimit(120.0), m_Window(nullptr)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, static_cast<int>(m_MSAA));
 
-    m_Window = std::shared_ptr<GLFWwindow>(glfwCreateWindow(960, 540, "Hello World", NULL, NULL));
+    m_Window = std::shared_ptr<GLFWwindow>(glfwCreateWindow(m_Width, m_Height, "Window Output", NULL, NULL));
     if (!m_Window)
     {
         glfwTerminate();
     }
+    
     glfwMakeContextCurrent(m_Window.get());
 
     dra::OpenGL::Initialize();
+    glEnable(0x809D);
+    glViewport(0, 0, m_Width, m_Height);
+
+    glfwSetFramebufferSizeCallback(m_Window.get(), [](GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height);});
 }
 
 dra::Window::~Window()
@@ -29,6 +36,13 @@ dra::Window::~Window()
 
 void dra::Window::Run(const Scene& scene)
 {
+
+    dra::PerspectiveCamera camera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
+    dra::Object center(nullptr);
+    center.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
+    camera.SetParent(&center);
+    camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
+
     auto currentTime = std::chrono::high_resolution_clock::now();
     auto oldTime = std::chrono::high_resolution_clock::now();
     auto deltaTime = std::chrono::duration<long double, std::milli>(currentTime - oldTime).count();
@@ -38,6 +52,7 @@ void dra::Window::Run(const Scene& scene)
     int mouse_click = glfwGetMouseButton(m_Window.get(), GLFW_MOUSE_BUTTON_RIGHT);
     double mouse_x, mouse_y, prev_mouse_x, prev_mouse_y;
     glfwGetCursorPos(m_Window.get(), &mouse_x, &mouse_y);
+
     glClearColor(0.0f, 0.0f, 0.15f, 1.0f);
     while (!glfwWindowShouldClose(m_Window.get())) {
 
@@ -45,9 +60,19 @@ void dra::Window::Run(const Scene& scene)
         currentTime = std::chrono::high_resolution_clock::now();
         deltaTime = std::chrono::duration<long double, std::milli>(currentTime - oldTime).count();
 
+        mouse_click = glfwGetMouseButton(m_Window.get(), GLFW_MOUSE_BUTTON_RIGHT);
+
         accumulator += deltaTime;
         while (accumulator > 1000.0 / (m_FpsLimit + 1.0)) {
             accumulator -= 1000.0 / m_FpsLimit;
+
+            // camera movement
+            prev_mouse_x = mouse_x;
+            prev_mouse_y = mouse_y;
+            glfwGetCursorPos(m_Window.get(), &mouse_x, &mouse_y);
+            if (mouse_click == GLFW_PRESS) {
+                center.GetTransform().Rotate((mouse_y - prev_mouse_y) / 5.0, (mouse_x - prev_mouse_x) / 5.0, 0.0f);
+            }
 
             scene.RunUpdates();
 
@@ -57,7 +82,7 @@ void dra::Window::Run(const Scene& scene)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //draws here
-        scene.RunRenders();
+        scene.RunRenders(&camera);
 
         glfwSwapBuffers(m_Window.get());
 

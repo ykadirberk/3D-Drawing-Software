@@ -17,15 +17,13 @@
 namespace dra {
 	class _API Triangle : public Shape {
 	public:
-		Triangle(Camera* camera, Object* parent);
+		Triangle(Object* parent);
 		~Triangle() override;
 
 		void Update() override;
-		void Draw() override;
+		void Draw(Camera* camera) override;
 
 	private:
-		Camera* m_Camera;
-
 		std::vector<float> m_Positions;
 		std::vector<unsigned int> m_Indices;
 

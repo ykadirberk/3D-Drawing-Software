@@ -13,7 +13,7 @@ void dra::Scene::InsertUpdateFunction(std::function<void()> t)
 	m_Updates.push_back(t);
 }
 
-void dra::Scene::InsertRenderFunction(std::function<void()> t)
+void dra::Scene::InsertRenderFunction(std::function<void(Camera*)> t)
 {
 	m_Renders.push_back(t);
 }
@@ -25,9 +25,9 @@ void dra::Scene::RunUpdates() const
 	}
 }
 
-void dra::Scene::RunRenders() const
+void dra::Scene::RunRenders(Camera* camera) const
 {
 	for (auto& func : m_Renders) {
-		func();
+		func(camera);
 	}
 }
