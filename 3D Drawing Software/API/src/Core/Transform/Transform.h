@@ -4,6 +4,7 @@
 
 #include "../DLLBuild.h"
 #include "../../ext/glm/glm.hpp"
+#include "../Vector/Vector.h"
 
 namespace dra {
 
@@ -41,6 +42,10 @@ namespace dra {
 			glm::vec3 m_Position;
 			glm::vec3 m_Rotation;
 			glm::vec3 m_Scale;
+
+			/*Vector m_Position;
+			Vector m_Rotation;
+			Vector m_Scale;*/
 
 			[[nodiscard]] float Interval(float current, float min, float max) const noexcept;
 			[[nodiscard]] glm::mat4 AsMat4f() const noexcept;
