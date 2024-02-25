@@ -40,4 +40,16 @@ namespace dra {
 	{
 		return pos_z;
 	}
+	void Vector::setx(float x)
+	{
+		pos_x = x;
+	}
+	void Vector::sety(float y)
+	{
+		pos_y = y;
+	}
+	void Vector::setz(float z)
+	{
+		pos_z = z;
+	}
 }

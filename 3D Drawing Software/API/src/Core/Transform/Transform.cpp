@@ -7,37 +7,37 @@
 
 namespace dra {
 	Transform::Transform() : m_Owner(nullptr) {
-		m_Position = glm::vec3(0.0f, 0.0f, 0.0f);
-		m_Rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-		m_Scale = glm::vec3(1.0f, 1.0f, 1.0f);
+		m_Position = Vector(0.0f, 0.0f, 0.0f);
+		m_Rotation = Vector(0.0f, 0.0f, 0.0f);
+		m_Scale = Vector(1.0f, 1.0f, 1.0f);
 	}
 	Transform::Transform(Object* owner) : m_Owner(owner) {
-		m_Position	= glm::vec3(0.0f, 0.0f, 0.0f);
-		m_Rotation	= glm::vec3(0.0f, 0.0f, 0.0f);
-		m_Scale		= glm::vec3(1.0f, 1.0f, 1.0f);
+		m_Position	= Vector(0.0f, 0.0f, 0.0f);
+		m_Rotation	= Vector(0.0f, 0.0f, 0.0f);
+		m_Scale		= Vector(1.0f, 1.0f, 1.0f);
 	}
 
 	Transform::~Transform() {
 	}
 
 	void Transform::SetLocalPosition(float x, float y, float z) noexcept {
-		m_Position = glm::vec3(x, y, z);
+		m_Position = Vector(x, y, z);
 	}
 
 	void Transform::SetLocalRotation(float x, float y, float z) noexcept {
 		const float pi = std::acos(-1);
 		const float degree = pi / 180.0f;
-		m_Rotation = glm::vec3(degree * x, degree * y, degree * z);
+		m_Rotation = Vector(degree * x, degree * y, degree * z);
 	}
 
 	void Transform::SetLocalScale(float x, float y, float z) noexcept {
-		m_Scale = glm::vec3(x, y, z);
+		m_Scale = Vector(x, y, z);
 	}
 
 	void Transform::Translate(float x, float y, float z) noexcept {
-		m_Position.x += x;
-		m_Position.y += y;
-		m_Position.z += z;
+		m_Position.setx(m_Position.x() + x);
+		m_Position.sety(m_Position.y() + y);
+		m_Position.setz(m_Position.z() + z);
 	}
 
 	void Transform::Rotate(float x, float y, float z) noexcept {
@@ -46,48 +46,49 @@ namespace dra {
 		/*m_Rotation.x = Interval(m_Rotation.x + (degree * x), 0.0f, 2 * pi);
 		m_Rotation.y = Interval(m_Rotation.y + (degree * y), 0.0f, 2 * pi);
 		m_Rotation.z = Interval(m_Rotation.z + (degree * z), 0.0f, 2 * pi);*/
-		m_Rotation.x = Interval(m_Rotation.x + (degree * x), -pi, pi);
-		m_Rotation.y = Interval(m_Rotation.y + (degree * y), -pi, pi);
-		m_Rotation.z = Interval(m_Rotation.z + (degree * z), -pi, pi);
+		m_Rotation.setx(Interval(m_Rotation.x() + (degree * x), -pi, pi));
+		m_Rotation.sety(Interval(m_Rotation.y() + (degree * y), -pi, pi));
+		m_Rotation.setz(Interval(m_Rotation.z() + (degree * z), -pi, pi));
 	}
 
-	[[nodiscard]] glm::vec3 Transform::GetLocalPosition() const noexcept {
+	[[nodiscard]] Vector Transform::GetLocalPosition() const noexcept {
 		return m_Position;
 	}
 
-	[[nodiscard]] glm::vec3 Transform::GetLocalRotation() const noexcept {
+	[[nodiscard]] Vector Transform::GetLocalRotation() const noexcept {
 		const float pi = std::acos(-1);
-		return (180 / pi) * m_Rotation;
+
+		return Vector((180 / pi) * m_Rotation.x());
 	}
 
-	[[nodiscard]] glm::vec3 Transform::GetLocalScale() const noexcept {
+	[[nodiscard]] Vector Transform::GetLocalScale() const noexcept {
 		return m_Scale;
 	}
 
-	[[nodiscard]] glm::vec3 Transform::GetWorldPosition() const noexcept
+	[[nodiscard]] Vector Transform::GetWorldPosition() const noexcept
 	{
 		glm::mat4 t = ParentOrientationMat4f(m_Owner);
-		return glm::vec3(t[3][0], t[3][1], t[3][2]);
+		return Vector(t[3][0], t[3][1], t[3][2]);
 	}
 
-	[[nodiscard]] glm::vec3 Transform::GetWorldRotation() const noexcept {
-		auto t = ParentOrientedRotationVec3f(this->m_Owner, glm::vec3(0.0f));
-		glm::vec3 rot = glm::vec3();
-		rot.x = Interval(t.x, -180.0f, 180.0f);
-		rot.y = Interval(t.y, -180.0f, 180.0f);
-		rot.z = Interval(t.z, -180.0f, 180.0f);
+	[[nodiscard]] Vector Transform::GetWorldRotation() const noexcept {
+		auto t = ParentOrientedRotationVec3f(this->m_Owner, Vector(0.0f));
+		Vector rot = Vector();
+		rot.setx(Interval(t.x(), -180.0f, 180.0f));
+		rot.sety(Interval(t.y(), -180.0f, 180.0f));
+		rot.setz(Interval(t.z(), -180.0f, 180.0f));
 		return rot;
 	}
 
-	[[nodiscard]] glm::vec3 Transform::GetWorldScale() const noexcept {
+	[[nodiscard]] Vector Transform::GetWorldScale() const noexcept {
 		glm::mat4 temp = ParentOrientationMat4f(m_Owner);
-		glm::vec3 first = glm::vec3(temp[0][0], temp[0][1], temp[0][2]);
-		glm::vec3 second = glm::vec3(temp[1][0], temp[1][1], temp[1][2]);
-		glm::vec3 third = glm::vec3(temp[2][0], temp[2][1], temp[2][2]);
-		glm::vec3 sizes;
-		sizes.x = std::sqrtf(first.x * first.x + first.y * first.y + first.z * first.z);
-		sizes.y = std::sqrtf(second.x * second.x + second.y * second.y + second.z * second.z);
-		sizes.z = std::sqrtf(third.x * third.x + third.y * third.y + third.z * third.z);
+		Vector first = Vector(temp[0][0], temp[0][1], temp[0][2]);
+		Vector second = Vector(temp[1][0], temp[1][1], temp[1][2]);
+		Vector third = Vector(temp[2][0], temp[2][1], temp[2][2]);
+		Vector sizes;
+		sizes.setx(std::sqrtf(first.x() * first.x() + first.y() * first.y() + first.z() * first.z()));
+		sizes.sety(std::sqrtf(second.x() * second.x() + second.y() * second.y() + second.z() * second.z()));
+		sizes.setz(std::sqrtf(third.x() * third.x() + third.y() * third.y() + third.z() * third.z()));
 		return sizes;
 	}
 
@@ -127,17 +128,17 @@ namespace dra {
 		return ParentOrientationMat4f(parent) * transform.GetLocalAsMat4f();
 	}
 
-	[[nodiscard]] glm::vec3 Transform::ParentOrientedRotationVec3f(Object* obj, glm::vec3 current) const noexcept
+	[[nodiscard]] Vector Transform::ParentOrientedRotationVec3f(Object* obj, Vector current) const noexcept
 	{
 		if (!obj) {
 			return current;
 		}
 		auto rotation = obj->GetTransform().GetLocalRotation();
 		float x, y, z;
-		x = current.x + rotation.x;
-		y = current.y + rotation.y;
-		z = current.z + rotation.z;
-		return ParentOrientedRotationVec3f(obj->GetParent(), glm::vec3(x, y, z));
+		x = current.x() + rotation.x();
+		y = current.y() + rotation.y();
+		z = current.z() + rotation.z();
+		return ParentOrientedRotationVec3f(obj->GetParent(), Vector(x, y, z));
 	}
 
 }

@@ -18,6 +18,11 @@ namespace dra {
 		float x();
 		float y();
 		float z();
+
+
+		void setx(float x);
+		void sety(float y);
+		void setz(float z);
 		
 	private:
 		float pos_x, pos_y, pos_z;
