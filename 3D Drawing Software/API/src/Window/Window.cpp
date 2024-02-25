@@ -15,7 +15,7 @@ dra::Window::Window(int width, int height, double fps_limit, MultiSampling msaa)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_SAMPLES, static_cast<int>(m_MSAA));
 
-    m_Window = std::shared_ptr<GLFWwindow>(glfwCreateWindow(m_Width, m_Height, "Window Output", NULL, NULL));
+    m_Window = std::shared_ptr<GLFWwindow>(glfwCreateWindow(m_Width, m_Height, "Window Output", NULL, NULL), [] (GLFWwindow* window) {glfwDestroyWindow(window); });
     if (!m_Window)
     {
         glfwTerminate();
@@ -27,11 +27,12 @@ dra::Window::Window(int width, int height, double fps_limit, MultiSampling msaa)
     glEnable(0x809D);
     glViewport(0, 0, m_Width, m_Height);
 
-    glfwSetFramebufferSizeCallback(m_Window.get(), [](GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height);});
+    glfwSetFramebufferSizeCallback(m_Window.get(), [](GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); dra::WindowEvents::SetResolution(width, height); });
+    glfwSetScrollCallback(m_Window.get(), [](GLFWwindow* window, double xoffset, double yoffset) { dra::WindowEvents::s_ScrollOffset = yoffset; });
 }
 
-dra::Window::~Window()
-{
+dra::Window::~Window() {
+    glfwTerminate();
 }
 
 void dra::Window::Run(const Scene& scene)
@@ -74,6 +75,15 @@ void dra::Window::Run(const Scene& scene)
                 center.GetTransform().Rotate((mouse_y - prev_mouse_y) / 5.0, (mouse_x - prev_mouse_x) / 5.0, 0.0f);
             }
 
+            //Zoom
+            center.GetTransform().Translate(0.0f, 0.0f, WindowEvents::s_ScrollOffset / 10.0);
+            WindowEvents::s_ScrollOffset = 0;
+            if (WindowEvents::s_Reschange) {
+                m_Width = WindowEvents::s_Width;
+                m_Height = WindowEvents::s_Height;
+                camera = PerspectiveCamera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
+                WindowEvents::s_Reschange = false;
+            }
             scene.RunUpdates();
 
             if (accumulator < (1000.0 / (m_FpsLimit - 1.0)) - (1000.0 / m_FpsLimit)) accumulator = 0;

@@ -40,7 +40,6 @@ int main() {
         line4.GetTransform().Rotate(0.0f, 90.0f, 90.0f);
         line4.GetTransform().SetLocalPosition(-0.0f, 0.5f, -2.5f);
 
-
         scene.InsertRenderFunction([&](dra::Camera* camera) {
             line.Draw(camera);
             line1.Draw(camera);
@@ -54,8 +53,6 @@ int main() {
 
         window.Run(scene);
     }
-    
-    dra::ShaderArena::Instance().TerminateArena();
-    glfwTerminate();
+    ;
 	return 0;
 }
