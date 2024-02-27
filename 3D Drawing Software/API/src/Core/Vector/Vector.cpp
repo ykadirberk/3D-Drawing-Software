@@ -28,15 +28,15 @@ namespace dra {
 	Vector::~Vector()
 	{
 	}
-	float Vector::x()
+	float Vector::x() const
 	{
 		return pos_x;
 	}
-	float Vector::y()
+	float Vector::y() const
 	{
 		return pos_y;
 	}
-	float Vector::z()
+	float Vector::z() const
 	{
 		return pos_z;
 	}

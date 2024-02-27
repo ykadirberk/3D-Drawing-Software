@@ -57,8 +57,7 @@ namespace dra {
 
 	[[nodiscard]] Vector Transform::GetLocalRotation() const noexcept {
 		const float pi = std::acos(-1);
-
-		return Vector((180 / pi) * m_Rotation.x());
+		return Vector((180 / pi) * m_Rotation.x(), (180 / pi) * m_Rotation.y(), (180 / pi) * m_Rotation.z());
 	}
 
 	[[nodiscard]] Vector Transform::GetLocalScale() const noexcept {
@@ -112,9 +111,12 @@ namespace dra {
 	}
 
 	[[nodiscard]] glm::mat4 Transform::AsMat4f() const noexcept {
-		glm::mat4 t_position_matrix = glm::translate(glm::mat4(1.0f), m_Position);
-		glm::mat4 t_rotation_matrix = glm::toMat4(glm::quat(m_Rotation));
-		glm::mat4 t_scale_matrix = glm::scale(glm::mat4(1.0f), m_Scale);
+		glm::vec3 pos = glm::vec3(m_Position.x(), m_Position.y(), m_Position.z());
+		glm::vec3 rot = glm::vec3(m_Rotation.x(), m_Rotation.y(), m_Rotation.z());
+		glm::vec3 sca = glm::vec3(m_Scale.x(), m_Scale.y(), m_Scale.z());
+		glm::mat4 t_position_matrix = glm::translate(glm::mat4(1.0f), pos);
+		glm::mat4 t_rotation_matrix = glm::toMat4(glm::quat(rot));
+		glm::mat4 t_scale_matrix = glm::scale(glm::mat4(1.0f), sca);
 		return t_position_matrix * t_rotation_matrix * t_scale_matrix;
 	}
 	[[nodiscard]] glm::mat4 Transform::ParentOrientationMat4f(Object* obj) const noexcept {

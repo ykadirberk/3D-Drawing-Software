@@ -15,9 +15,9 @@ namespace dra {
 		~Vector();
 
 
-		float x();
-		float y();
-		float z();
+		float x() const;
+		float y() const;
+		float z() const;
 
 
 		void setx(float x);
