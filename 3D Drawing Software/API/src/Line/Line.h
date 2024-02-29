@@ -17,6 +17,7 @@
 namespace dra {
 	class _API Line : public Shape{
 		public:
+			Line();
 			Line(Object* parent);
 			~Line() override;
 
