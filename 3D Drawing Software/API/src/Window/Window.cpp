@@ -27,21 +27,21 @@ dra::Window::Window(int width, int height, double fps_limit, MultiSampling msaa)
     glEnable(0x809D);
     glViewport(0, 0, m_Width, m_Height);
 
-    glfwSetFramebufferSizeCallback(m_Window.get(), [](GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); dra::WindowEvents::SetResolution(width, height); });
-    glfwSetScrollCallback(m_Window.get(), [](GLFWwindow* window, double xoffset, double yoffset) { dra::WindowEvents::s_ScrollOffset = yoffset; });
+    glfwSetFramebufferSizeCallback(m_Window.get(), [](GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); WindowEvents::SetResolution(width, height); });
+    glfwSetScrollCallback(m_Window.get(), [](GLFWwindow* window, double xoffset, double yoffset) { WindowEvents::s_ScrollOffset = yoffset; });
 }
 
 dra::Window::~Window() {
     glfwTerminate();
 }
 
-void dra::Window::Run(const Scene& scene)
+void dra::Window::Run(Scene& scene)
 {
 
     dra::PerspectiveCamera camera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
-    dra::Object center(nullptr);
-    center.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
-    camera.SetParent(&center);
+    dra::Object focus(nullptr);
+    focus.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
+    camera.SetParent(&focus);
     camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
 
     auto currentTime = std::chrono::high_resolution_clock::now();
@@ -72,11 +72,11 @@ void dra::Window::Run(const Scene& scene)
             prev_mouse_y = mouse_y;
             glfwGetCursorPos(m_Window.get(), &mouse_x, &mouse_y);
             if (mouse_click == GLFW_PRESS) {
-                center.GetTransform().Rotate((mouse_y - prev_mouse_y) / 5.0, (mouse_x - prev_mouse_x) / 5.0, 0.0f);
+                scene.RotateMainCameraAroundFocus((prev_mouse_y - mouse_y) / 5.0f, (prev_mouse_x - mouse_x) / 5.0f, 0.0f);
             }
 
             //Zoom
-            center.GetTransform().Translate(0.0f, 0.0f, WindowEvents::s_ScrollOffset / 10.0);
+            scene.ZoomMainCamera(WindowEvents::s_ScrollOffset);
             WindowEvents::s_ScrollOffset = 0;
             if (WindowEvents::s_Reschange) {
                 m_Width = WindowEvents::s_Width;
@@ -84,6 +84,7 @@ void dra::Window::Run(const Scene& scene)
                 camera = PerspectiveCamera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
                 WindowEvents::s_Reschange = false;
             }
+            
             scene.RunUpdates();
 
             if (accumulator < (1000.0 / (m_FpsLimit - 1.0)) - (1000.0 / m_FpsLimit)) accumulator = 0;
@@ -92,7 +93,7 @@ void dra::Window::Run(const Scene& scene)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //draws here
-        scene.RunRenders(&camera);
+        scene.RunRenders();
 
         glfwSwapBuffers(m_Window.get());
 
