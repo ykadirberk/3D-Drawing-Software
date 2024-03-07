@@ -71,8 +71,9 @@ void dra::Window::Run(Scene& scene)
             prev_mouse_x = mouse_x;
             prev_mouse_y = mouse_y;
             glfwGetCursorPos(m_Window.get(), &mouse_x, &mouse_y);
+            scene.SendMousePosition(mouse_x, mouse_y);
             if (mouse_click == GLFW_PRESS) {
-                scene.RotateMainCameraAroundFocus((prev_mouse_y - mouse_y) / 5.0f, (prev_mouse_x - mouse_x) / 5.0f, 0.0f);
+                scene.RotateMainCameraAroundFocus(/*(prev_mouse_y - mouse_y) / 5.0f, (prev_mouse_x - mouse_x) / 5.0f, 0.0f*/);
             }
 
             //Zoom

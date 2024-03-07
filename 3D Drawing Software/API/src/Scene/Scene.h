@@ -5,6 +5,7 @@
 
 #include "../Core/DLLBuild.h"
 #include "../Camera/Camera.h"
+#include "../ext/glm/glm.hpp"
 
 namespace dra {
 	class _API Video;
@@ -21,10 +22,20 @@ namespace dra {
 			void InsertUpdateFunction(std::function<void()> t);
 			void InsertRenderFunction(std::function<void(Camera*)> t);
 
-			void RotateMainCameraAroundFocus(float x, float y, float z);
+			void SendMousePosition(float x, float y);
+
+			void RotateMainCameraAroundFocus();
 			void ZoomMainCamera(float zoom_amount);
 
 		private:
+			float m_PrevMousePositionX = 0;
+			float m_PrevMousePositionY = 0;
+			float m_MousePositionX = 0;
+			float m_MousePositionY = 0;
+
+			float m_ScreenWidth = 0;
+			float m_ScreenHeight = 0;
+
 			std::shared_ptr<Camera> m_MainCamera;
 			std::shared_ptr<Object> m_focusPoint;
 			std::shared_ptr<Camera> m_Camera;
@@ -34,6 +45,8 @@ namespace dra {
 
 			void RunUpdates() const;
 			void RunRenders() const;
+
+			glm::vec3 get_arcball_vector(int x, int y);
 
 			friend class Window;
 			friend class Video;
