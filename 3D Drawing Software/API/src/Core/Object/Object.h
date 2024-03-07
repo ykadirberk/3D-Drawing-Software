@@ -23,5 +23,8 @@ namespace dra {
 			Transform m_Transform;
 			Object* m_Parent;
 			std::vector<Object*> m_Children;
+
+			void RecursiveParentLeave(Object* parent);
+			void RecursiveParentJoin(Object* parent);
 	};
 }
