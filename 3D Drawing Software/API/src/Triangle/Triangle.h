@@ -17,6 +17,7 @@
 namespace dra {
 	class _API Triangle : public Shape {
 	public:
+		Triangle();
 		Triangle(Object* parent);
 		~Triangle() override;
 
