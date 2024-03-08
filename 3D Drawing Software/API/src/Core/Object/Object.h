@@ -26,5 +26,7 @@ namespace dra {
 
 			void RecursiveParentLeave(Object* parent);
 			void RecursiveParentJoin(Object* parent);
+
+			friend class Object;
 	};
 }
