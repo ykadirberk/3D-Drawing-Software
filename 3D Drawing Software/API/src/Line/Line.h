@@ -30,5 +30,13 @@ namespace dra {
 			std::unique_ptr<VertexArray> m_VAO;
 			std::unique_ptr<VertexBuffer> m_VertexBuffer;
 			std::unique_ptr<IndexBuffer> m_IndexBuffer;
+	
+		private:
+			class _API Defaults {
+				public:
+					static inline std::vector<float> s_Positions;
+					static inline std::vector<unsigned int> s_Indices;
+					static inline bool s_IsSet = false;
+			};
 	};
 }

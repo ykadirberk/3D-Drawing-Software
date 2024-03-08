@@ -1,9 +1,73 @@
 #include "Line.h"
 #include <iostream>
-
+#include <numbers>
 
 namespace dra {
-	Line::Line()
+	Line::Line() : Shape() {
+		if (!Defaults::s_IsSet) {
+			
+			Defaults::s_Positions = { -0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f };
+			float r = 0.01f;
+
+			glm::vec3 rotvec(-0.5f, 0.00f, 0.00f);
+
+			for (int i = 0; i < 12; i++) {
+				Defaults::s_Positions.push_back(rotvec.x);
+				Defaults::s_Positions.push_back(rotvec.y + r * std::sin(std::numbers::pi_v<float> / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.z + r * std::cos(std::numbers::pi_v<float> / 6 * i));
+
+				Defaults::s_Indices.push_back(0);
+				Defaults::s_Indices.push_back(2 + i);
+				Defaults::s_Indices.push_back(2 + (i + 1) % 12);
+			}
+
+			rotvec = glm::vec3(0.5f, 0.00f, 0.0f);
+
+			for (int i = 0; i < 12; i++) {
+				Defaults::s_Positions.push_back(rotvec.x);
+				Defaults::s_Positions.push_back(rotvec.y + r * std::sin(std::numbers::pi_v<float> / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.z + r * std::cos(std::numbers::pi_v<float> / 6 * i));
+
+				Defaults::s_Indices.push_back(1);
+				Defaults::s_Indices.push_back(14 + (i + 1) % 12);
+				Defaults::s_Indices.push_back(14 + i);
+
+			}
+
+			for (int i = 0; i < 12; i++) {
+				Defaults::s_Indices.push_back(2 + (i + 1) % 12);
+				Defaults::s_Indices.push_back(2 + i);
+				Defaults::s_Indices.push_back(14 + i);
+
+				Defaults::s_Indices.push_back(14 + i);
+				Defaults::s_Indices.push_back(14 + (i + 1) % 12);
+				Defaults::s_Indices.push_back(2 + (i + 1) % 12);
+			}
+			Defaults::s_IsSet = true;
+		}
+		
+		m_Positions = Defaults::s_Positions;
+		m_Indices = Defaults::s_Indices;
+
+		m_Transform = Transform(this);
+
+		auto t = ShaderArena::Instance().GetShader("LineShader");
+		if (!t.has_value()) {
+			ShaderArena::Instance().LoadShader("LineShader", "shaders/line.shader");
+		}
+
+		m_VAO = std::make_unique<VertexArray>();
+
+		m_VertexBuffer = std::make_unique<VertexBuffer>(m_Positions.data(), m_Positions.size() * sizeof(float));
+		VertexBufferLayout layout;
+		layout.Push<float>(3);
+		m_VAO->AddBuffer(*m_VertexBuffer, layout);
+
+		m_IndexBuffer = std::make_unique<IndexBuffer>(m_Indices.data(), m_Indices.size());
+		std::cout << "Line is created." << std::endl;
+	}
+
+	/*Line::Line()
 		: m_Positions({
 				-0.50f, 0.0f, 0.0f,
 				 0.50f, 0.0f, 0.0f
@@ -26,7 +90,7 @@ namespace dra {
 
 		m_IndexBuffer = std::make_unique<IndexBuffer>(m_Indices.data(), m_Indices.size());
 		std::cout << "Line is created." << std::endl;
-	}
+	}*/
 
 	Line::Line(Object* parent)
 		: m_Positions({
@@ -73,7 +137,8 @@ namespace dra {
 			m_VAO->Bind();
 			m_IndexBuffer->Bind();
 
-			GLCall(glDrawElements(GL_LINES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
+			//GLCall(glDrawElements(GL_LINES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
+			GLCall(glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 		}
 	}
 }
