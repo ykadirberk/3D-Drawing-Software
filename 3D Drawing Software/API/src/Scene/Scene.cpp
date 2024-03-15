@@ -1,12 +1,14 @@
 #include "Scene.h"
 
 #include "../PerspectiveCamera/PerspectiveCamera.h"
+#include "../OrthogonalCamera/OrthogonalCamera.h"
 
 dra::Scene::Scene()
 {
 	m_focusPoint = std::make_shared<Object>();
 	m_focusPoint->GetTransform().Translate(0.0f, 0.5f, 0.0f);
-	SetProjectionCamera(45.0f, 960.0f ,540.0f);
+	//SetProjectionCamera(45.0f, 960.0f ,540.0f);
+	SetOrthogonalCamera(960.0f, 540.0f);
 }
 
 dra::Scene::~Scene()
@@ -31,6 +33,9 @@ void dra::Scene::SetOrthogonalCamera(float width, float height)
 {
 	m_ScreenWidth = width;
 	m_ScreenHeight = height;
+	m_MainCamera = std::make_shared<dra::OrthogonalCamera>(width, height, nullptr);
+	m_MainCamera->GetTransform().Translate(0.0f, 0.5f, 3.0f);
+	m_MainCamera->SetParent(m_focusPoint.get());
 }
 
 void dra::Scene::InsertUpdateFunction(std::function<void()> t)
@@ -69,6 +74,8 @@ void dra::Scene::ZoomMainCamera(float zoom_direction)
 		auto t = m_MainCamera->GetTransform().GetLocalPosition();
 		std::cout << "x: " << t.x << ", y: " << t.y << ", z: " << t.z << std::endl;
 	}*/
+
+
 
 	if (zoom_direction < 0) {
 		auto t = m_MainCamera->GetTransform().GetLocalPosition();
