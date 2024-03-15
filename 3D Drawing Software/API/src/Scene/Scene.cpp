@@ -50,14 +50,9 @@ void dra::Scene::SendMousePosition(float x, float y) {
 	m_MousePositionY = y;
 }
 
-void dra::Scene::RotateMainCameraAroundFocus()
-{
-	glm::vec3 va = get_arcball_vector(m_PrevMousePositionX, m_PrevMousePositionY);
-	glm::vec3 vb = get_arcball_vector(m_MousePositionX, m_MousePositionY);
-	float angle = acos(glm::min(1.0f, glm::dot(va, vb)));
-	glm::vec3 axis_in_camera_coord = glm::cross(va, vb);
-
-	m_focusPoint->GetTransform().Rotate(-axis_in_camera_coord.x * 100, -axis_in_camera_coord.y * 100, /*-axis_in_camera_coord.z * 100*/ 0.0f);
+void dra::Scene::RotateMainCameraAroundFocus() {
+	auto t = m_MainCamera->GetTransform().GetLocalPosition();
+	m_focusPoint->GetTransform().Rotate(-(m_MousePositionY - m_PrevMousePositionY) / 15.0f * std::log2f(t.z), -(m_MousePositionX - m_PrevMousePositionX) / 15.0f * std::log2f(t.z), 0.0f);
 	auto loc_rot = m_focusPoint->GetTransform().GetLocalRotation();
 	if (loc_rot.x > 90.0f) {
 		m_focusPoint->GetTransform().SetLocalRotation(90.0f, loc_rot.y, loc_rot.z);
@@ -67,10 +62,28 @@ void dra::Scene::RotateMainCameraAroundFocus()
 	}
 }
 
-void dra::Scene::ZoomMainCamera(float zoom_amount)
+void dra::Scene::ZoomMainCamera(float zoom_direction)
 {
-	m_MainCamera->GetTransform().Translate(0.0f, 0.0f, -zoom_amount);
-	//std::cout << m_MainCamera->GetTransform().GetLocalPosition().z << std::endl;
+	/*if (zoom_amount != 0) {
+		std::cout << zoom_amount << std::endl;
+		auto t = m_MainCamera->GetTransform().GetLocalPosition();
+		std::cout << "x: " << t.x << ", y: " << t.y << ", z: " << t.z << std::endl;
+	}*/
+
+	if (zoom_direction < 0) {
+		auto t = m_MainCamera->GetTransform().GetLocalPosition();
+		m_MainCamera->GetTransform().Translate(0.0f, 0.0f, t.z / 19.0f * 20.0f - t.z);
+	}
+
+	if (zoom_direction > 0) {
+		auto t = m_MainCamera->GetTransform().GetLocalPosition();
+		m_MainCamera->GetTransform().Translate(0.0f, 0.0f, -t.z / 20.0f);
+	}
+
+	if (auto t = m_MainCamera->GetTransform().GetLocalPosition(); t.z < 1.11f) {
+		m_MainCamera->GetTransform().SetLocalPosition(t.x, t.y, 1.11f);
+	}
+
 }
 
 void dra::Scene::RunUpdates() const
@@ -85,18 +98,4 @@ void dra::Scene::RunRenders() const
 	for (auto& func : m_Renders) {
 		func(m_MainCamera.get());
 	}
-}
-
-glm::vec3 dra::Scene::get_arcball_vector(int x, int y)
-{
-	glm::vec3 P = glm::vec3(1.0 * x / m_ScreenWidth * 2 - 1.0,
-		1.0 * y / m_ScreenHeight * 2 - 1.0,
-		0);
-	P.y = -P.y;
-	float OP_squared = P.x * P.x + P.y * P.y;
-	if (OP_squared <= 1 * 1)
-		P.z = sqrt(1 * 1 - OP_squared);  // Pythagoras
-	else
-		P = glm::normalize(P);  // nearest point
-	return P;
 }

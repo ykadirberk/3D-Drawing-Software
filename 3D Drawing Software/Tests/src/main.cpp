@@ -40,6 +40,11 @@ int main() {
         line4.GetTransform().Rotate(0.0f, 90.0f, 90.0f);
         line4.GetTransform().SetLocalPosition(-0.0f, 0.5f, 0.5f);
 
+        dra::Point point0;
+        point0.GetTransform().SetLocalPosition(-0.0f, 0.5f, 1.0f);
+
+        //point0.GetTransform().SetLocalScale(10.0f, 10.0f, 10.0f);
+
         scene.InsertRenderFunction([&](dra::Camera* camera) {
             line.Draw(camera);
             line1.Draw(camera);
@@ -49,6 +54,7 @@ int main() {
             triangle.Draw(camera);
             triangle1.Draw(camera);
             triangle2.Draw(camera);
+            point0.Draw(camera);
         });
 
         window.Run(scene);

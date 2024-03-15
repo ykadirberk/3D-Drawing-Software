@@ -25,7 +25,7 @@ namespace dra {
 			void SendMousePosition(float x, float y);
 
 			void RotateMainCameraAroundFocus();
-			void ZoomMainCamera(float zoom_amount);
+			void ZoomMainCamera(float zoom_direction);
 
 		private:
 			float m_PrevMousePositionX = 0;
@@ -45,8 +45,6 @@ namespace dra {
 
 			void RunUpdates() const;
 			void RunRenders() const;
-
-			glm::vec3 get_arcball_vector(int x, int y);
 
 			friend class Window;
 			friend class Video;

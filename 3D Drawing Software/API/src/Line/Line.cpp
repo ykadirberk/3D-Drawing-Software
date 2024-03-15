@@ -31,7 +31,6 @@ namespace dra {
 				Defaults::s_Indices.push_back(1);
 				Defaults::s_Indices.push_back(14 + (i + 1) % 12);
 				Defaults::s_Indices.push_back(14 + i);
-
 			}
 
 			for (int i = 0; i < 12; i++) {
@@ -58,12 +57,12 @@ namespace dra {
 
 		m_VAO = std::make_unique<VertexArray>();
 
-		m_VertexBuffer = std::make_unique<VertexBuffer>(m_Positions.data(), m_Positions.size() * sizeof(float));
+		m_VertexBuffer = std::make_unique<VertexBuffer>(Defaults::s_Positions.data(), Defaults::s_Positions.size() * sizeof(float));
 		VertexBufferLayout layout;
 		layout.Push<float>(3);
 		m_VAO->AddBuffer(*m_VertexBuffer, layout);
 
-		m_IndexBuffer = std::make_unique<IndexBuffer>(m_Indices.data(), m_Indices.size());
+		m_IndexBuffer = std::make_unique<IndexBuffer>(Defaults::s_Indices.data(), Defaults::s_Indices.size());
 		std::cout << "Line is created." << std::endl;
 	}
 

@@ -9,6 +9,8 @@
 
 #include "Triangle/Triangle.h"
 
+#include "Point/Point.h"
+
 #include "OrthogonalCamera/OrthogonalCamera.h"
 
 #include "Window/Window.h"

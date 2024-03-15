@@ -38,11 +38,11 @@ dra::Window::~Window() {
 void dra::Window::Run(Scene& scene)
 {
 
-    dra::PerspectiveCamera camera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
+    //dra::PerspectiveCamera camera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
     dra::Object focus(nullptr);
     focus.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
-    camera.SetParent(&focus);
-    camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
+    //camera.SetParent(&focus);
+    //camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
 
     auto currentTime = std::chrono::high_resolution_clock::now();
     auto oldTime = std::chrono::high_resolution_clock::now();
@@ -82,7 +82,7 @@ void dra::Window::Run(Scene& scene)
             if (WindowEvents::s_Reschange) {
                 m_Width = WindowEvents::s_Width;
                 m_Height = WindowEvents::s_Height;
-                camera = PerspectiveCamera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
+                //camera = PerspectiveCamera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
                 WindowEvents::s_Reschange = false;
             }
             
