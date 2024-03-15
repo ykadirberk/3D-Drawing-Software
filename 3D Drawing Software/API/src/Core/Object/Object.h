@@ -13,7 +13,7 @@ namespace dra {
 		public:
 			Object() : m_Parent(nullptr) {}
 			Object(Object* parent);
-			virtual ~Object() { std::cout << "Object destroyed." << std::endl; }
+			virtual ~Object() { std::cout << "Object::" << ((uint64_t)this) << " is destroyed." << std::endl; }
 
 			[[nodiscard]] virtual Object* GetParent() noexcept;
 			[[nodiscard]] virtual Transform& GetTransform() noexcept;

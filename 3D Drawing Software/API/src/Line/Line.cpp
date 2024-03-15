@@ -63,7 +63,7 @@ namespace dra {
 		m_VAO->AddBuffer(*m_VertexBuffer, layout);
 
 		m_IndexBuffer = std::make_unique<IndexBuffer>(Defaults::s_Indices.data(), Defaults::s_Indices.size());
-		std::cout << "Line is created." << std::endl;
+		std::cout << "Line::" << ((uint64_t)this) << " is created." << std::endl;
 	}
 
 	Line::Line(Object* parent)
@@ -129,11 +129,11 @@ namespace dra {
 		m_VAO->AddBuffer(*m_VertexBuffer, layout);
 
 		m_IndexBuffer = std::make_unique<IndexBuffer>(m_Indices.data(), m_Indices.size());
-		std::cout << "Line is created." << std::endl;
+		std::cout << "Line::" << ((uint64_t)this) << " is created." << std::endl;
 	}
 
 	Line::~Line() {
-		std::cout << "Line is destroyed." << std::endl;
+		std::cout << "Line::" << ((uint64_t)this) << " is destroyed." << std::endl;
 	}
 
 	void Line::Update()

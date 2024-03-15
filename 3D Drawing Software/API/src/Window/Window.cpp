@@ -1,6 +1,8 @@
 #include "Window.h"
 #include "../OpenGL/OpenGL.h"
 #include "../PerspectiveCamera/PerspectiveCamera.h"
+#include "../Core/ShaderArena/ShaderArena.h"
+
 #include <iostream>
 #include <chrono>
 
@@ -32,6 +34,7 @@ dra::Window::Window(int width, int height, double fps_limit, MultiSampling msaa)
 }
 
 dra::Window::~Window() {
+    ShaderArena::Instance().TerminateArena();
     glfwTerminate();
 }
 
@@ -39,8 +42,8 @@ void dra::Window::Run(Scene& scene)
 {
 
     //dra::PerspectiveCamera camera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
-    dra::Object focus(nullptr);
-    focus.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
+    //dra::Object focus(nullptr);
+    //focus.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
     //camera.SetParent(&focus);
     //camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
 
@@ -57,6 +60,7 @@ void dra::Window::Run(Scene& scene)
     glClearColor(0.0f, 0.0f, 0.15f, 1.0f);
     while (!glfwWindowShouldClose(m_Window.get())) {
 
+        
         oldTime = currentTime;
         currentTime = std::chrono::high_resolution_clock::now();
         deltaTime = std::chrono::duration<long double, std::milli>(currentTime - oldTime).count();
@@ -99,5 +103,6 @@ void dra::Window::Run(Scene& scene)
         glfwSwapBuffers(m_Window.get());
 
         glfwPollEvents();
+
     }
 }

@@ -24,7 +24,7 @@ namespace dra {
 		m_VAO->AddBuffer(*m_VertexBuffer, layout);
 
 		m_IndexBuffer = std::make_unique<IndexBuffer>(m_Indices.data(), m_Indices.size());
-		std::cout << "Triangle is created." << std::endl;
+		std::cout << "Triangle::" << ((uint64_t)this) << " is created." << std::endl;
 	}
 	Triangle::Triangle( Object* parent)
 		: m_Positions({
@@ -49,11 +49,11 @@ namespace dra {
 		m_VAO->AddBuffer(*m_VertexBuffer, layout);
 
 		m_IndexBuffer = std::make_unique<IndexBuffer>(m_Indices.data(), m_Indices.size());
-		std::cout << "Triangle is created." << std::endl;
+		std::cout << "Triangle::" << ((uint64_t)this) << " is created." << std::endl;
 	}
 
 	Triangle::~Triangle() {
-		std::cout << "Triangle is destroyed." << std::endl;
+		std::cout << "Triangle::" << ((uint64_t)this) << " is destroyed." << std::endl;
 	}
 
 	void Triangle::Update()
