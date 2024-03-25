@@ -1,6 +1,7 @@
 #pragma once
 #include "../Core/DLLBuild.h"
 #include "../Core/Object/Object.h"
+#include "../Camera/Camera.h"
 #include <iostream>
 
 namespace dra {
@@ -8,10 +9,10 @@ namespace dra {
 		public:
 			Shape() : Object() {}
 			Shape(Object* parent) : Object(parent) {}
-			virtual ~Shape() { std::cout << "Shape destroyed." << std::endl; }
+			virtual ~Shape() { std::cout << "Shape::" << ((uint64_t)this) << " is destroyed." << std::endl; }
 
 			virtual void Update() = 0;
-			virtual void Draw() = 0;
+			virtual void Draw(Camera* camera) = 0;
 	};
 }
 

@@ -94,7 +94,7 @@ namespace dra {
 	[[nodiscard]] glm::mat4 Transform::GetLocalAsMat4f() const noexcept {
 		return AsMat4f();
 	}
-
+	 
 	[[nodiscard]] glm::mat4 Transform::GetWorldAsMat4f() const noexcept {
 		return ParentOrientationMat4f(m_Owner);
 	}

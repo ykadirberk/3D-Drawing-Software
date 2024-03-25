@@ -13,23 +13,30 @@
 #include "../Core/VertexBuffer/VertexBuffer.h"
 #include "../Core/IndexBuffer/IndexBuffer.h"
 #include "../Core/VertexBufferLayout/VertexBufferLayout.h"
-
+ 
 namespace dra {
 	class _API Line : public Shape{
 		public:
-			Line(Camera* camera, Object* parent);
+			Line();
+			Line(Object* parent);
 			~Line() override;
 
 			void Update() override;
-			void Draw() override;
+			void Draw(Camera* camera) override;
 		private:			
-			Camera* m_Camera;
-
 			std::vector<float> m_Positions;
 			std::vector<unsigned int> m_Indices;
 
 			std::unique_ptr<VertexArray> m_VAO;
 			std::unique_ptr<VertexBuffer> m_VertexBuffer;
 			std::unique_ptr<IndexBuffer> m_IndexBuffer;
+	
+		private:
+			class _API Defaults {
+				public:
+					static inline std::vector<float> s_Positions;
+					static inline std::vector<unsigned int> s_Indices;
+					static inline bool s_IsSet = false;
+			};
 	};
 }
