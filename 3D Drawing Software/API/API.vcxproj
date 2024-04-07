@@ -102,6 +102,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\Mat4\Matrix4.h" />
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Core\Object\Object.h" />
     <ClInclude Include="src\Core\Transform\Transform.h" />
@@ -142,7 +143,6 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="src\Triangle\Triangle.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
-    <ClCompile Include="src\Core\Vector\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="exclusions.txt" />
