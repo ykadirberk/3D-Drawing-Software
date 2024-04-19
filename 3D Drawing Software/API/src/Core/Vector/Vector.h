@@ -68,6 +68,11 @@ namespace dra {
 		void setz(T z) {
 			arr[2] = z;
 		}
+
+		Vector& operator=(Vector v) {
+			v.swap(*this);
+			return *this;
+		}
 		
 	private:
 		const std::array<T, 3> arr;
