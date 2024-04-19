@@ -70,7 +70,7 @@ namespace dra {
 		}
 
 		Vector& operator=(Vector v) {
-			v.swap(*this);
+			//v.swap(*this);
 			return *this;
 		}
 		
