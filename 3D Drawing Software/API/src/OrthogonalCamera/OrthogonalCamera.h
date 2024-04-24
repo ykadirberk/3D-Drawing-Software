@@ -1,7 +1,7 @@
 #pragma once
 #include "../Core/DLLBuild.h"
 #include "../Camera/Camera.h"
-#include "../ext/glm/glm.hpp"
+#include "../Core/Mat4/Matrix4.h"
 
 
 namespace dra {
@@ -12,11 +12,11 @@ namespace dra {
 
 			void SetResolution(float width, float height) override;
 
-			[[nodiscard]] glm::mat4 GetProjection() const noexcept override;
-			[[nodiscard]] glm::mat4 GetView() const noexcept override;
+			[[nodiscard]] Matrix4<float> GetProjection() const noexcept override;
+			[[nodiscard]] Matrix4<float> GetView() const noexcept override;
 
 		private:
-			glm::mat4 m_Projection;
+			Matrix4<float> m_Projection;
 
 			float m_Width;
 			float m_Height;

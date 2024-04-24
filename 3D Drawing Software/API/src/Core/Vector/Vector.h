@@ -37,14 +37,15 @@ namespace dra {
 			return std::sqrt(arr[0] * arr[0] + arr[1] * arr[1] + arr[2] * arr[2]);
 		}
 
-		Vector& normalize() const{
+		Vector<T> normalized() const {
 			T len = length();
-			if (len > 0) { 
-				arr[0] = arr[0]/len;
-				arr[1] = arr[1] / len;
-				arr[2] = arr[2] / len;
+			T a=1, b=0, c=0;
+			if (len != 0) {
+				a = arr[0]/len;
+				b = arr[1] / len;
+				c = arr[2] / len;
 			}
-			return *this; 
+			return Vector<T>(a, b, c);
 		}
 
 
@@ -75,7 +76,7 @@ namespace dra {
 		}
 		
 	private:
-		const std::array<T, 3> arr;
+		std::array<T, 3> arr;
 
 		};
 	}

@@ -1,7 +1,6 @@
 #pragma once
 #include "../Core/DLLBuild.h"
-#include "../ext/glm/glm.hpp"
-#include "../ext/glm/gtc/matrix_transform.hpp"
+#include "../Core/Mat4/Matrix4.h"
 
 #include "../Camera/Camera.h"
 #include "../Core/Transform/Transform.h"
@@ -15,13 +14,13 @@ namespace dra {
 			void SetFieldOfView(float fov) noexcept;
 			void SetResolution(float width, float height) noexcept;
 
-			[[nodiscard]] glm::mat4 GetProjection() const noexcept override;
-			[[nodiscard]] glm::mat4 GetView() const noexcept override;
+			[[nodiscard]] Matrix4<float> GetProjection() const noexcept override;
+			[[nodiscard]] Matrix4<float> GetView() const noexcept override;
 
-			[[nodiscard]] glm::mat4 GetProjectionXView() const noexcept;
+			[[nodiscard]] Matrix4<float> GetProjectionXView() const noexcept;
 
 		private:
-			glm::mat4 m_Projection;
+			Matrix4<float> m_Projection;
 
 			float m_Fov;
 			float m_Width;

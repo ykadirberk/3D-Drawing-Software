@@ -12,7 +12,7 @@
 
 namespace dra {
 	template<typename T>
-	class _API Matrix4 {
+	class Matrix4 {
 
 	public:
 		std::array<T, 16> data;
@@ -75,21 +75,21 @@ namespace dra {
 			T c = cos(radians);
 			T s = sin(radians);
 
-			axis.normalize();// TODO:Write normalize function
-			Vector<float> temp = Vector(axis.x(), axis.y(), axis.z());// TODO
+			auto normalized_axis = axis.normalized();// TODO:Write normalize function
+			Vector<float> temp = Vector(normalized_axis.x(), normalized_axis.y(), normalized_axis.z());// TODO
 
 			Matrix4<T> rotation;
-			rotation.data[0] = c + temp.x() * axis.x();
-			rotation.data[4] = temp.x() * axis.y() + s * axis.z();
-			rotation.data[8] = temp.x() * axis.z() - s * axis.y();
+			rotation.data[0] = c + temp.x() * normalized_axis.x();
+			rotation.data[4] = temp.x() * normalized_axis.y() + s * normalized_axis.z();
+			rotation.data[8] = temp.x() * normalized_axis.z() - s * normalized_axis.y();
 
-			rotation.data[1] = temp.y() * axis.x() - s * axis.z();
-			rotation.data[5] = c + temp.y() * axis.y();
-			rotation.data[9] = temp.y() * axis.z() + s * axis.x();
+			rotation.data[1] = temp.y() * normalized_axis.x() - s * normalized_axis.z();
+			rotation.data[5] = c + temp.y() * normalized_axis.y();
+			rotation.data[9] = temp.y() * normalized_axis.z() + s * normalized_axis.x();
 
-			rotation.data[2] = temp.z() * axis.x() + s * axis.y();
-			rotation.data[6] = temp.z() * axis.y() - s * axis.x();
-			rotation.data[10] = c + temp.z() * axis.z();
+			rotation.data[2] = temp.z() * normalized_axis.x() + s * normalized_axis.y();
+			rotation.data[6] = temp.z() * normalized_axis.y() - s * normalized_axis.x();
+			rotation.data[10] = c + temp.z() * normalized_axis.z();
 
 			return mat * rotation;
 		}
@@ -104,31 +104,45 @@ namespace dra {
 			return result;
 		}
 
+		Matrix4<T> Ortho(T left, T right, T bottom, T top, T near, T far) {
+			Matrix4<T> result(0);
+			result.data[0] = 2.0f / (right - left);
+			result.data[5] = 2.0f / (top - bottom);
+			result.data[10] = -2.0f / (far - near);
+			result.data[15] = 1.0f;
+			result.data[3] = -(right + left) / (right - left);
+			result.data[7] = -(top + bottom) / (top - bottom);
+			result.data[11] = -(far + near) / (far - near);
+
+			return result;
+		}
+
+		Matrix4<T> Perspective(T fov, T aspect, T zNear, T zFar){
+			Matrix4<T> result(0);
+			const T tanHalfFovy = std::tan(fov / 2.0f);
+			result.data[0] = 1.0f / (aspect * tanHalfFovy);
+			result.data[5] = 1.0f / tanHalfFovy;
+			result.data[10] = -(zFar + zNear) / (zFar - zNear);
+			result.data[14] = 1.0f;
+			result.data[11] = -(2.0f * zFar * zNear) / (zFar - zNear);
+
+			return result;
+		}
+
+		template<typename T, typename... Matrices>
+		Matrix4<T> CustomMultiply(const Matrix4<T>& first, const Matrices&... matrices) {
+			return (first * ... * matrices);
+		};
+
 		
 
-	private:
-		
-		int row_col_cm(int row, int col) const;
-		int row_col_rm(int row, int col) const;
+	private:		
+		int row_col_cm(int row, int col) const {
+			return col * 3 + row;
+		};
 
 	};
 
-	template<typename T>
-	inline int Matrix4<T>::row_col_cm(int row, int col) const
-	{
-		return 0;
-	}
-
-	template<typename T>
-	inline int Matrix4<T>::row_col_rm(int row, int col) const
-	{
-		return 0;
-	}
-
-
-	template<typename T, typename... Matrices>
-	Matrix4<T> CustomMultiply(const Matrix4<T>& first, const Matrices&... matrices) {
-		return (first * ... * matrices);
-	};
+	
 }
 
