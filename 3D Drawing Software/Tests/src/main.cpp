@@ -38,7 +38,27 @@ int main() {
 
         dra::Line line4(nullptr);
         line4.GetTransform().Rotate(0.0f, 90.0f, 90.0f);
-        line4.GetTransform().SetLocalPosition(-0.0f, 0.5f, -2.5f);
+        line4.GetTransform().SetLocalPosition(-0.0f, 0.5f, 0.5f);
+
+        scene.InsertUpdateFunction([&]() {
+            
+            std::cout << "------------------------------"<< std::endl;
+            });
+
+        scene.InsertUpdateFunction([&]() {
+            auto t = line4.GetTransform().GetWorldPosition();
+            std::cout <<"Get Worl Position:" << t.x() << ", " << t.y() << ", " << t.z() << std::endl;
+        });
+
+        scene.InsertUpdateFunction([&]() {
+            auto t = line4.GetTransform().GetLocalRotation();
+            std::cout << t.x() << ", " << t.y() << ", " << t.z() << std::endl;
+            });
+
+        scene.InsertUpdateFunction([&]() {
+            auto t = line4.GetTransform().GetLocalAsMat4f();
+            std::cout << t[3][1] << ", " << t[1][3] << ", " << t[2][3] << std::endl;
+            });
 
 
         scene.InsertRenderFunction([&](dra::Camera* camera) {

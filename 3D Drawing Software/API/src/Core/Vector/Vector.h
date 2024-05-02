@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <concepts>
+#include <cmath>
 
 #include "../DLLBuild.h"
 #include <array>
@@ -8,6 +10,7 @@
 
 namespace dra {
 	template<typename T>
+
 	class _API Vector {
 	public:
 		Vector() {
@@ -70,9 +73,34 @@ namespace dra {
 			arr[2] = z;
 		}
 
-		Vector& operator=(Vector v) {
-			//v.swap(*this);
+		Vector& operator=(const Vector& v) {
+			if (this != &v) {
+				arr[0] = v.arr[0];
+				arr[1] = v.arr[1];
+				arr[2] = v.arr[2];
+			}
 			return *this;
+		}
+
+		struct Quaternion {
+			T w, x, y, z;
+		};
+
+		Quaternion ToQuaternion() const {
+			T cy = std::cos(arr[2] * 0.5);
+			T sy = std::sin(arr[2] * 0.5);
+			T cp = std::cos(arr[1] * 0.5);
+			T sp = std::sin(arr[1] * 0.5);
+			T cr = std::cos(arr[0] * 0.5);
+			T sr = std::sin(arr[0] * 0.5);
+
+			Quaternion q;
+			q.w = cr * cp * cy + sr * sp * sy;
+			q.x = sr * cp * cy - cr * sp * sy;
+			q.y = cr * sp * cy + sr * cp * sy;
+			q.z = cr * cp * sy - sr * sp * cy;
+
+			return q;
 		}
 		
 	private:

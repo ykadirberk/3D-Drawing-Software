@@ -6,6 +6,7 @@
 #include <iostream>
 #include <array>
 #include <random>
+#include <cassert>
 
 #include "../Vector/Vector.h"
 
@@ -45,29 +46,46 @@ namespace dra {
 			}
 		}
 
+		T* operator[](int row) {
+			assert(row >= 0 && row < 4);
+			return &data[row * 4];
+		}
+
+		/*const T& operator[](int row) const {
+			assert(row >= 0 && row < 4);
+			return &data[row * 4];
+		}*/
+
 		Matrix4<T> operator*(const Matrix4<T>& other) const {
 			Matrix4 m;
 			for (int r = 0; r < 4; ++r) {
 				for (int c = 0; c < 4; ++c) {
 					T elem = 0;
 					for (int s = 0; s < 4; ++s) {
-						elem += data[row_col_cm(s, r)] *
-							other.data[row_col_cm(c, s)];
+						elem += data[getI(s, r)] *
+							other.data[getI(c, s)];
 					}
-					m.data[row_col_cm(c, r)] = elem;
+					m.data[getI(r, c)] = elem;
 				}
 			}
 			return m;
 		}
 
+		Matrix4& operator=(const Matrix4& other) {
+			if (this != &other) {
+				data = other.data;
+			}
+			return *this;
+		}
+
 		Matrix4<T> Translate(const Matrix4<T>& mat, const Vector<T>& translation) {
-			Matrix4<T> result = mat;
+			Matrix4<T> identity(1.0f);
 
-			result.data[12] += translation.x();
-			result.data[13] += translation.y();
-			result.data[14] += translation.z();
+			identity.data[12] += translation.x();
+			identity.data[13] += translation.y();
+			identity.data[14] += translation.z();
 
-			return result;
+			return identity* mat;
 		}
 
 		Matrix4<T> Rotate(const Matrix4<T>& mat, T angle, const Vector<T>& axis) {
@@ -75,33 +93,54 @@ namespace dra {
 			T c = cos(radians);
 			T s = sin(radians);
 
-			auto normalized_axis = axis.normalized();// TODO:Write normalize function
-			Vector<float> temp = Vector(normalized_axis.x(), normalized_axis.y(), normalized_axis.z());// TODO
+			auto normalized_axis = axis.normalized();
+			Vector<float> temp = Vector(normalized_axis.x(), normalized_axis.y(), normalized_axis.z());
 
 			Matrix4<T> rotation;
 			rotation.data[0] = c + temp.x() * normalized_axis.x();
-			rotation.data[4] = temp.x() * normalized_axis.y() + s * normalized_axis.z();
-			rotation.data[8] = temp.x() * normalized_axis.z() - s * normalized_axis.y();
+			rotation.data[1] = temp.x() * normalized_axis.y() + s * normalized_axis.z();
+			rotation.data[2] = temp.x() * normalized_axis.z() - s * normalized_axis.y();
 
-			rotation.data[1] = temp.y() * normalized_axis.x() - s * normalized_axis.z();
+			rotation.data[4] = temp.y() * normalized_axis.x() - s * normalized_axis.z();
 			rotation.data[5] = c + temp.y() * normalized_axis.y();
-			rotation.data[9] = temp.y() * normalized_axis.z() + s * normalized_axis.x();
+			rotation.data[6] = temp.y() * normalized_axis.z() + s * normalized_axis.x();
 
-			rotation.data[2] = temp.z() * normalized_axis.x() + s * normalized_axis.y();
-			rotation.data[6] = temp.z() * normalized_axis.y() - s * normalized_axis.x();
+			rotation.data[8] = temp.z() * normalized_axis.x() + s * normalized_axis.y();
+			rotation.data[9] = temp.z() * normalized_axis.y() - s * normalized_axis.x();
 			rotation.data[10] = c + temp.z() * normalized_axis.z();
 
 			return mat * rotation;
-		}
+			/*glm::vec3 a = glm::normalize(axis);
+			float s = sin(angle);
+			float c = cos(angle);
+			float oc = 1.0f - c;
+
+			glm::mat4 rotationMatrix(1.0f); 
+
+			
+			rotationMatrix[0] = oc * a.x * a.x + c;
+			rotationMatrix[0][1] = oc * a.x * a.y - a.z * s;
+			rotationMatrix[0][2] = oc * a.z * a.x + a.y * s;
+			rotationMatrix[1][0] = oc * a.x * a.y + a.z * s;
+			rotationMatrix[1][1] = oc * a.y * a.y + c;
+			rotationMatrix[1][2] = oc * a.y * a.z - a.x * s;
+			rotationMatrix[2][0] = oc * a.z * a.x - a.y * s;
+			rotationMatrix[2][1] = oc * a.y * a.z + a.x * s;
+			rotationMatrix[2][2] = oc * a.z * a.z + c;
+
+			
+			return m * rotationMatrix;*/
+		}//22222222222222222222
 
 		Matrix4<T> Scale(const Matrix4<T>& mat, const Vector<T>& scalingFactors) {
 			Matrix4<T> result = mat;
+			Matrix4<T> identity(1.0f);
 
-			result.data[0] *= scalingFactors.x();
-			result.data[5] *= scalingFactors.y();
-			result.data[10] *= scalingFactors.z();
+			identity.data[0] *= scalingFactors.x();
+			identity.data[5] *= scalingFactors.y();
+			identity.data[10] *= scalingFactors.z();
 
-			return result;
+			return mat * identity;
 		}
 
 		Matrix4<T> Ortho(T left, T right, T bottom, T top, T near, T far) {
@@ -129,16 +168,43 @@ namespace dra {
 			return result;
 		}
 
-		template<typename T, typename... Matrices>
-		Matrix4<T> CustomMultiply(const Matrix4<T>& first, const Matrices&... matrices) {
-			return (first * ... * matrices);
-		};
+		static Matrix4<T> FromQuaternion(const typename Vector<T>::Quaternion& q) {
+			Matrix4<T> result(1);  // Identity matrix initially
+
+			T qxx(q.x * q.x);
+			T qyy(q.y * q.y);
+			T qzz(q.z * q.z);
+			T qxz(q.x * q.z);
+			T qxy(q.x * q.y);
+			T qyz(q.y * q.z);
+			T qwx(q.w * q.x);
+			T qwy(q.w * q.y);
+			T qwz(q.w * q.z);
+
+			result.data[0] = 1 - 2 * (qyy + qzz);
+			result.data[1] = 2 * (qxy + qwz);
+			result.data[2] = 2 * (qxz - qwy);
+
+			result.data[4] = 2 * (qxy - qwz);
+			result.data[5] = 1 - 2 * (qxx + qzz);
+			result.data[6] = 2 * (qyz + qwx);
+
+			result.data[8] = 2 * (qxz + qwy);
+			result.data[9] = 2 * (qyz - qwx);
+			result.data[10] = 1 - 2 * (qxx + qyy);
+
+			// The last column
+			result.data[3] = result.data[7] = result.data[11] = 0;
+			result.data[15] = 1;
+
+			return result;
+		}
 
 		
 
 	private:		
-		int row_col_cm(int row, int col) const {
-			return col * 3 + row;
+		int getI(int row, int col) const {
+			return col * 4 + row;
 		};
 
 	};

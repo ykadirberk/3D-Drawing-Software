@@ -40,10 +40,6 @@ namespace dra {
 		private:
 			Object* m_Owner;
 
-			/*Vector m_Position;
-			Vector m_Rotation;
-			Vector m_Scale;*/
-
 			Vector<float> m_Position;
 			Vector<float> m_Rotation;
 			Vector<float> m_Scale;
