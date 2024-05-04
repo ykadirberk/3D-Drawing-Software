@@ -39,7 +39,6 @@ namespace dra {
 	}
 	
 	void PerspectiveCamera::UpdateProjection() noexcept {
-		m_Fov = m_Fov * 0.01745329251994329576923690768489;
 		m_Projection = m_Projection.Perspective(m_Fov, m_Width / m_Height, 0.1f, 100.0f);
 	}
 }

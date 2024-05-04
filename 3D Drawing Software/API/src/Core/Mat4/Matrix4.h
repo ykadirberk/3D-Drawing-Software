@@ -154,28 +154,32 @@ namespace dra {
 			return result;
 		}
 
-		Matrix4<T> Ortho(T left, T right, T bottom, T top, T near, T far) {
-			Matrix4<T> result(0);
-			result.data[0] = 2.0f / (right - left);
-			result.data[5] = 2.0f / (top - bottom);
-			result.data[10] = -2.0f / (far - near);
-			result.data[15] = 1.0f;
+		static Matrix4<T> Ortho(T left, T right, T bottom, T top, T zNear, T zFar) {
+			Matrix4<T> result(1.0f);
+
+			result.data[0] = static_cast<T>(2) / (right - left);
+			result.data[5] = static_cast<T>(2) / (top - bottom);
+			result.data[10] = -static_cast<T>(2) / (zFar - zNear);
 			result.data[3] = -(right + left) / (right - left);
 			result.data[7] = -(top + bottom) / (top - bottom);
-			result.data[11] = -(far + near) / (far - near);
+			result.data[11] = -(zFar + zNear) / (zFar - zNear);
 
 			return result;
 		}
 
-		Matrix4<T> Perspective(T fov, T aspect, T zNear, T zFar){
-			Matrix4<T> result(0);
-			const T tanHalfFovy = std::tan(fov / 2.0f);
-			result.data[0] = 1.0f / (aspect * tanHalfFovy);
-			result.data[5] = 1.0f / tanHalfFovy;
-			result.data[10] = -(zFar + zNear) / (zFar - zNear);
-			result.data[14] = 1.0f;
-			result.data[11] = -(2.0f * zFar * zNear) / (zFar - zNear);
+		static Matrix4<T> Perspective(T fovy_wr, T aspect, T zNear, T zFar) {
+			assert(abs(aspect - std::numeric_limits<T>::epsilon()) > static_cast<T>(0));
 
+			T fovy = fovy_wr * static_cast<T>(3.14 / 180.0);
+
+			T const tanHalfFovy = tan(fovy / static_cast<T>(2));
+
+			Matrix4<T> result(0.0f);
+			result.data[0] = static_cast<T>(1) / (aspect * tanHalfFovy);
+			result.data[5] = static_cast<T>(1) / (tanHalfFovy);
+			result.data[10] = -(zFar + zNear) / (zFar - zNear);
+			result.data[14] = -static_cast<T>(1);
+			result.data[11] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
 			return result;
 		}
 
@@ -215,7 +219,7 @@ namespace dra {
 
 	private:		
 		int getI(int row, int col) const {
-			return row * 4 + col;
+			return col * 4 + row;
 		};
 
 	};
