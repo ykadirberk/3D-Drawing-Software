@@ -36,12 +36,16 @@ namespace dra {
 		~Vector(){}
 
 
-		T length() const {
+		T norm() const {
+			return std::sqrt(arr[0] * arr[0] + arr[1] * arr[1] + arr[2] * arr[2]);
+		}
+
+		float length() {
 			return std::sqrt(arr[0] * arr[0] + arr[1] * arr[1] + arr[2] * arr[2]);
 		}
 
 		Vector<T> normalized() const {
-			T len = length();
+			T len = norm();
 			T a=1, b=0, c=0;
 			if (len != 0) {
 				a = arr[0]/len;

@@ -115,8 +115,12 @@ namespace dra {
 
 		Vector rot = Vector(m_Rotation.x(), m_Rotation.y(), m_Rotation.z());
 		Matrix4 t_rotation_matrix = Matrix4(1.0f);
-		auto quaternion = m_Rotation.ToQuaternion();
-		t_rotation_matrix = dra::Matrix4<float>::FromQuaternion(quaternion);
+		t_rotation_matrix = t_rotation_matrix.Rotate(t_rotation_matrix, rot.length(), rot);
+		//auto quaternion = m_Rotation.ToQuaternion();
+		//t_rotation_matrix = dra::Matrix4<float>::FromQuaternion(quaternion);
+
+
+
 		//glm::mat4 t_rotation_matrix = glm::toMat4(glm::quat(rot));
 		//ikinci olsarak buraya bak
 

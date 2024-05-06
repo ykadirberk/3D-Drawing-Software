@@ -74,10 +74,25 @@ namespace dra {
 				for (int c = 0; c < 4; ++c) {
 					T elem = 0;
 					for (int s = 0; s < 4; ++s) {
-						elem += data[getI(s, r)] *
-							other.data[getI(c, s)];
+						elem += data[row_col_cm(s, r)] *
+							other.data[row_col_cm(c, s)];
 					}
-					m.data[getI(r, c)] = elem;
+					m.data[row_col_cm(r, c)] = elem;
+				}
+			}
+			return m;
+		}
+
+		static Matrix4<T> multiplyByRow(Matrix4<T>& one, const Matrix4<T>& two) {
+			Matrix4 m;
+			for (int r = 0; r < 4; ++r) {
+				for (int c = 0; c < 4; ++c) {
+					T elem = 0;
+					for (int s = 0; s < 4; ++s) {
+						elem += one.data[getValue(s, r)] *
+							two.data[getValue(c, s)];
+					}
+					m.data[getValue(c, r)] = elem;
 				}
 			}
 			return m;
@@ -102,9 +117,8 @@ namespace dra {
 		}
 
 		Matrix4<T> Rotate(const Matrix4<T>& mat, T angle, const Vector<T>& axis) {
-			T radians = angle * static_cast<T>(3.14 / 180.0);
-			T c = cos(radians);
-			T s = sin(radians);
+			T c = cos(angle);
+			T s = sin(angle);
 
 			Vector<T> normAxis = axis.normalized();
 			Vector<T> temp = Vector<T>((1 - c) * normAxis.x(), (1 - c) * normAxis.y(), (1 - c) * normAxis.z());
@@ -122,7 +136,7 @@ namespace dra {
 			rotation.data[6] = temp.z() * normAxis.y() - s * normAxis.x();
 			rotation.data[10] = c + temp.z() * normAxis.z();
 
-			Matrix4<T> result = rotation * mat;
+			Matrix4<T> result = multiplyByRow(rotation, mat);
 			result.data[3] = mat.data[3];
 			result.data[7] = mat.data[7];
 			result.data[11] = mat.data[11];
@@ -148,8 +162,6 @@ namespace dra {
 			result.data[6] = mat.data[6] * scalingFactors.z();
 			result.data[10] = mat.data[10] * scalingFactors.z();
 			result.data[14] = mat.data[14] * scalingFactors.z();
-
-
 
 			return result;
 		}
@@ -183,8 +195,47 @@ namespace dra {
 			return result;
 		}
 
+		static Matrix4<T> Inverse(const Matrix4<T>& mat) {
+			Matrix4<T> result = mat;
+			Matrix4<T> identity(T(1));
+
+			for (int i = 0; i < 4; ++i) {
+				T diag = result.data[getValue(i, i)];
+				if (diag == 0) {
+					for (int j = i + 1; j < 4; ++j) {
+						if (result.data[getValue(j, i)] != 0) {
+							for (int k = 0; k < 4; ++k) {
+								std::swap(result.data[getValue(i, k)], result.data[getValue(j, k)]);
+								std::swap(identity.data[getValue(i, k)], identity.data[getValue(j, k)]);
+							}
+							break;
+						}
+					}
+					diag = result.data[getValue(i, i)];
+					if (diag == 0) {
+						throw std::runtime_error("Non-inversible matrix");
+					}
+				}
+				for (int j = 0; j < 4; ++j) {
+					result.data[getValue(i, j)] /= diag;
+					identity.data[getValue(i, j)] /= diag;
+				}
+
+				for (int j = 0; j < 4; ++j) {
+					if (i != j) {
+						T factor = result.data[getValue(j, i)];
+						for (int k = 0; k < 4; ++k) {
+							result.data[getValue(j, k)] -= factor * result.data[getValue(i, k)];
+							identity.data[getValue(j, k)] -= factor * identity.data[getValue(i, k)];
+						}
+					}
+				}
+			}
+			return identity;
+		}
+
 		static Matrix4<T> FromQuaternion(const typename Vector<T>::Quaternion& q) {
-			Matrix4<T> result(1);  // Identity matrix initially
+			Matrix4<T> result(1); 
 
 			T qxx(q.x * q.x);
 			T qyy(q.y * q.y);
@@ -208,7 +259,6 @@ namespace dra {
 			result.data[9] = 2 * (qyz - qwx);
 			result.data[10] = 1 - 2 * (qxx + qyy);
 
-			// The last column
 			result.data[3] = result.data[7] = result.data[11] = 0;
 			result.data[15] = 1;
 
@@ -218,9 +268,18 @@ namespace dra {
 		
 
 	private:		
-		int getI(int row, int col) const {
+		T row_col_cm(T row, T col) const {
 			return col * 4 + row;
-		};
+		}
+
+
+		T row_col_rm(T row, T col) const {
+			return row * 4 + col;
+		}
+
+		static T getValue(T row, T col) {
+			return row * 4 + col;
+		}
 
 	};
 
