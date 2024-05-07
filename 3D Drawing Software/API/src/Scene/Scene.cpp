@@ -7,8 +7,8 @@ dra::Scene::Scene()
 {
 	m_focusPoint = std::make_shared<Object>();
 	m_focusPoint->GetTransform().Translate(0.0f, 0.5f, 0.0f);
-	//SetProjectionCamera(45.0f, 960.0f ,540.0f);
-	SetOrthogonalCamera(960.0f, 540.0f);
+	SetProjectionCamera(45.0f, 960.0f ,540.0f);
+	//SetOrthogonalCamera(960.0f, 540.0f);
 }
 
 dra::Scene::~Scene()

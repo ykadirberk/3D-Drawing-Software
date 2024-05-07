@@ -38,20 +38,28 @@ dra::Window::~Window() {
     glfwTerminate();
 }
 
+void dra::Window::EnableVideoOutput(std::string_view output_folder_path, float video_fps)
+{
+    m_VideoCount = 1;
+    m_VideoFps = video_fps;
+    m_VideoOutputEnabled = true;
+    m_VideoOutputFolderPath = std::string(output_folder_path);
+}
+
 void dra::Window::Run(Scene& scene)
 {
-
-    //dra::PerspectiveCamera camera(50.0, static_cast<float>(m_Width), static_cast<float>(m_Height), nullptr);
-    //dra::Object focus(nullptr);
-    //focus.GetTransform().SetLocalPosition(0.0f, -0.0f, -3.0f);
-    //camera.SetParent(&focus);
-    //camera.GetTransform().Translate(0.0f, -0.5f, 0.0f);
-
     auto currentTime = std::chrono::high_resolution_clock::now();
     auto oldTime = std::chrono::high_resolution_clock::now();
     auto deltaTime = std::chrono::duration<long double, std::milli>(currentTime - oldTime).count();
 
     long double accumulator = 0;
+
+    if (m_VideoOutputEnabled) {
+
+    }
+
+    bool r_pressed = false;
+    bool s_pressed = false;
 
     int mouse_click = glfwGetMouseButton(m_Window.get(), GLFW_MOUSE_BUTTON_RIGHT);
     double mouse_x, mouse_y, prev_mouse_x, prev_mouse_y;
@@ -59,11 +67,36 @@ void dra::Window::Run(Scene& scene)
 
     glClearColor(0.0f, 0.0f, 0.15f, 1.0f);
     while (!glfwWindowShouldClose(m_Window.get())) {
-
-        
         oldTime = currentTime;
         currentTime = std::chrono::high_resolution_clock::now();
         deltaTime = std::chrono::duration<long double, std::milli>(currentTime - oldTime).count();
+
+        // video event
+
+        if (true == m_VideoOutputEnabled) {
+            int ctrl_state = glfwGetKey(m_Window.get(), GLFW_KEY_LEFT_CONTROL);
+            int r_key_state = glfwGetKey(m_Window.get(), GLFW_KEY_R);
+            int s_key_state = glfwGetKey(m_Window.get(), GLFW_KEY_S);
+            
+            if (GLFW_PRESS == ctrl_state && GLFW_PRESS == r_key_state && false == r_pressed) {
+                r_pressed = true;
+            }
+            if (GLFW_RELEASE == r_key_state && true == r_pressed) {
+                r_pressed = false;
+                m_IsRecording = true;
+                // start recording
+            }
+
+            if (GLFW_PRESS == ctrl_state && GLFW_PRESS == s_key_state && false == s_pressed) {
+                s_pressed = true;
+            }
+            if (GLFW_RELEASE == s_key_state && true == s_pressed) {
+                s_pressed = false;
+                m_IsRecording = false;
+                //stop recording 
+            }
+        }
+
 
         mouse_click = glfwGetMouseButton(m_Window.get(), GLFW_MOUSE_BUTTON_RIGHT);
 

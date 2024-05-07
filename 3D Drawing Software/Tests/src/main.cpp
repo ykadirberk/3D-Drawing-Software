@@ -4,16 +4,15 @@
 #include <chrono>
 
 int main() {
-    dra::Window window(960, 540, 120.0, dra::MultiSampling::x8);
+
+    dra::Window window(1280, 720, 120.0, dra::MultiSampling::x8);
     dra::Scene scene;
     
     {
-        std::cout << glGetString(GL_VERSION) << std::endl;
-
         dra::Line line;
         line.GetTransform().SetLocalPosition(0.0f, 0.0f, 0.0f);
 
-        dra::Triangle triangle;
+        /*dra::Triangle triangle;
         triangle.GetTransform().SetLocalPosition(-0.5f, -0.5f, -1.0f);
         triangle.GetTransform().Rotate(0.0f, 60.0f, -30.0f);
 
@@ -23,7 +22,7 @@ int main() {
 
         dra::Triangle triangle2;
         triangle2.GetTransform().SetLocalPosition(0.0f, 0.0f, 1.0f);
-        triangle2.GetTransform().Rotate(26.0f, 33.0f, -30.0f);
+        triangle2.GetTransform().Rotate(26.0f, 33.0f, -30.0f);*/
 
         dra::Line line1;
         line1.GetTransform().Rotate(0.0f, 0.0f, 90.0f);
@@ -60,25 +59,45 @@ int main() {
 
         //point0.GetTransform().SetLocalScale(5.0f, 5.0f, 5.0f);
 
+        dra::Point center;
+        center.GetTransform().Translate(-3.0f, 0.0f,0.0f);
+
+        dra::Line arm;
+        arm.GetTransform().Rotate(0.0f, 0.0f, 0.0f);
+        arm.GetTransform().Translate(-3.0f,0.0f,0.0f);
+
+        arm.SetParent(&center);
+
+        const float pi = std::cos(-1);
+        float pos = 0.0f;
+
+        scene.InsertUpdateFunction( [&]() {
+            pos += 3.0f;
+            center.GetTransform().Rotate(0.0f, 0.00f, 3.0f);
+            center.GetTransform().SetLocalPosition(std::sin(pos * pi / 180.0f), 0.5f - std::cos(pos * pi / 180.0f), std::sin(pos * pi / 180.0f));
+        });
+
         scene.InsertRenderFunction([&](dra::Camera* camera) {
             line.Draw(camera);
             line1.Draw(camera);
             line2.Draw(camera);
             line3.Draw(camera);
             line4.Draw(camera);
-            triangle.Draw(camera);
-            triangle1.Draw(camera);
-            triangle2.Draw(camera);
+            //triangle.Draw(camera);
+            //triangle1.Draw(camera);
+            //triangle2.Draw(camera);
             point0.Draw(camera);
             point1.Draw(camera);
             point2.Draw(camera);
             point3.Draw(camera);
             point4.Draw(camera);
             point5.Draw(camera);
+
+            center.Draw(camera);
+            arm.Draw(camera);
         });
 
         window.Run(scene);
-
     }
     
 	return 0;

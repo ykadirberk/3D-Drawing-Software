@@ -10,8 +10,6 @@
 
 namespace dra {
 
-	
-
 	enum class MultiSampling {
 		x2 = 2,
 		x4 = 4,
@@ -38,13 +36,20 @@ namespace dra {
 			Window(int width, int height, double fps_limit, MultiSampling msaa);
 			~Window();
 
+			void EnableVideoOutput(std::string_view output_folder_path, float video_fps);
+
 			void Run(Scene& scene);
 
 		private:
-			int m_Width, m_Height;
-			double								m_FpsLimit;
+			int			m_VideoCount = 0;
+			bool		m_VideoOutputEnabled = false;
+			bool		m_IsRecording = false;
+			float		m_VideoFps = 0.0f;
+			int			m_Width, m_Height;
+			double		m_FpsLimit;
 			MultiSampling m_MSAA;
 			std::shared_ptr<GLFWwindow>			m_Window;
 			std::vector<std::function<void()>>	m_Updates;
+			std::string m_VideoOutputFolderPath = "";
 	};
 }
