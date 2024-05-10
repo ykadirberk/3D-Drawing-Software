@@ -104,6 +104,12 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Core\FrameBufferTexture\FrameBufferTexture.h" />
+    <ClInclude Include="src\Core\nanoVG\fontstash.h" />
+    <ClInclude Include="src\Core\nanoVG\nanovg.h" />
+    <ClInclude Include="src\Core\nanoVG\nanovg_gl.h" />
+    <ClInclude Include="src\Core\nanoVG\nanovg_gl_utils.h" />
+    <ClInclude Include="src\Core\nanoVG\stb_image.h" />
+    <ClInclude Include="src\Core\nanoVG\stb_truetype.h" />
     <ClInclude Include="src\Core\Object\Object.h" />
     <ClInclude Include="src\Core\Transform\Transform.h" />
     <ClInclude Include="src\Core\Vertex\Vertex.h" />
@@ -129,6 +135,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\FrameBufferTexture\FrameBufferTexture.cpp" />
+    <ClCompile Include="src\Core\nanoVG\nanovg.c" />
     <ClCompile Include="src\Core\Object\Object.cpp" />
     <ClCompile Include="src\Core\Transform\Transform.cpp" />
     <ClCompile Include="src\Core\Vertex\Vertex.cpp" />
