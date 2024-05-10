@@ -179,10 +179,10 @@ namespace dra {
 			return result;
 		}
 
-		static Matrix4<T> Perspective(T fovy_wr, T aspect, T zNear, T zFar) {
+		static Matrix4<T> Perspective(T fovy, T aspect, T zNear, T zFar) {
 			assert(abs(aspect - std::numeric_limits<T>::epsilon()) > static_cast<T>(0));
 
-			T fovy = fovy_wr * static_cast<T>(3.14 / 180.0);
+			//T fovy = fovy_wr * static_cast<T>(3.14 / 180.0);
 
 			T const tanHalfFovy = tan(fovy / static_cast<T>(2));
 

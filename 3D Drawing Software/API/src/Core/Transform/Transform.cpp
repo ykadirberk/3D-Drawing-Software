@@ -115,7 +115,7 @@ namespace dra {
 
 		Vector rot = Vector(m_Rotation.x(), m_Rotation.y(), m_Rotation.z());
 		Matrix4 t_rotation_matrix = Matrix4(1.0f);
-		t_rotation_matrix = t_rotation_matrix.Rotate(t_rotation_matrix, rot.length(), rot);
+		t_rotation_matrix = t_rotation_matrix.Rotate(t_rotation_matrix, rot.length(), rot.normalized());
 		//auto quaternion = m_Rotation.ToQuaternion();
 		//t_rotation_matrix = dra::Matrix4<float>::FromQuaternion(quaternion);
 
@@ -128,6 +128,7 @@ namespace dra {
 		Matrix4 t_scale_matrix = Matrix4(1.0f);
 		t_scale_matrix = t_scale_matrix.Scale(t_scale_matrix, sca);
 		return t_position_matrix * t_rotation_matrix * t_scale_matrix;
+		//return t_scale_matrix * t_rotation_matrix * t_position_matrix;
 	}
 	[[nodiscard]] Matrix4<float> Transform::ParentOrientationMat4f(Object* obj) const noexcept {
 		if (!obj) {
