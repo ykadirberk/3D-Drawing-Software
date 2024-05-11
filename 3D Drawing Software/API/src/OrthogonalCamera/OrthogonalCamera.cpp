@@ -1,5 +1,4 @@
 #include "OrthogonalCamera.h"
-#include "../ext/glm/gtc/matrix_transform.hpp"
 
 namespace dra { 
 	OrthogonalCamera::OrthogonalCamera(float width, float height, Object* parent) 

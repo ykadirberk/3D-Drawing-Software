@@ -18,17 +18,23 @@ namespace dra {
 	}
 
 	void Transform::SetLocalPosition(float x, float y, float z) noexcept {
-		m_Position = Vector<float>(x, y, z);
+		m_Position.setx(x);
+		m_Position.sety(y);
+		m_Position.setz(z);
 	}
 
 	void Transform::SetLocalRotation(float x, float y, float z) noexcept {
 		const float pi = std::acos(-1);
 		const float degree = pi / 180.0f;
-		m_Rotation = Vector<float>(degree * x, degree * y, degree * z);
+		m_Rotation.setx(degree * x);
+		m_Rotation.sety(degree * y);
+		m_Rotation.setz(degree * z);
 	}
 
 	void Transform::SetLocalScale(float x, float y, float z) noexcept {
-		m_Scale = Vector<float>(x, y, z);
+		m_Scale.setx(x);
+		m_Scale.sety(y);
+		m_Scale.setz(z);
 	}
 
 	void Transform::Translate(float x, float y, float z) noexcept {
@@ -151,7 +157,7 @@ namespace dra {
 		x = current.x() + rotation.x();
 		y = current.y() + rotation.y();
 		z = current.z() + rotation.z();
-		return ParentOrientedRotationVec3f(obj->GetParent(), Vector(x, y, z));
+		return ParentOrientedRotationVec3f(obj->GetParent(), Vector<float>(x, y, z));
 	}
 
 }

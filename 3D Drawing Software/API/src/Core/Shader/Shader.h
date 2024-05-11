@@ -2,8 +2,6 @@
 
 #include <unordered_map>
 #include <string>
-
-#include "../../ext/glm/glm.hpp"
 #include "../../Core/Mat4/Matrix4.h"
 #include "../DLLBuild.h"
 

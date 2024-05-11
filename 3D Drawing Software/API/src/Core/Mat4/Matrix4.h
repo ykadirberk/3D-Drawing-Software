@@ -13,7 +13,8 @@
 
 namespace dra {
 	template<typename T>
-	class Matrix4 {
+
+	class _API Matrix4 {
 
 	public:
 		std::array<T, 16> data;
@@ -98,14 +99,14 @@ namespace dra {
 			return m;
 		}
 
-		Matrix4& operator=(const Matrix4& other) {
+		/*Matrix4& operator=(const Matrix4& other) {
 			if (this != &other) {
 				data = other.data;
 			}
 			return *this;
-		}
+		}*/
 
-		Matrix4<T> Translate(const Matrix4<T>& mat, const Vector<T>& translation) {
+		static Matrix4<T> Translate(const Matrix4<T>& mat, const Vector<T>& translation) {
 			Matrix4<T> result = mat;
 
 			result.data[3] = translation.x() * mat.data[0] + translation.y() * mat.data[1] + translation.z() * mat.data[2] + mat.data[3];

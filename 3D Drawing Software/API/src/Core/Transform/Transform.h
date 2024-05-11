@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "../DLLBuild.h"
-#include "../../ext/glm/glm.hpp"
 #include "../Vector/Vector.h"
 #include "../Mat4/Matrix4.h"
 

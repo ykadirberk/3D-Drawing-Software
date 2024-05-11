@@ -52,7 +52,7 @@ namespace dra {
 		
 	}
 
-	[[nodiscard]] glm::vec3 Vertex::GetPosition() const noexcept {
+	[[nodiscard]] Vector<float> Vertex::GetPosition() const noexcept {
 		return m_Center;
 	}
 }
