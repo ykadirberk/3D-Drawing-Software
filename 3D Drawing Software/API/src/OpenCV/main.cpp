@@ -31,9 +31,8 @@ private:
     cv::VideoWriter writer_;
 };
 
-// Example usage
+
 int main() {
-    // Define video parameters
     std::string filename = "output.avi";
     int codec = cv::VideoWriter::fourcc('M', 'J', 'P', 'G');  // Using Motion-JPEG codec
     double fps = 30.0;
@@ -42,15 +41,12 @@ int main() {
     try {
         VideoCreator videoCreator(filename, codec, fps, frameSize);
 
-        // Generate or retrieve frames from your 3D program
         for (int i = 0; i < 100; ++i) {
-            // Create a blank frame as an example (you'll use your 3D frame instead)
+            
             cv::Mat frame(frameSize, CV_8UC3, cv::Scalar(255, 255, 255));
-
-            // Draw something on the frame
+            //example
             cv::circle(frame, cv::Point(320, 240), 50 + i, cv::Scalar(0, 0, 255), -1);
 
-            // Add frame to the video
             videoCreator.addFrame(frame);
         }
 
