@@ -102,6 +102,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\Mat4\Matrix4.h" />
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Core\FrameBufferTexture\FrameBufferTexture.h" />
     <ClInclude Include="src\Core\nanoVG\fontstash.h" />

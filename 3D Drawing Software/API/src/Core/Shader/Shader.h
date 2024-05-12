@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <string>
 
-#include "../../ext/glm/glm.hpp"
+#include "../../Core/Mat4/Matrix4.h"
 #include "../DLLBuild.h"
 
 namespace dra {
@@ -24,7 +24,7 @@ namespace dra {
 			void SetUniform1i(const std::string& name, int value);
 			void SetUniform1f(const std::string& name, float value);
 			void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
-			void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
+			void SetUniformMat4f(const std::string& name, const Matrix4<float>& matrix);
 
 		private:
 			unsigned int m_RendererID;

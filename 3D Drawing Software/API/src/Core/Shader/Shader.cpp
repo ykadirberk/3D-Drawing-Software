@@ -113,8 +113,13 @@ namespace dra {
         GLCall(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3));
     }
 
-    void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix) {
-        GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
+    void Shader::SetUniformMat4f(const std::string& name, const Matrix4<float>& matrix) {
+        GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &(matrix.data[0])));
+        /*for (int i = 0;i < 16;i++) {
+            std::cout << i << "=" << matrix.data[i] << std::endl;
+        }*/
+
+        //__debugbreak();
     }
 
 

@@ -9,24 +9,24 @@ namespace dra {
 			Defaults::s_Positions = { -0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f };
 			float r = 0.01f;
 
-			glm::vec3 rotvec(-0.5f, 0.00f, 0.00f);
+			Vector<float> rotvec(-0.5f, 0.00f, 0.00f);
 
 			for (int i = 0; i < 12; i++) {
-				Defaults::s_Positions.push_back(rotvec.x);
-				Defaults::s_Positions.push_back(rotvec.y + r * std::sin(std::numbers::pi / 6 * i));
-				Defaults::s_Positions.push_back(rotvec.z + r * std::cos(std::numbers::pi / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.x());
+				Defaults::s_Positions.push_back(rotvec.y() + r * std::sin(std::numbers::pi / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.z() + r * std::cos(std::numbers::pi / 6 * i));
 
 				Defaults::s_Indices.push_back(0);
 				Defaults::s_Indices.push_back(2 + i);
 				Defaults::s_Indices.push_back(2 + (i + 1) % 12);
 			}
 
-			rotvec = glm::vec3(0.5f, 0.00f, 0.0f);
+			rotvec = Vector<float>(0.5f, 0.00f, 0.0f);
 
 			for (int i = 0; i < 12; i++) {
-				Defaults::s_Positions.push_back(rotvec.x);
-				Defaults::s_Positions.push_back(rotvec.y + r * std::sin(std::numbers::pi / 6 * i));
-				Defaults::s_Positions.push_back(rotvec.z + r * std::cos(std::numbers::pi / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.x());
+				Defaults::s_Positions.push_back(rotvec.y() + r * std::sin(std::numbers::pi / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.z() + r * std::cos(std::numbers::pi / 6 * i));
 
 				Defaults::s_Indices.push_back(1);
 				Defaults::s_Indices.push_back(14 + (i + 1) % 12);
@@ -74,24 +74,24 @@ namespace dra {
 			Defaults::s_Positions = { -0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f };
 			float r = 0.01f;
 
-			glm::vec3 rotvec(-0.5f, 0.00f, 0.00f);
+			Vector<float> rotvec(-0.5f, 0.00f, 0.00f);
 
 			for (int i = 0; i < 12; i++) {
-				Defaults::s_Positions.push_back(rotvec.x);
-				Defaults::s_Positions.push_back(rotvec.y + r * std::sin(std::numbers::pi / 6 * i));
-				Defaults::s_Positions.push_back(rotvec.z + r * std::cos(std::numbers::pi / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.x());
+				Defaults::s_Positions.push_back(rotvec.y() + r * std::sin(std::numbers::pi / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.z() + r * std::cos(std::numbers::pi / 6 * i));
 
 				Defaults::s_Indices.push_back(0);
 				Defaults::s_Indices.push_back(2 + i);
 				Defaults::s_Indices.push_back(2 + (i + 1) % 12);
 			}
 
-			rotvec = glm::vec3(0.5f, 0.00f, 0.0f);
+			rotvec = Vector<float>(0.5f, 0.00f, 0.0f);
 
 			for (int i = 0; i < 12; i++) {
-				Defaults::s_Positions.push_back(rotvec.x);
-				Defaults::s_Positions.push_back(rotvec.y + r * std::sin(std::numbers::pi / 6 * i));
-				Defaults::s_Positions.push_back(rotvec.z + r * std::cos(std::numbers::pi / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.x());
+				Defaults::s_Positions.push_back(rotvec.y() + r * std::sin(std::numbers::pi / 6 * i));
+				Defaults::s_Positions.push_back(rotvec.z() + r * std::cos(std::numbers::pi / 6 * i));
 
 				Defaults::s_Indices.push_back(1);
 				Defaults::s_Indices.push_back(14 + (i + 1) % 12);
@@ -147,8 +147,8 @@ namespace dra {
 			auto& shader = t.value();
 			shader->Bind();
 			shader->SetUniform4f("u_Color", 0.7f, 0.3f, 0.8f, 1.0f);
-
-			shader->SetUniformMat4f("u_MVP", camera->GetProjection() * glm::inverse(camera->GetView()) * m_Transform.GetWorldAsMat4f());
+			
+			shader->SetUniformMat4f("u_MVP", camera->GetProjection() * Matrix4<float>::Inverse(camera->GetView()) * m_Transform.GetWorldAsMat4f());
 			m_VAO->Bind();
 			m_IndexBuffer->Bind();
 

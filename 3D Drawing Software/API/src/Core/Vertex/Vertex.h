@@ -4,13 +4,13 @@
 #include <vector>
 
 #include "../DLLBuild.h"
-#include "../../ext/glm/glm.hpp"
 
 #include "../ShaderArena/ShaderArena.h"
 #include "../VertexArray/VertexArray.h"
 #include "../VertexBuffer/VertexBuffer.h"
 #include "../IndexBuffer/IndexBuffer.h"
 #include "../VertexBufferLayout/VertexBufferLayout.h"
+#include "../Vector/Vector.h"
 
 namespace dra {
 	class _API Vertex {
@@ -18,9 +18,9 @@ namespace dra {
 			Vertex();
 			~Vertex();
 
-			[[nodiscard]] glm::vec3 GetPosition() const noexcept;
+			[[nodiscard]] Vector<float> GetPosition() const noexcept;
 		private:
-			glm::vec3 m_Center;
+			Vector<float> m_Center;
 
 			std::vector<float> m_Positions;
 			std::vector<unsigned int> m_Indices;

@@ -13,7 +13,7 @@ namespace dra {
 				0.0f, -r, 0.0f
 			};
 
-			glm::vec3 rotvec(0.00f, 0.00f, 0.00f);
+			Vector<float> rotvec(0.00f, 0.00f, 0.00f);
 
 			for (int y = 1; y < 6; y++) {
 				for (int xz = 0; xz < 12; xz++) {
@@ -86,7 +86,7 @@ namespace dra {
 				0.0f, -r, 0.0f
 			};
 
-			glm::vec3 rotvec(0.00f, 0.00f, 0.00f);
+			Vector<float> rotvec(0.00f, 0.00f, 0.00f);
 
 			for (int y = 1; y < 6; y++) {
 				for (int xz = 0; xz < 12; xz++) {
@@ -166,7 +166,7 @@ namespace dra {
 			shader->Bind();
 			shader->SetUniform4f("u_Color", 1.0f, 0.1f, 0.5f, 1.0f);
 
-			shader->SetUniformMat4f("u_MVP", camera->GetProjection() * glm::inverse(camera->GetView()) * m_Transform.GetWorldAsMat4f());
+			shader->SetUniformMat4f("u_MVP", camera->GetProjection() * Matrix4<float>::Inverse(camera->GetView()) * m_Transform.GetWorldAsMat4f());
 			m_VAO->Bind();
 			m_IndexBuffer->Bind();
 

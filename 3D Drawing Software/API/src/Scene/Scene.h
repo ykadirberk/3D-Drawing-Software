@@ -5,7 +5,6 @@
 
 #include "../Core/DLLBuild.h"
 #include "../Camera/Camera.h"
-#include "../ext/glm/glm.hpp"
 
 namespace dra {
 	class _API Video;

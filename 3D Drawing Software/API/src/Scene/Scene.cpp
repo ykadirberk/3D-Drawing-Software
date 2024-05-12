@@ -57,13 +57,13 @@ void dra::Scene::SendMousePosition(float x, float y) {
 
 void dra::Scene::RotateMainCameraAroundFocus() {
 	auto t = m_MainCamera->GetTransform().GetLocalPosition();
-	m_focusPoint->GetTransform().Rotate(-(m_MousePositionY - m_PrevMousePositionY) / 15.0f * std::log2f(t.z), -(m_MousePositionX - m_PrevMousePositionX) / 15.0f * std::log2f(t.z), 0.0f);
+	m_focusPoint->GetTransform().Rotate(-(m_MousePositionY - m_PrevMousePositionY) / 15.0f * std::log2f(t.z()), -(m_MousePositionX - m_PrevMousePositionX) / 15.0f * std::log2f(t.z()), 0.0f);
 	auto loc_rot = m_focusPoint->GetTransform().GetLocalRotation();
-	if (loc_rot.x > 90.0f) {
-		m_focusPoint->GetTransform().SetLocalRotation(90.0f, loc_rot.y, loc_rot.z);
+	if (loc_rot.x() > 90.0f) {
+		m_focusPoint->GetTransform().SetLocalRotation(90.0f, loc_rot.y(), loc_rot.z());
 	}  
-	if (loc_rot.x < -90.0f) {
-		m_focusPoint->GetTransform().SetLocalRotation(-90.0f, loc_rot.y, loc_rot.z);
+	if (loc_rot.x() < -90.0f) {
+		m_focusPoint->GetTransform().SetLocalRotation(-90.0f, loc_rot.y(), loc_rot.z());
 	}
 }
 
@@ -79,16 +79,16 @@ void dra::Scene::ZoomMainCamera(float zoom_direction)
 
 	if (zoom_direction < 0) {
 		auto t = m_MainCamera->GetTransform().GetLocalPosition();
-		m_MainCamera->GetTransform().Translate(0.0f, 0.0f, t.z / 19.0f * 20.0f - t.z);
+		m_MainCamera->GetTransform().Translate(0.0f, 0.0f, t.z() / 19.0f * 20.0f - t.z());
 	}
 
 	if (zoom_direction > 0) {
 		auto t = m_MainCamera->GetTransform().GetLocalPosition();
-		m_MainCamera->GetTransform().Translate(0.0f, 0.0f, -t.z / 20.0f);
+		m_MainCamera->GetTransform().Translate(0.0f, 0.0f, -t.z() / 20.0f);
 	}
 
-	if (auto t = m_MainCamera->GetTransform().GetLocalPosition(); t.z < 1.11f) {
-		m_MainCamera->GetTransform().SetLocalPosition(t.x, t.y, 1.11f);
+	if (auto t = m_MainCamera->GetTransform().GetLocalPosition(); t.z() < 1.11f) {
+		m_MainCamera->GetTransform().SetLocalPosition(t.x(), t.y(), 1.11f);
 	}
 
 }
