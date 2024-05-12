@@ -107,17 +107,21 @@ namespace dra {
 		}*/
 
 		static Matrix4<T> Translate(const Matrix4<T>& mat, const Vector<T>& translation) {
-			Matrix4<T> result = mat;
+			Matrix4<T> result(1.0f);
 
-			result.data[3] = translation.x() * mat.data[0] + translation.y() * mat.data[1] + translation.z() * mat.data[2] + mat.data[3];
-			result.data[7] = translation.x() * mat.data[4] + translation.y() * mat.data[5] + translation.z() * mat.data[6] + mat.data[7];
-			result.data[11] = translation.x() * mat.data[8] + translation.y() * mat.data[9] + translation.z() * mat.data[10] + mat.data[11];
-			result.data[15] = translation.x() * mat.data[12] + translation.y() * mat.data[13] + translation.z() * mat.data[14] + mat.data[15];
+			//result.data[3] = translation.x() * mat.data[0] + translation.y() * mat.data[1] + translation.z() * mat.data[2] + mat.data[3];
+			//result.data[7] = translation.x() * mat.data[4] + translation.y() * mat.data[5] + translation.z() * mat.data[6] + mat.data[7];
+			//result.data[11] = translation.x() * mat.data[8] + translation.y() * mat.data[9] + translation.z() * mat.data[10] + mat.data[11];
+			//result.data[15] = translation.x() * mat.data[12] + translation.y() * mat.data[13] + translation.z() * mat.data[14] + mat.data[15];
+			result.data[12] = translation.x();
+			result.data[13] = translation.y();
+			result.data[14] = translation.z();
+
 
 			return result;
 		}
 
-		Matrix4<T> Rotate(const Matrix4<T>& mat, T angle, const Vector<T>& axis) {
+		static Matrix4<T> Rotate(const Matrix4<T>& mat, T angle, const Vector<T>& axis) {
 			T c = cos(angle);
 			T s = sin(angle);
 
@@ -146,23 +150,12 @@ namespace dra {
 			return result;
 		}
 
-		Matrix4<T> Scale(const Matrix4<T>& mat, const Vector<T>& scalingFactors) {
-			Matrix4<T> result = mat;
+		static Matrix4<T> Scale(const Matrix4<T>& mat, const Vector<T>& scalingFactors) {
+			Matrix4<T> result(1.0f);
 
-			result.data[0] = mat.data[0] * scalingFactors.x();
-			result.data[4] = mat.data[4] * scalingFactors.x();
-			result.data[8] = mat.data[8] * scalingFactors.x();
-			result.data[12] = mat.data[12] * scalingFactors.x();
-
-			result.data[1] = mat.data[1] * scalingFactors.y();
-			result.data[5] = mat.data[5] * scalingFactors.y();
-			result.data[9] = mat.data[9] * scalingFactors.y();
-			result.data[13] = mat.data[13] * scalingFactors.y();
-
-			result.data[2] = mat.data[2] * scalingFactors.z();
-			result.data[6] = mat.data[6] * scalingFactors.z();
-			result.data[10] = mat.data[10] * scalingFactors.z();
-			result.data[14] = mat.data[14] * scalingFactors.z();
+			result.data[0] = scalingFactors.x();
+			result.data[5] = scalingFactors.y();
+			result.data[10] = scalingFactors.z();
 
 			return result;
 		}
@@ -266,7 +259,7 @@ namespace dra {
 			return result;
 		}
 
-		Matrix4<T> Transpose(const Matrix4<T>& mat) {
+		static Matrix4<T> Transpose(const Matrix4<T>& mat) {
 			Matrix4<T> result = mat;
 
 			result.data[1] = mat.data[4];

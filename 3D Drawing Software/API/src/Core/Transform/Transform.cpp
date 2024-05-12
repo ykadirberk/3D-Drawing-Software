@@ -117,22 +117,29 @@ namespace dra {
 	[[nodiscard]] Matrix4<float> Transform::AsMat4f() const noexcept {
 		Vector pos = Vector(m_Position.x(), m_Position.y(), m_Position.z());
 		Matrix4 t_position_matrix = Matrix4(1.0f);
-		t_position_matrix = t_position_matrix.Translate(t_position_matrix, pos);
+		t_position_matrix = Matrix4<float>::Translate(t_position_matrix, pos);
+
+		
+		
 
 		Vector rot = Vector(m_Rotation.x(), m_Rotation.y(), m_Rotation.z());
 		Matrix4 t_rotation_matrix = Matrix4(1.0f);
-		t_rotation_matrix = t_rotation_matrix.Rotate(t_rotation_matrix, rot.length(), rot.normalized());
-		//auto quaternion = m_Rotation.ToQuaternion();
-		//t_rotation_matrix = dra::Matrix4<float>::FromQuaternion(quaternion);
-
-
-
-		//glm::mat4 t_rotation_matrix = glm::toMat4(glm::quat(rot));
-		//ikinci olsarak buraya bak
+		t_rotation_matrix = Matrix4<float>::Rotate(t_rotation_matrix, rot.length(), rot.normalized());
 
 		Vector sca = Vector(m_Scale.x(), m_Scale.y(), m_Scale.z());
 		Matrix4 t_scale_matrix = Matrix4(1.0f);
-		t_scale_matrix = t_scale_matrix.Scale(t_scale_matrix, sca);
+		t_scale_matrix = Matrix4<float>::Scale(t_scale_matrix, sca);
+
+		/*Matrix4 res = t_position_matrix
+			* Matrix4<float>::Rotate(Matrix4(1.0f), rot.length(), rot.normalized()) 
+			* Matrix4<float>::Scale(Matrix4(1.0f), Vector(1.0f, 1.0f, 1.0f));
+		for (int i = 0; i < 16; i++) {
+			std::cout << res.data[i] << ", ";
+		}
+		std::cout << std::endl;
+		std::cout << m_Position.x() << ", " << m_Position.y() << ", " << m_Position.z() << std::endl;*/
+		//__debugbreak();
+
 		return t_position_matrix * t_rotation_matrix * t_scale_matrix;
 		//return t_scale_matrix * t_rotation_matrix * t_position_matrix;
 	}
