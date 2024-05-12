@@ -266,6 +266,28 @@ namespace dra {
 			return result;
 		}
 
+		Matrix4<T> Transpose(const Matrix4<T>& mat) {
+			Matrix4<T> result = mat;
+
+			result.data[1] = mat.data[4];
+			result.data[2] = mat.data[8];
+			result.data[3] = mat.data[12];
+
+			result.data[4] = mat.data[1];
+			result.data[6] = mat.data[9];
+			result.data[7] = mat.data[13];
+
+			result.data[8] = mat.data[2];
+			result.data[9] = mat.data[6];
+			result.data[11] = mat.data[14];
+
+			result.data[12] = mat.data[3];
+			result.data[13] = mat.data[7];
+			result.data[14] = mat.data[11];
+
+			return result;
+		}
+
 		
 
 	private:		
