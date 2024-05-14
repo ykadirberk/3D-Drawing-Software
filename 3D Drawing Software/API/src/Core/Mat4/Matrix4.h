@@ -107,15 +107,15 @@ namespace dra {
 		}*/
 
 		static Matrix4<T> Translate(const Matrix4<T>& mat, const Vector<T>& translation) {
-			Matrix4<T> result(1.0f);
+			Matrix4<T> result = mat;
 
-			//result.data[3] = translation.x() * mat.data[0] + translation.y() * mat.data[1] + translation.z() * mat.data[2] + mat.data[3];
-			//result.data[7] = translation.x() * mat.data[4] + translation.y() * mat.data[5] + translation.z() * mat.data[6] + mat.data[7];
-			//result.data[11] = translation.x() * mat.data[8] + translation.y() * mat.data[9] + translation.z() * mat.data[10] + mat.data[11];
-			//result.data[15] = translation.x() * mat.data[12] + translation.y() * mat.data[13] + translation.z() * mat.data[14] + mat.data[15];
-			result.data[12] = translation.x();
-			result.data[13] = translation.y();
-			result.data[14] = translation.z();
+			result.data[12] = translation.x() * mat.data[0] + translation.y() * mat.data[4] + translation.z() * mat.data[8] + mat.data[12];
+			result.data[13] = translation.x() * mat.data[1] + translation.y() * mat.data[5] + translation.z() * mat.data[9] + mat.data[13];
+			result.data[14] = translation.x() * mat.data[2] + translation.y() * mat.data[6] + translation.z() * mat.data[10] + mat.data[14];
+			result.data[15] = translation.x() * mat.data[3] + translation.y() * mat.data[7] + translation.z() * mat.data[11] + mat.data[15];
+			//result.data[12] = translation.x();
+			//result.data[13] = translation.y();
+			//result.data[14] = translation.z();
 
 
 			return result;
@@ -141,10 +141,31 @@ namespace dra {
 			rotation.data[6] = temp.z() * normAxis.y() - s * normAxis.x();
 			rotation.data[10] = c + temp.z() * normAxis.z();
 
-			Matrix4<T> result = multiplyByRow(rotation, mat);
-			result.data[3] = mat.data[3];
-			result.data[7] = mat.data[7];
-			result.data[11] = mat.data[11];
+			//Matrix4<T> result = multiplyByRow(rotation, mat);
+			//result.data[3] = mat.data[3];
+			//result.data[7] = mat.data[7];
+			//result.data[11] = mat.data[11];
+			//result.data[15] = mat.data[15];
+
+			Matrix4<T> result(1.0f);
+			result.data[0] = mat.data[0] * rotation.data[0] + mat.data[4] * rotation.data[1] + mat.data[8] + rotation.data[2];
+			result.data[1] = mat.data[1] * rotation.data[0] + mat.data[5] * rotation.data[1] + mat.data[9] + rotation.data[2];
+			result.data[2] = mat.data[2] * rotation.data[0] + mat.data[6] * rotation.data[1] + mat.data[10] + rotation.data[2];
+			result.data[3] = mat.data[3] * rotation.data[0] + mat.data[7] * rotation.data[1] + mat.data[11] + rotation.data[2];
+
+			result.data[4] = mat.data[0] * rotation.data[4] + mat.data[4] * rotation.data[5] + mat.data[8] + rotation.data[6];
+			result.data[5] = mat.data[1] * rotation.data[4] + mat.data[5] * rotation.data[5] + mat.data[9] + rotation.data[6];
+			result.data[6] = mat.data[2] * rotation.data[4] + mat.data[6] * rotation.data[5] + mat.data[10] + rotation.data[6];
+			result.data[7] = mat.data[3] * rotation.data[4] + mat.data[7] * rotation.data[5] + mat.data[11] + rotation.data[6];
+
+			result.data[8] = mat.data[0] * rotation.data[8] + mat.data[4] * rotation.data[9] + mat.data[8] + rotation.data[10];
+			result.data[9] = mat.data[1] * rotation.data[8] + mat.data[5] * rotation.data[9] + mat.data[9] + rotation.data[10];
+			result.data[10] = mat.data[2] * rotation.data[8] + mat.data[6] * rotation.data[9] + mat.data[10] + rotation.data[10];
+			result.data[11] = mat.data[3] * rotation.data[8] + mat.data[7] * rotation.data[9] + mat.data[11] + rotation.data[10];
+
+			result.data[12] = mat.data[12];
+			result.data[13] = mat.data[13];
+			result.data[14] = mat.data[14];
 			result.data[15] = mat.data[15];
 
 			return result;
@@ -153,9 +174,9 @@ namespace dra {
 		static Matrix4<T> Scale(const Matrix4<T>& mat, const Vector<T>& scalingFactors) {
 			Matrix4<T> result(1.0f);
 
-			result.data[0] = scalingFactors.x();
-			result.data[5] = scalingFactors.y();
-			result.data[10] = scalingFactors.z();
+			result.data[0] = mat.data[0] * scalingFactors.x();
+			result.data[5] = mat.data[5] * scalingFactors.y();
+			result.data[10] = mat.data[10] * scalingFactors.z();
 
 			return result;
 		}
@@ -166,9 +187,9 @@ namespace dra {
 			result.data[0] = static_cast<T>(2) / (right - left);
 			result.data[5] = static_cast<T>(2) / (top - bottom);
 			result.data[10] = -static_cast<T>(2) / (zFar - zNear);
-			result.data[3] = -(right + left) / (right - left);
-			result.data[7] = -(top + bottom) / (top - bottom);
-			result.data[11] = -(zFar + zNear) / (zFar - zNear);
+			result.data[12] = -(right + left) / (right - left);
+			result.data[13] = -(top + bottom) / (top - bottom);
+			result.data[14] = -(zFar + zNear) / (zFar - zNear);
 
 			return result;
 		}
@@ -178,14 +199,14 @@ namespace dra {
 
 			//T fovy = fovy_wr * static_cast<T>(3.14 / 180.0);
 
-			T const tanHalfFovy = tan(fovy / static_cast<T>(2));
+			T const tanHalfFovy = std::tan(fovy / static_cast<T>(2));
 
 			Matrix4<T> result(0.0f);
 			result.data[0] = static_cast<T>(1) / (aspect * tanHalfFovy);
 			result.data[5] = static_cast<T>(1) / (tanHalfFovy);
 			result.data[10] = -(zFar + zNear) / (zFar - zNear);
-			result.data[14] = -static_cast<T>(1);
-			result.data[11] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
+			result.data[11] = -static_cast<T>(1);
+			result.data[14] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
 			return result;
 		}
 

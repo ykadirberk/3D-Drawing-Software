@@ -149,6 +149,7 @@ namespace dra {
 			shader->SetUniform4f("u_Color", 0.7f, 0.3f, 0.8f, 1.0f);
 			
 			shader->SetUniformMat4f("u_MVP", camera->GetProjection() * Matrix4<float>::Inverse(camera->GetView()) * m_Transform.GetWorldAsMat4f());
+			//shader->SetUniformMat4f("u_MVP", m_Transform.GetWorldAsMat4f() * Matrix4<float>::Inverse(camera->GetView()) * camera->GetProjection());
 			m_VAO->Bind();
 			m_IndexBuffer->Bind();
 
