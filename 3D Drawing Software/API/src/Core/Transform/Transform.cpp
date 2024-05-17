@@ -119,13 +119,34 @@ namespace dra {
 		Matrix4 t_position_matrix = Matrix4(1.0f);
 		t_position_matrix = Matrix4<float>::Translate(t_position_matrix, pos);
 
+		
+
 		Vector rot = Vector(m_Rotation.x(), m_Rotation.y(), m_Rotation.z());
 		Matrix4 t_rotation_matrix = Matrix4(1.0f);
 		t_rotation_matrix = Matrix4<float>::Rotation(rot);
 
+		
+
 		Vector sca = Vector(m_Scale.x(), m_Scale.y(), m_Scale.z());
 		Matrix4 t_scale_matrix = Matrix4(1.0f);
 		t_scale_matrix = Matrix4<float>::Scale(t_scale_matrix, sca);
+
+		/*std::cout << "position" << std::endl;
+		for (int i = 0; i < 16; i++) {
+			std::cout << t_position_matrix.data[i] << std::endl;
+		}
+		std::cout << "------------------------------" << std::endl;
+
+		std::cout << "rotation" << std::endl;
+		for (int i = 0; i < 16; i++) {
+			std::cout << t_rotation_matrix.data[i] << std::endl;
+		}
+		std::cout << "------------------------------" << std::endl;
+
+		std::cout << "scale" << std::endl;
+		for (int i = 0; i < 16; i++) {
+			std::cout << t_scale_matrix.data[i] << std::endl;
+		}*/
 
 		/*Matrix4 res = t_position_matrix
 			* Matrix4<float>::Rotate(Matrix4(1.0f), rot.length(), rot.normalized())
@@ -149,7 +170,7 @@ namespace dra {
 		auto transform = obj->GetTransform();
 
 
-		return ParentOrientationMat4f(parent) * transform.GetLocalAsMat4f();
+		return  ParentOrientationMat4f(parent) * transform.GetLocalAsMat4f() ;
 	}
 
 	[[nodiscard]] Vector<float> Transform::ParentOrientedRotationVec3f(Object* obj, Vector<float> current) const noexcept

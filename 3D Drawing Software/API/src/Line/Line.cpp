@@ -147,9 +147,34 @@ namespace dra {
 			auto& shader = t.value();
 			shader->Bind();
 			shader->SetUniform4f("u_Color", 0.7f, 0.3f, 0.8f, 1.0f);
-			
-			shader->SetUniformMat4f("u_MVP", camera->GetProjection() * Matrix4<float>::Inverse(camera->GetView()) * m_Transform.GetWorldAsMat4f());
-			//shader->SetUniformMat4f("u_MVP", m_Transform.GetWorldAsMat4f() * Matrix4<float>::Inverse(camera->GetView()) * camera->GetProjection());
+			Matrix4<float> setuni = camera->GetProjection() * Matrix4<float>::Inverse(camera->GetView()) * m_Transform.GetWorldAsMat4f();
+
+			/*for (int i = 0; i < 16; i++) {
+				std::cout << camera->GetProjection().data[i] << std::endl;
+			}
+
+			std::cout << "------------gp------------------" << std::endl;
+
+			for (int i = 0; i < 16; i++) {
+				std::cout << camera->GetView().data[i] << std::endl;
+			}
+
+			std::cout << "------------gv------------------" << std::endl;
+
+			for (int i = 0; i < 16; i++) {
+				std::cout << m_Transform.GetWorldAsMat4f().data[i] << std::endl;
+			}
+
+			std::cout << "-----------gw-------------------" << std::endl;
+
+			shader->SetUniformMat4f("u_MVP", setuni);
+
+			for (int i = 0; i < 16; i++) {
+				std::cout << setuni.data[i] << std::endl;
+			}
+
+			std::cout << "------------------------------" << std::endl;*/
+
 			m_VAO->Bind();
 			m_IndexBuffer->Bind();
 
