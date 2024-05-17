@@ -119,12 +119,9 @@ namespace dra {
 		Matrix4 t_position_matrix = Matrix4(1.0f);
 		t_position_matrix = Matrix4<float>::Translate(t_position_matrix, pos);
 
-
-
-
 		Vector rot = Vector(m_Rotation.x(), m_Rotation.y(), m_Rotation.z());
 		Matrix4 t_rotation_matrix = Matrix4(1.0f);
-		t_rotation_matrix = Matrix4<float>::Rotate(t_rotation_matrix, rot.length(), rot.normalized());
+		t_rotation_matrix = Matrix4<float>::Rotation(rot);
 
 		Vector sca = Vector(m_Scale.x(), m_Scale.y(), m_Scale.z());
 		Matrix4 t_scale_matrix = Matrix4(1.0f);

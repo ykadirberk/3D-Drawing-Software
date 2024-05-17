@@ -121,52 +121,47 @@ namespace dra {
 			return result;
 		}
 
-		static Matrix4<T> Rotate(const Matrix4<T>& mat, T angle, const Vector<T>& axis) {
-			T c = cos(angle);
-			T s = sin(angle);
+		static Matrix4<T> Rotation(const Vector<T>& v) {
+			T cx = cos(v.x() * T(0.5));
+			T cy = cos(v.y() * T(0.5));
+			T cz = cos(v.z() * T(0.5));
+			T sx = sin(v.x() * T(0.5));
+			T sy = sin(v.y() * T(0.5));
+			T sz = sin(v.z() * T(0.5));
 
-			Vector<T> normAxis = axis.normalized();
-			Vector<T> temp = Vector<T>((1 - c) * normAxis.x(), (1 - c) * normAxis.y(), (1 - c) * normAxis.z());
+			T w = cx * cy * cz + sx * sy * sz;
+			T x = sx * cy * cz - cx * sy * sz;
+			T y = cx * sy * cz + sx * cy * sz;
+			T z = cx * cy * sz - sx * sy * cz;
 
-			Matrix4<T> rotation;
-			rotation.data[0] = c + temp.x() * normAxis.x();
-			rotation.data[4] = temp.x() * normAxis.y() + s * normAxis.z();
-			rotation.data[8] = temp.x() * normAxis.z() - s * normAxis.y();
+			T qxx(x * x);
+			T qyy(y * y);
+			T qzz(z * z);
+			T qxz(x * z);
+			T qxy(x * y);
+			T qyz(y * z);
+			T qwx(w * x);
+			T qwy(w * y);
+			T qwz(w * z);
 
-			rotation.data[1] = temp.y() * normAxis.x() - s * normAxis.z();
-			rotation.data[5] = c + temp.y() * normAxis.y();
-			rotation.data[9] = temp.y() * normAxis.z() + s * normAxis.x();
+			Matrix4<float> result;
 
-			rotation.data[2] = temp.z() * normAxis.x() + s * normAxis.y();
-			rotation.data[6] = temp.z() * normAxis.y() - s * normAxis.x();
-			rotation.data[10] = c + temp.z() * normAxis.z();
-
-			//Matrix4<T> result = multiplyByRow(rotation, mat);
-			//result.data[3] = mat.data[3];
-			//result.data[7] = mat.data[7];
-			//result.data[11] = mat.data[11];
-			//result.data[15] = mat.data[15];
-
-			Matrix4<T> result(1.0f);
-			result.data[0] = mat.data[0] * rotation.data[0] + mat.data[4] * rotation.data[1] + mat.data[8] + rotation.data[2];
-			result.data[1] = mat.data[1] * rotation.data[0] + mat.data[5] * rotation.data[1] + mat.data[9] + rotation.data[2];
-			result.data[2] = mat.data[2] * rotation.data[0] + mat.data[6] * rotation.data[1] + mat.data[10] + rotation.data[2];
-			result.data[3] = mat.data[3] * rotation.data[0] + mat.data[7] * rotation.data[1] + mat.data[11] + rotation.data[2];
-
-			result.data[4] = mat.data[0] * rotation.data[4] + mat.data[4] * rotation.data[5] + mat.data[8] + rotation.data[6];
-			result.data[5] = mat.data[1] * rotation.data[4] + mat.data[5] * rotation.data[5] + mat.data[9] + rotation.data[6];
-			result.data[6] = mat.data[2] * rotation.data[4] + mat.data[6] * rotation.data[5] + mat.data[10] + rotation.data[6];
-			result.data[7] = mat.data[3] * rotation.data[4] + mat.data[7] * rotation.data[5] + mat.data[11] + rotation.data[6];
-
-			result.data[8] = mat.data[0] * rotation.data[8] + mat.data[4] * rotation.data[9] + mat.data[8] + rotation.data[10];
-			result.data[9] = mat.data[1] * rotation.data[8] + mat.data[5] * rotation.data[9] + mat.data[9] + rotation.data[10];
-			result.data[10] = mat.data[2] * rotation.data[8] + mat.data[6] * rotation.data[9] + mat.data[10] + rotation.data[10];
-			result.data[11] = mat.data[3] * rotation.data[8] + mat.data[7] * rotation.data[9] + mat.data[11] + rotation.data[10];
-
-			result.data[12] = mat.data[12];
-			result.data[13] = mat.data[13];
-			result.data[14] = mat.data[14];
-			result.data[15] = mat.data[15];
+			result.data[0] = T(1) - T(2) * (qyy + qzz);
+			result.data[1] = T(2) * (qxy + qwz);
+			result.data[2] = T(2) * (qxz - qwy);
+			result.data[3] = 0;
+			result.data[4] = T(2) * (qxy - qwz);
+			result.data[5] = T(1) - T(2) * (qxx + qzz);
+			result.data[6] = T(2) * (qyz + qwx);
+			result.data[7] = 0;
+			result.data[8] = T(2) * (qxz + qwy);
+			result.data[9] = T(2) * (qyz - qwx);
+			result.data[10] = T(1) - T(2) * (qxx + qyy);
+			result.data[11] = 0;
+			result.data[12] = 0;
+			result.data[13] = 0;
+			result.data[14] = 0;
+			result.data[15] = 1;
 
 			return result;
 		}
