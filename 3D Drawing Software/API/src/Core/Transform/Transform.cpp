@@ -85,9 +85,9 @@ namespace dra {
 
 	[[nodiscard]] Vector<float> Transform::GetWorldScale() const noexcept {
 		Matrix4<float> temp = ParentOrientationMat4f(m_Owner);
-		Vector first = Vector(temp[0][0], temp[0][1], temp[0][2]);
-		Vector second = Vector(temp[1][0], temp[1][1], temp[1][2]);
-		Vector third = Vector(temp[2][0], temp[2][1], temp[2][2]);
+		Vector<float> first = Vector<float>(temp[0][0], temp[0][1], temp[0][2]);
+		Vector<float> second = Vector<float>(temp[1][0], temp[1][1], temp[1][2]);
+		Vector<float> third = Vector<float>(temp[2][0], temp[2][1], temp[2][2]);
 		Vector<float> sizes;
 		sizes.setx(std::sqrtf(first.x() * first.x() + first.y() * first.y() + first.z() * first.z()));
 		sizes.sety(std::sqrtf(second.x() * second.x() + second.y() * second.y() + second.z() * second.z()));
@@ -123,7 +123,7 @@ namespace dra {
 
 		Vector rot = Vector(m_Rotation.x(), m_Rotation.y(), m_Rotation.z());
 		Matrix4 t_rotation_matrix = Matrix4(1.0f);
-		t_rotation_matrix = Matrix4<float>::Rotation(rot);
+		t_rotation_matrix = Matrix4<float>::Transpose(Matrix4<float>::Rotation(rot));
 
 		
 
@@ -158,7 +158,7 @@ namespace dra {
 		std::cout << m_Position.x() << ", " << m_Position.y() << ", " << m_Position.z() << std::endl;*/
 		//__debugbreak();
 
-		return t_position_matrix * t_rotation_matrix * t_scale_matrix;
+		return Matrix4<float>::Transpose(Matrix4<float>::Transpose(t_position_matrix) * Matrix4<float>::Transpose(t_rotation_matrix) * Matrix4<float>::Transpose(t_scale_matrix));
 		//return t_scale_matrix * t_rotation_matrix * t_position_matrix;
 	}
 
@@ -170,7 +170,7 @@ namespace dra {
 		auto transform = obj->GetTransform();
 
 
-		return  ParentOrientationMat4f(parent) * transform.GetLocalAsMat4f() ;
+		return  Matrix4<float>::Transpose(Matrix4<float>::Transpose(ParentOrientationMat4f(parent)) * Matrix4<float>::Transpose(transform.GetLocalAsMat4f()));
 	}
 
 	[[nodiscard]] Vector<float> Transform::ParentOrientedRotationVec3f(Object* obj, Vector<float> current) const noexcept

@@ -113,15 +113,16 @@ namespace dra {
 			result.data[13] = translation.x() * mat.data[1] + translation.y() * mat.data[5] + translation.z() * mat.data[9] + mat.data[13];
 			result.data[14] = translation.x() * mat.data[2] + translation.y() * mat.data[6] + translation.z() * mat.data[10] + mat.data[14];
 			result.data[15] = 1;*/
-			result.data[12] = translation.x();
-			result.data[13] = translation.y();
-			result.data[14] = translation.z();
+			result.data[3] = translation.x();
+			result.data[7] = translation.y();
+			result.data[11] = translation.z();
 
 
 			return result;
 		}
 
-		/*static Matrix4<T> Rotation(const Vector<T>& v) {
+
+		static Matrix4<T> Rotation(const Vector<T>& v) {
 			T cx = cos(v.x() * T(0.5));
 			T cy = cos(v.y() * T(0.5));
 			T cz = cos(v.z() * T(0.5));
@@ -164,61 +165,6 @@ namespace dra {
 			result.data[15] = 1;
 
 			return result;
-		}*/
-
-		static Matrix4<T> Rotation(const Vector<T>& v) {
-			T cx = cos(v.x());
-			T cy = cos(v.y());
-			T cz = cos(v.z());
-			T sx = sin(v.x());
-			T sy = sin(v.y());
-			T sz = sin(v.z());
-
-			Matrix4<T> yaw;
-
-			yaw.data[0]=cz;
-			yaw.data[1] = sz;
-			yaw.data[4] = -sz;
-			yaw.data[5] = cz;
-			yaw.data[10] = 1;
-
-			Matrix4<T> pitch;
-
-			pitch.data[0] = cy;
-			pitch.data[2] = -sy;
-			pitch.data[5] = 1;
-			pitch.data[8] = sy;
-			pitch.data[10] = cy;
-
-			Matrix4<T> roll;
-
-			roll.data[0] = 1;
-			roll.data[5] = cx;
-			roll.data[6] = sx;
-			roll.data[9] = -sx;
-			roll.data[10] = cx;
-
-			Matrix4<T> result = yaw * pitch * roll;
-			result.data[15] = 1;
-
-			/*result.data[0] = cy * cz;
-			result.data[1] = cy * sz;
-			result.data[2] = -sy;
-			result.data[3] = 0;
-			result.data[4] = (sx * sy * cz) - (cx * sy);
-			result.data[5] = (sx * sy * sz) + (cx * cy);
-			result.data[6] = sx * cy;
-			result.data[7] = 0;
-			result.data[8] = (cx * sy * cz) + (sx * sy);
-			result.data[9] = (cx * sy * sz) - (sx * cy);
-			result.data[10] = cx * cy;
-			result.data[11] = 0;
-			result.data[12] = 0;
-			result.data[13] = 0;
-			result.data[14] = 0;
-			result.data[15] = 1;*/
-
-			return result;
 		}
 
 		static Matrix4<T> Scale(const Matrix4<T>& mat, const Vector<T>& scalingFactors) {
@@ -237,11 +183,11 @@ namespace dra {
 			result.data[0] = static_cast<T>(2) / (right - left);
 			result.data[5] = static_cast<T>(2) / (top - bottom);
 			result.data[10] = -static_cast<T>(2) / (zFar - zNear);
-			result.data[12] = -(right + left) / (right - left);
-			result.data[13] = -(top + bottom) / (top - bottom);
-			result.data[14] = -(zFar + zNear) / (zFar - zNear);
+			result.data[3] = -(right + left) / (right - left);
+			result.data[7] = -(top + bottom) / (top - bottom);
+			result.data[11] = -(zFar + zNear) / (zFar - zNear);
 
-			return result;
+			return Matrix4<T>::Transpose(result);
 		}
 
 		static Matrix4<T> Perspective(T fovy, T aspect, T zNear, T zFar) {
@@ -255,9 +201,9 @@ namespace dra {
 			result.data[0] = static_cast<T>(1) / (aspect * tanHalfFovy);
 			result.data[5] = static_cast<T>(1) / (tanHalfFovy);
 			result.data[10] = -(zFar + zNear) / (zFar - zNear);
-			result.data[11] = -static_cast<T>(1);
-			result.data[14] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
-			return result;
+			result.data[14] = -static_cast<T>(1);
+			result.data[11] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
+			return Matrix4<T>::Transpose(result);
 		}
 
 		static Matrix4<T> Inverse(const Matrix4<T>& mat) {
