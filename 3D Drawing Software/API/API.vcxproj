@@ -113,6 +113,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClInclude Include="src\Core\Object\Object.h" />
     <ClInclude Include="src\Core\Transform\Transform.h" />
     <ClInclude Include="src\Core\Vertex\Vertex.h" />
+    <ClInclude Include="src\Cube\Cube.h" />
     <ClInclude Include="src\OrthogonalCamera\OrthogonalCamera.h" />
     <ClInclude Include="src\PerspectiveCamera\PerspectiveCamera.h" />
     <ClInclude Include="src\Core\CoreGL.h" />
@@ -127,8 +128,11 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClInclude Include="src\Line\Line.h" />
     <ClInclude Include="src\OpenGL\OpenGL.h" />
     <ClInclude Include="src\Point\Point.h" />
+    <ClInclude Include="src\PolygonalSurface\PolygonalSurface.h" />
+    <ClInclude Include="src\Pyramid\Pyramid.h" />
     <ClInclude Include="src\Scene\Scene.h" />
     <ClInclude Include="src\Shape\Shape.h" />
+    <ClInclude Include="src\Sphere\Sphere.h" />
     <ClInclude Include="src\Triangle\Triangle.h" />
     <ClInclude Include="src\Video\Video.h" />
     <ClInclude Include="src\Window\Window.h" />
@@ -139,6 +143,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClCompile Include="src\Core\Object\Object.cpp" />
     <ClCompile Include="src\Core\Transform\Transform.cpp" />
     <ClCompile Include="src\Core\Vertex\Vertex.cpp" />
+    <ClCompile Include="src\Cube\Cube.cpp" />
     <ClCompile Include="src\OrthogonalCamera\OrthogonalCamera.cpp" />
     <ClCompile Include="src\PerspectiveCamera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\Core\CoreGL.cpp" />
@@ -150,7 +155,10 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClCompile Include="src\Line\Line.cpp" />
     <ClCompile Include="src\OpenGL\OpenGL.cpp" />
     <ClCompile Include="src\Point\Point.cpp" />
+    <ClCompile Include="src\PolygonalSurface\PolygonalSurface.cpp" />
+    <ClCompile Include="src\Pyramid\Pyramid.cpp" />
     <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\Sphere\Sphere.cpp" />
     <ClCompile Include="src\Triangle\Triangle.cpp" />
     <ClCompile Include="src\Video\Video.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />

@@ -6,7 +6,7 @@ namespace dra {
 	{
 		if (!Defaults::s_IsSet) {
 
-			float r = 0.02f;
+			float r = 0.04f;
 
 			Defaults::s_Positions = { 
 				0.0f,  r, 0.0f, 
@@ -79,7 +79,7 @@ namespace dra {
 	{
 		if (!Defaults::s_IsSet) {
 
-			float r = 0.02f;
+			float r = 0.04f;
 
 			Defaults::s_Positions = {
 				0.0f,  r, 0.0f,

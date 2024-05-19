@@ -31,30 +31,30 @@ private:
     cv::VideoWriter writer_;
 };
 
-
-int main() {
-    std::string filename = "output.avi";
-    int codec = cv::VideoWriter::fourcc('M', 'J', 'P', 'G');  // Using Motion-JPEG codec
-    double fps = 30.0;
-    cv::Size frameSize(640, 480);
-
-    try {
-        VideoCreator videoCreator(filename, codec, fps, frameSize);
-
-        for (int i = 0; i < 100; ++i) {
-            
-            cv::Mat frame(frameSize, CV_8UC3, cv::Scalar(255, 255, 255));
-            //example
-            cv::circle(frame, cv::Point(320, 240), 50 + i, cv::Scalar(0, 0, 255), -1);
-
-            videoCreator.addFrame(frame);
-        }
-
-        videoCreator.finish();
-    } catch (const std::exception& ex) {
-        std::cerr << "Error: " << ex.what() << std::endl;
-        return -1;
-    }
-
-    return 0;
-}
+//
+//int main() {
+//    std::string filename = "output.avi";
+//    int codec = cv::VideoWriter::fourcc('M', 'J', 'P', 'G');  // Using Motion-JPEG codec
+//    double fps = 30.0;
+//    cv::Size frameSize(640, 480);
+//
+//    try {
+//        VideoCreator videoCreator(filename, codec, fps, frameSize);
+//
+//        for (int i = 0; i < 100; ++i) {
+//            
+//            cv::Mat frame(frameSize, CV_8UC3, cv::Scalar(255, 255, 255));
+//            //example
+//            cv::circle(frame, cv::Point(320, 240), 50 + i, cv::Scalar(0, 0, 255), -1);
+//
+//            videoCreator.addFrame(frame);
+//        }
+//
+//        videoCreator.finish();
+//    } catch (const std::exception& ex) {
+//        std::cerr << "Error: " << ex.what() << std::endl;
+//        return -1;
+//    }
+//
+//    return 0;
+//}
