@@ -85,10 +85,14 @@ int main() {
 
         dra::Cube cube;
         cube.GetTransform().SetLocalScale(0.5f, 0.5f, 0.5f);
-        cube.GetTransform().SetLocalPosition(0.0f, 0.5f, 0.0f);
+        cube.GetTransform().SetLocalPosition(1.0f, 0.5f, 0.5f);
 
         dra::Pyramid pyd;
-        //pyd.GetTransform().SetLocalScale(0.5f, 0.5f, 0.5f);
+        pyd.GetTransform().SetLocalScale(0.5f, 0.5f, 0.5f);
+        
+        dra::Cone cn(50);
+        cn.GetTransform().SetLocalPosition(0.0f, 0.5f, 0.0f);
+        cn.GetTransform().SetLocalScale(0.5f, 0.5f, 0.5f);
 
         /*dra::Line seline(glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(1.0f, 1.0f, -1.0f));
         dra::Point selinepoint;
@@ -108,32 +112,48 @@ int main() {
             sph.GetTransform().Translate( std::sin(pos * pi / 180.0f) / 100.0f, std::cos(pos * pi / 180.0f) / 100.0f, 0.0f);
         });
 
-        scene.InsertRenderFunction([&](dra::Camera* camera) {
-            //line.Draw(camera);
-            //line1.Draw(camera);
-            //line2.Draw(camera);
-            //line3.Draw(camera);
-            //line4.Draw(camera);
-            //triangle.Draw(camera);
-            //triangle1.Draw(camera);
-            //triangle2.Draw(camera);
-            //point0.Draw(camera);
-            //point1.Draw(camera);
-            //point2.Draw(camera);
-            //point3.Draw(camera);
-            //point4.Draw(camera);
-            //point5.Draw(camera);
+        scene.InsertUpdateFunction([&]() {
+            cube.GetTransform().SetLocalPosition(1.0f, 0.5f - std::cos(pos * pi / 180.0f), std::sin(pos* pi / 180.0f));
+            cube.GetTransform().Rotate(0.0f, 0.0f, 1.0f);
+        });
 
-            //surface.Draw(camera);
-            //sph.Draw(camera);
+        scene.InsertUpdateFunction([&]() {
+            pyd.GetTransform().SetLocalPosition(-1.0f, 0.5f - std::cos(pos * pi / 180.0f), std::sin(pos* pi / 180.0f));
+            pyd.GetTransform().Rotate(0.0f, 0.0f, -1.0f);
+        });
+
+        scene.InsertUpdateFunction([&]() {
+            cn.GetTransform().SetLocalPosition(0.0f, -std::cos(pos * pi / 180.0f) * 3, std::sin(pos * pi / 180.0f));
+            cn.GetTransform().Rotate(0.0f, 0.0f, -1.0f);
+        });
+
+        scene.InsertRenderFunction([&](dra::Camera* camera) {
+            line.Draw(camera);
+            line1.Draw(camera);
+            line2.Draw(camera);
+            line3.Draw(camera);
+            line4.Draw(camera);
+            
+            point0.Draw(camera);
+            point1.Draw(camera);
+            point2.Draw(camera);
+            point3.Draw(camera);
+            point4.Draw(camera);
+            point5.Draw(camera);
+            //
+            surface.Draw(camera);
+            sph.Draw(camera);
             pyd.Draw(camera);
+
+            cn.Draw(camera);
 
             /*seline.Draw(camera);
             selinepoint.Draw(camera);*/
-            //cube.Draw(camera);
-
-            //center.Draw(camera);
-            //arm.Draw(camera);
+            
+            cube.Draw(camera);
+            //
+            center.Draw(camera);
+            arm.Draw(camera);
         });
 
         window.Run(scene);

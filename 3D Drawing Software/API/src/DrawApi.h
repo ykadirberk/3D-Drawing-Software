@@ -22,3 +22,5 @@
 #include "Cube/Cube.h"
 
 #include "Pyramid/Pyramid.h"
+
+#include "Cone/Cone.h"

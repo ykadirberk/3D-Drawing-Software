@@ -103,6 +103,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
+    <ClInclude Include="src\Cone\Cone.h" />
     <ClInclude Include="src\Core\FrameBufferTexture\FrameBufferTexture.h" />
     <ClInclude Include="src\Core\nanoVG\fontstash.h" />
     <ClInclude Include="src\Core\nanoVG\nanovg.h" />
@@ -138,6 +139,7 @@ XCOPY "$(ProjectDir)src\" "$(SolutionDir)include\" /S /Y /exclude:exclusions.txt
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Cone\Cone.cpp" />
     <ClCompile Include="src\Core\FrameBufferTexture\FrameBufferTexture.cpp" />
     <ClCompile Include="src\Core\nanoVG\nanovg.c" />
     <ClCompile Include="src\Core\Object\Object.cpp" />
