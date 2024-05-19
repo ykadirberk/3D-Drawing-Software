@@ -147,7 +147,7 @@ namespace dra {
 			auto& shader = t.value();
 			shader->Bind();
 			shader->SetUniform4f("u_Color", 0.7f, 0.3f, 0.8f, 1.0f);
-			Matrix4<float> setuni = Matrix4<float>::Transpose(Matrix4<float>::Transpose(camera->GetProjection()) * Matrix4<float>::Transpose(Matrix4<float>::Inverse(camera->GetView())) * Matrix4<float>::Transpose(m_Transform.GetWorldAsMat4f()));
+			Matrix4<float> setuni = camera->GetProjection() * Matrix4<float>::Inverse(camera->GetView()) * m_Transform.GetWorldAsMat4f();
 
 			/*for (int i = 0; i < 16; i++) {
 				std::cout << camera->GetProjection().data[i] << std::endl;

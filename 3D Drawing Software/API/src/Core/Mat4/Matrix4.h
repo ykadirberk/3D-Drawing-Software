@@ -78,7 +78,7 @@ namespace dra {
 						elem += data[row_col_cm(s, r)] *
 							other.data[row_col_cm(c, s)];
 					}
-					m.data[row_col_cm(r, c)] = elem;
+					m.data[row_col_cm(c, r)] = elem;
 				}
 			}
 			return m;
@@ -183,11 +183,11 @@ namespace dra {
 			result.data[0] = static_cast<T>(2) / (right - left);
 			result.data[5] = static_cast<T>(2) / (top - bottom);
 			result.data[10] = -static_cast<T>(2) / (zFar - zNear);
-			result.data[3] = -(right + left) / (right - left);
-			result.data[7] = -(top + bottom) / (top - bottom);
-			result.data[11] = -(zFar + zNear) / (zFar - zNear);
+			result.data[12] = -(right + left) / (right - left);
+			result.data[13] = -(top + bottom) / (top - bottom);
+			result.data[14] = -(zFar + zNear) / (zFar - zNear);
 
-			return Matrix4<T>::Transpose(result);
+			return result;
 		}
 
 		static Matrix4<T> Perspective(T fovy, T aspect, T zNear, T zFar) {
@@ -203,7 +203,7 @@ namespace dra {
 			result.data[10] = -(zFar + zNear) / (zFar - zNear);
 			result.data[14] = -static_cast<T>(1);
 			result.data[11] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
-			return Matrix4<T>::Transpose(result);
+			return result;
 		}
 
 		static Matrix4<T> Inverse(const Matrix4<T>& mat) {

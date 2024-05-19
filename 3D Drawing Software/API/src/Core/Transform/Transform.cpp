@@ -158,7 +158,7 @@ namespace dra {
 		std::cout << m_Position.x() << ", " << m_Position.y() << ", " << m_Position.z() << std::endl;*/
 		//__debugbreak();
 
-		return Matrix4<float>::Transpose(Matrix4<float>::Transpose(t_position_matrix) * Matrix4<float>::Transpose(t_rotation_matrix) * Matrix4<float>::Transpose(t_scale_matrix));
+		return t_position_matrix * t_rotation_matrix * t_scale_matrix;
 		//return t_scale_matrix * t_rotation_matrix * t_position_matrix;
 	}
 
@@ -170,7 +170,7 @@ namespace dra {
 		auto transform = obj->GetTransform();
 
 
-		return  Matrix4<float>::Transpose(Matrix4<float>::Transpose(ParentOrientationMat4f(parent)) * Matrix4<float>::Transpose(transform.GetLocalAsMat4f()));
+		return  ParentOrientationMat4f(parent) * transform.GetLocalAsMat4f();
 	}
 
 	[[nodiscard]] Vector<float> Transform::ParentOrientedRotationVec3f(Object* obj, Vector<float> current) const noexcept
