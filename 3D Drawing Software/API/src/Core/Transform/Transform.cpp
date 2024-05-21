@@ -115,50 +115,21 @@ namespace dra {
 	}
 
 	[[nodiscard]] Matrix4<float> Transform::AsMat4f() const noexcept {
-		Vector pos = Vector(m_Position.x(), m_Position.y(), m_Position.z());
-		Matrix4 t_position_matrix = Matrix4(1.0f);
+		Vector<float> pos = Vector<float>(m_Position.x(), m_Position.y(), m_Position.z());
+		Matrix4<float> t_position_matrix = Matrix4<float>(1.0f);
 		t_position_matrix = Matrix4<float>::Translate(t_position_matrix, pos);
 
-		
+		Vector<float> rot = Vector<float>(m_Rotation.x(), m_Rotation.y(), m_Rotation.z());
+		Matrix4<float> t_rotation_matrix = Matrix4<float>(1.0f);
+		t_rotation_matrix = Matrix4<float>::Rotation(rot);
 
-		Vector rot = Vector(m_Rotation.x(), m_Rotation.y(), m_Rotation.z());
-		Matrix4 t_rotation_matrix = Matrix4(1.0f);
-		t_rotation_matrix = Matrix4<float>::Transpose(Matrix4<float>::Rotation(rot));
-
-		
-
-		Vector sca = Vector(m_Scale.x(), m_Scale.y(), m_Scale.z());
-		Matrix4 t_scale_matrix = Matrix4(1.0f);
+		Vector<float> sca = Vector<float>(m_Scale.x(), m_Scale.y(), m_Scale.z());
+		Matrix4<float> t_scale_matrix = Matrix4<float>(1.0f);
 		t_scale_matrix = Matrix4<float>::Scale(t_scale_matrix, sca);
 
-		/*std::cout << "position" << std::endl;
-		for (int i = 0; i < 16; i++) {
-			std::cout << t_position_matrix.data[i] << std::endl;
-		}
-		std::cout << "------------------------------" << std::endl;
+		Matrix4<float> result = t_position_matrix * t_rotation_matrix * t_scale_matrix;
 
-		std::cout << "rotation" << std::endl;
-		for (int i = 0; i < 16; i++) {
-			std::cout << t_rotation_matrix.data[i] << std::endl;
-		}
-		std::cout << "------------------------------" << std::endl;
-
-		std::cout << "scale" << std::endl;
-		for (int i = 0; i < 16; i++) {
-			std::cout << t_scale_matrix.data[i] << std::endl;
-		}*/
-
-		/*Matrix4 res = t_position_matrix
-			* Matrix4<float>::Rotate(Matrix4(1.0f), rot.length(), rot.normalized())
-			* Matrix4<float>::Scale(Matrix4(1.0f), Vector(1.0f, 1.0f, 1.0f));
-		for (int i = 0; i < 16; i++) {
-			std::cout << res.data[i] << ", ";
-		}
-		std::cout << std::endl;
-		std::cout << m_Position.x() << ", " << m_Position.y() << ", " << m_Position.z() << std::endl;*/
-		//__debugbreak();
-
-		return t_position_matrix * t_rotation_matrix * t_scale_matrix;
+		return result;
 		//return t_scale_matrix * t_rotation_matrix * t_position_matrix;
 	}
 

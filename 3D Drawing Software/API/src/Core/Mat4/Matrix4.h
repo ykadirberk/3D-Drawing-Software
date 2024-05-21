@@ -109,17 +109,17 @@ namespace dra {
 		static Matrix4<T> Translate(const Matrix4<T>& mat, const Vector<T>& translation) {
 			Matrix4<T> result = mat;
 
-			/*result.data[12] = translation.x() * mat.data[0] + translation.y() * mat.data[4] + translation.z() * mat.data[8] + mat.data[12];
-			result.data[13] = translation.x() * mat.data[1] + translation.y() * mat.data[5] + translation.z() * mat.data[9] + mat.data[13];
-			result.data[14] = translation.x() * mat.data[2] + translation.y() * mat.data[6] + translation.z() * mat.data[10] + mat.data[14];
-			result.data[15] = 1;*/
-			result.data[3] = translation.x();
+			result.data[3] = translation.x() * mat.data[0] + translation.y() * mat.data[1] + translation.z() * mat.data[2] + mat.data[3];
+			result.data[7] = translation.x() * mat.data[4] + translation.y() * mat.data[5] + translation.z() * mat.data[6] + mat.data[7];
+			result.data[11] = translation.x() * mat.data[8] + translation.y() * mat.data[9] + translation.z() * mat.data[10] + mat.data[11];
+			result.data[15] = translation.x() * mat.data[12] + translation.y() * mat.data[13] + translation.z() * mat.data[14] + mat.data[15];
+			/*result.data[3] = translation.x();
 			result.data[7] = translation.y();
-			result.data[11] = translation.z();
+			result.data[11] = translation.z();*/
 
 
 			return result;
-		}
+		}//calisti
 
 
 		static Matrix4<T> Rotation(const Vector<T>& v) {
@@ -164,18 +164,29 @@ namespace dra {
 			result.data[14] = 0;
 			result.data[15] = 1;
 
-			return result;
-		}
+			return Matrix4<float>::Transpose(result);
+		}//calisti
 
 		static Matrix4<T> Scale(const Matrix4<T>& mat, const Vector<T>& scalingFactors) {
-			Matrix4<T> result(1.0f);
+			Matrix4<T> result = mat;
 
 			result.data[0] = mat.data[0] * scalingFactors.x();
+			result.data[4] = mat.data[4] * scalingFactors.x();
+			result.data[8] = mat.data[8] * scalingFactors.x();
+			result.data[12] = mat.data[12] * scalingFactors.x();
+
+			result.data[1] = mat.data[1] * scalingFactors.y();
 			result.data[5] = mat.data[5] * scalingFactors.y();
+			result.data[9] = mat.data[9] * scalingFactors.y();
+			result.data[13] = mat.data[13] * scalingFactors.y();
+
+			result.data[2] = mat.data[2] * scalingFactors.z();
+			result.data[6] = mat.data[6] * scalingFactors.z();
 			result.data[10] = mat.data[10] * scalingFactors.z();
+			result.data[14] = mat.data[14] * scalingFactors.z();
 
 			return result;
-		}
+		}//calisti
 
 		static Matrix4<T> Ortho(T left, T right, T bottom, T top, T zNear, T zFar) {
 			Matrix4<T> result(1.0f);
@@ -183,12 +194,12 @@ namespace dra {
 			result.data[0] = static_cast<T>(2) / (right - left);
 			result.data[5] = static_cast<T>(2) / (top - bottom);
 			result.data[10] = -static_cast<T>(2) / (zFar - zNear);
-			result.data[12] = -(right + left) / (right - left);
-			result.data[13] = -(top + bottom) / (top - bottom);
-			result.data[14] = -(zFar + zNear) / (zFar - zNear);
+			result.data[3] = -(right + left) / (right - left);
+			result.data[7] = -(top + bottom) / (top - bottom);
+			result.data[11] = -(zFar + zNear) / (zFar - zNear);
 
 			return result;
-		}
+		}//calisti
 
 		static Matrix4<T> Perspective(T fovy, T aspect, T zNear, T zFar) {
 			assert(abs(aspect - std::numeric_limits<T>::epsilon()) > static_cast<T>(0));
@@ -203,8 +214,17 @@ namespace dra {
 			result.data[10] = -(zFar + zNear) / (zFar - zNear);
 			result.data[14] = -static_cast<T>(1);
 			result.data[11] = -(static_cast<T>(2) * zFar * zNear) / (zFar - zNear);
+
+
+			/*std::cout << "result bizim" << std::endl;
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					std::cout << result[i][j] << " ";
+				}
+				std::cout << std::endl;
+			}*/
 			return result;
-		}
+		}//calisti
 
 		static Matrix4<T> Inverse(const Matrix4<T>& mat) {
 			Matrix4<T> result = mat;
@@ -243,7 +263,7 @@ namespace dra {
 				}
 			}
 			return identity;
-		}
+		}//calisti
 
 		static Matrix4<T> FromQuaternion(const typename Vector<T>::Quaternion& q) {
 			Matrix4<T> result(1);
@@ -296,7 +316,7 @@ namespace dra {
 			result.data[14] = mat.data[11];
 
 			return result;
-		}
+		}//calisti
 
 
 
